@@ -33,10 +33,12 @@
 <script>
 import axios from "axios";
 
+let data;
 axios.get('http://localhost:8080/ming/store/games/3')
   .then(function (response) {
     // handle success
-    console.log(response);
+    //console.log(response);
+    data = response.data;
   })
   .catch(function (error) {
     // handle error
@@ -45,6 +47,8 @@ axios.get('http://localhost:8080/ming/store/games/3')
   .then(function () {
     // always executed
   });
+
+  console.log(data);
 
 export default {
   name: 'HelloWorld',
