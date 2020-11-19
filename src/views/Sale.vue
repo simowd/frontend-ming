@@ -1,0 +1,18 @@
+<template>
+  <div >
+   <NavBar/>
+
+  </div>
+</template>
+
+<script>
+import NavBar from "../components/generic/NavBar.vue";
+
+
+export default {
+  name: 'Sale',
+  components: {
+   NavBar
+  }
+}
+</script>
