@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container-nav-bar" id="nav">
+    <div class="nav-bar-container" id="nav">
       <header>
         <img
           src="@/assets/logoming.png"
@@ -9,10 +9,10 @@
           class="image-nav-bar"
         />
         <router-link to="/HomePage">Tienda</router-link>
-        <router-link to="/cats">Destacados</router-link>
-        <router-link to="/dogs">Ofertas</router-link>
-        <router-link to="/dogs">Ultimos Lanzamientos</router-link>
-        <router-link to="/dogs">Mi cuenta</router-link>
+        <router-link to="/Highlighted">Destacados</router-link>
+        <router-link to="/Sales">Ofertas</router-link>
+        <router-link to="/LatestRelease">Últimos Lanzamientos</router-link>
+        <router-link to="/MyAccount">Mi cuenta</router-link>
       </header>
     </div>
   </div>
@@ -25,6 +25,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 #nav {
   text-align: center;
   text-align: center;
@@ -43,4 +44,5 @@ export default {
   font-weight: bold;
   color: #66698c;
 }
+
 </style>

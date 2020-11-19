@@ -1,18 +1,27 @@
 
+// Game card HomePage
 .card{
     width: 45rem;
     height: 37rem;
-    margin-left: 12rem;
+    margin-left: 10rem;
+    margin-top: 3rem;
 }
 
 .game-image{
     @include custom-image(45rem,25rem,#2E10FC,4rem);
     background-image: url("https://larepublica.pe/resizer/JBWEcekaooeuNeGbHYmlR9Q-L7M=/1250x735/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/HFO2JP7PN5FRXE7JWEAQDNC5FA.png");
     background-size: cover;
+    box-shadow: 0 0.5px 2rem red ;
 }
 .game-info{
     text-align: center;
     margin-top: 2rem;
     font-size: 1.5rem;
     color: $color-black;
+}
+// Game card latest releases
+.card-latest-releases{
+    width: 50rem;
+    height: 37rem;
+    margin-left: 12rem;
 }
