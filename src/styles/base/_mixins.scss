@@ -1,0 +1,6 @@
+@mixin custom-image($width, $height, $color-shadow, $border) {
+    width: $width;
+    height: $height;
+    box-shadow: 0 0.5px 2rem $color-shadow;
+    border-radius: $border;
+  }
