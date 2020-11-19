@@ -36,8 +36,7 @@ export default {
   text-decoration: none;
   font-weight: bold;
   color: #707070;
-  font-size: 2.5rem;
-  margin-left: 13rem;
+  font-size: 2rem;
 }
 
 #nav a.router-link-exact-active {

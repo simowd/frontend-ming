@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div class="container-search-bar">
+    <div class="container">
       <div class="search-bar">
         <v-text-field
           label="Buscar Juego"
           outlined
           color="#707070"
           append-icon="mdi-magnify"
+          dense
         >
         </v-text-field>
       </div>
