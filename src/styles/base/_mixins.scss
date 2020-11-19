@@ -4,3 +4,10 @@
     box-shadow: 0 0.5px 2rem $color-shadow;
     border-radius: $border;
   }
+
+@mixin game-info($font) {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: $font;
+  }
