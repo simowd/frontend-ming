@@ -1,7 +1,13 @@
 .search-bar{
     width: 60rem;
-    margin-left: 100rem;
-    margin-top: 0.5rem;
+    margin-right: 20rem;
+    margin-top: 3rem;
+}
+.container-search-bar{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
 }
 
 
