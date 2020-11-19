@@ -1,16 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from '@/views/HomePage.vue'
+import Login from '@/views/Login.vue'
 import LatestRelease from '@/views/LatestRelease.vue'
 import SignUp from '@/views/SignUp.vue'
+import Sale from '@/views/Sale.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: HomePage
-  // },
+   {
+     path: '/',
+     name: 'Home',
+     component: HomePage
+   },
+
   {
     path: '/about',
     name: 'About',
@@ -20,14 +23,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/HomePage',
-    name: 'HomePage',
-    component: HomePage
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/LatestRelease',
     name: 'LatestRelease',
     component: LatestRelease
+  },
+  {
+    path: '/Sale',
+    name: 'Sale',
+    component: Sale
   },
   {
     path: '/SignUp',

@@ -8,9 +8,9 @@
           height="70rem"
           class="image-nav-bar"
         />
-        <router-link to="/HomePage">Tienda</router-link>
+        <router-link to="/">Tienda</router-link>
         <router-link to="/Highlighted">Destacados</router-link>
-        <router-link to="/Sales">Ofertas</router-link>
+        <router-link to="/Sale">Ofertas</router-link>
         <router-link to="/LatestRelease">Últimos Lanzamientos</router-link>
         <router-link to="/MyAccount">Mi cuenta</router-link>
       </header>
