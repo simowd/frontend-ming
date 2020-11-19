@@ -11,3 +11,11 @@
     font-size: 1.5rem;
     color: $font;
   }
+@mixin nav-bar-container($width) {
+  width: $width;
+  text-align: left;
+  padding: 0.8rem 1.2rem;
+  margin-right: 11.6rem;
+  margin-left: 11.6rem;
+  margin-top: 1rem;
+}
