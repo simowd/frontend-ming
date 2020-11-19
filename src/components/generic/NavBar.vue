@@ -1,17 +1,19 @@
 <template>
   <div>
     <div class="container-nav-bar" id="nav">
-      <img
-        src="@/assets/logoming.png"
-        width="60rem"
-        height="70rem"
-        class="image-nav-bar"
-      />
-      <router-link to="/HomePage">Tienda</router-link>
-      <router-link to="/cats">Destacados</router-link>
-      <router-link to="/dogs">Ofertas</router-link>
-      <router-link to="/dogs">Ultimos Lanzamientos</router-link>
-      <router-link to="/dogs">Mi cuenta</router-link>
+      <header>
+        <img
+          src="@/assets/logoming.png"
+          width="60rem"
+          height="70rem"
+          class="image-nav-bar"
+        />
+        <router-link to="/HomePage">Tienda</router-link>
+        <router-link to="/cats">Destacados</router-link>
+        <router-link to="/dogs">Ofertas</router-link>
+        <router-link to="/dogs">Ultimos Lanzamientos</router-link>
+        <router-link to="/dogs">Mi cuenta</router-link>
+      </header>
     </div>
   </div>
 </template>
@@ -29,6 +31,7 @@ export default {
 }
 
 #nav a {
+  padding-top: 2rem;
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
   font-weight: bold;
