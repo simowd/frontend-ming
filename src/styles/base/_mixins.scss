@@ -4,3 +4,12 @@
     box-shadow: 0 0.5px 2rem $color-shadow;
     border-radius: $border;
   }
+
+@mixin nav-bar-container($width) {
+  width: $width;
+  text-align: left;
+  padding: 0.8rem 1.2rem;
+  margin-right: 11.6rem;
+  margin-left: 11.6rem;
+  margin-top: 1rem;
+}

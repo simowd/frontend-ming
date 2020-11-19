@@ -1,6 +1,9 @@
 <template>
     <div>
         <NavBar />
+        <div class="card-auth">
+
+        </div>
     </div>    
 </template>
 
