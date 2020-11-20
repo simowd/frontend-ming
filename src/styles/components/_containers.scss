@@ -1,3 +1,6 @@
 .signup-forms-container{
     @include custom-container (100%, 80rem);
 }
+.add-publisher-forms-container{
+    @include custom-container (80rem, 60rem)
+}

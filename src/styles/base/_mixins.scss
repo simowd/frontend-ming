@@ -19,13 +19,13 @@
   margin-left: 11.6rem;
   margin-top: 1rem;
 }
-<<<<<<< HEAD
 
 @mixin custom-container ($height, $width/*, $padding, $margin*/){
   height: $height;
   width: $width;
   // padding: $padding;
   // margin: $margin;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
 }
-=======
->>>>>>> 316cb488cb056c844f5ca7a1ec4cce04ec2f88d8
