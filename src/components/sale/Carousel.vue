@@ -1,8 +1,18 @@
 <template>
+<<<<<<< HEAD
     <div  id="sld">
         <carousel-3d >
             <slide class="card-sale-carousel" v-for="(slide, i) in slides" :index="i" :key="slide">
                 
+=======
+    <div>
+        <carousel-3d>
+            <slide :index="0">
+                Slide 1 Content
+            </slide>
+            <slide :index="1">
+               
+>>>>>>> 1b0ac966267d792614982638e2338496288da506
             </slide>
         </carousel-3d>
     </div>

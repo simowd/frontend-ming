@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavBar />
+       
     <v-row no-gutters>
       <v-col v-for="(game,index) in gameInfo" :key="index" cols="12" sm="6">
         <LatestGameCard
