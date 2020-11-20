@@ -1,33 +1,37 @@
 <template>
-    <div  id="sld">
-        <carousel-3d >
-            <slide class="card-sale-carousel" v-for="(slide, i) in slides" :index="i" :key="slide">
-                
-            </slide>
-        </carousel-3d>
-    </div>
+  <div id="sld">
+    <carousel-3d>
+      <slide v-for="(slide, i) in gameInfo" :index="i" :key="i">
+        <figure>
+          <img v-bind:src="slide.banner" width="100%" height="100%"/>
+        </figure>
+      </slide>
+    </carousel-3d>
+  </div>
 </template>
 
 <script>
-import { Carousel3d, Slide } from 'vue-carousel-3d';
+import { Carousel3d, Slide } from "vue-carousel-3d";
+import axios from "axios";
 
 export default {
-    el: '#sld',
-    data(){
-        return{
-            slides: 7
-        };
-        
-    },
-    
-    components: {
-    Carousel3d,
-    Slide
-    }
+  el: "#sld",
+  data() {
+    return {
+      slides: 7,
+      gameInfo: null,
+    };
+  },
 
-}
+  components: {
+    Carousel3d,
+    Slide,
+  },
+  mounted() {
+    axios
+      .get("http://localhost:8080/ming/v1/games?page=1&sale=true")
+      .then((response) => (this.gameInfo = response.data));
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
