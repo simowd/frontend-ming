@@ -28,30 +28,19 @@
     cursor: pointer;
 }
 
-<<<<<<< HEAD
+
 .game-image-latest-releases {
     @include custom-image(70rem, 62rem, #2E10FC, 4rem);
     background-image: url("https://media.playstation.com/is/image/SCEA/hollow-knight-voidheart-edition-normalbanner-01-ps4-us-02oct2018?$native_nt$");
-=======
-.game-image-latest-releases{
-    @include custom-image(70rem,62rem,#2E10FC,4rem);
->>>>>>> 1b0ac966267d792614982638e2338496288da506
     background-size: 100% 100%;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: flex-end;
-<<<<<<< HEAD
     box-shadow: 0 0.5px 2rem blue;
 }
 
 .game-description {
-=======
-    background-image:  url("https://larepublica.pe/resizer/JBWEcekaooeuNeGbHYmlR9Q-L7M=/1250x735/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/HFO2JP7PN5FRXE7JWEAQDNC5FA.png");
-}
-
-.game-description{
->>>>>>> 1b0ac966267d792614982638e2338496288da506
     color: white;
     font-size: 2.5rem;
     width: 65rem;
