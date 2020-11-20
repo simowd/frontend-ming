@@ -13,3 +13,10 @@
   margin-left: 11.6rem;
   margin-top: 1rem;
 }
+
+@mixin custom-container ($height, $width/*, $padding, $margin*/){
+  height: $height;
+  width: $width;
+  // padding: $padding;
+  // margin: $margin;
+}
