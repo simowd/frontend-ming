@@ -30,7 +30,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/latest_release',
+    path: '/latestrelease',
     name: 'LatestRelease',
     component: LatestRelease
   },
