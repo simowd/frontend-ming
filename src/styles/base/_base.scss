@@ -9,3 +9,11 @@ html {
     margin-right: auto;
     margin-left: auto;
   }
+  .pages-titles {
+    color: $color-black;
+    font-size:4rem
+  }
+  .background-image {
+    background-size: cover;
+    background-image: url('~@/assets/background.png');
+  }

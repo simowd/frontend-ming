@@ -11,7 +11,7 @@
       <div class="game-info">
         <p>
           {{ title }}<br />
-          {{ price }}
+          ${{ price }} USD
         </p>
       </div>
     </div>

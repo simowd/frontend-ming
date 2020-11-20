@@ -4,3 +4,28 @@
     box-shadow: 0 0.5px 2rem $color-shadow;
     border-radius: $border;
   }
+
+@mixin game-info($font) {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: $font;
+  }
+@mixin nav-bar-container($width) {
+  width: $width;
+  text-align: left;
+  padding: 0.8rem 1.2rem;
+  margin-right: 11.6rem;
+  margin-left: 11.6rem;
+  margin-top: 1rem;
+}
+
+@mixin custom-container ($height, $width/*, $padding, $margin*/){
+  height: $height;
+  width: $width;
+  // padding: $padding;
+  // margin: $margin;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
+}

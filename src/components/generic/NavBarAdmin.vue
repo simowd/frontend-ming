@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="nav-bar-container" id="nav">
+    <div class="admin-nav-bar-container" id="nav">
       <header>
         <img
           src="@/assets/logoming.png"
@@ -8,11 +8,9 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/">Tienda</router-link>
-        <router-link to="/Highlighted">Destacados</router-link>
-        <router-link to="/Sale">Ofertas</router-link>
-        <router-link to="/LatestRelease">Últimos Lanzamientos</router-link>
-        <router-link to="/MyAccount">Mi cuenta</router-link>
+        <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
+        <router-link to="/">Administar Editores</router-link>
+        <router-link to="/">Administar Juegos</router-link>
       </header>
     </div>
   </div>
@@ -20,15 +18,14 @@
 
 <script>
 export default {
-  name: "NavBar",
+  name: "NavBarAdmin",
   components: {},
 };
 </script>
 <style lang="scss" scoped>
 
 #nav {
-  text-align: center;
-  text-align: center;
+  text-align: left;
 }
 
 #nav a {

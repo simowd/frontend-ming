@@ -5,9 +5,9 @@
                 <v-col :cols="7">
                     <div class="logo-auth">
                         <img
-                            src="@/assets/logoming.png"
-                            width="120rem"
-                            height="140rem"
+                            src="@/assets/logoming-black.png"
+                            width="180rem"
+                            height="180rem"
                         />
                         <h1>Iniciar Sesión</h1>
                     </div>

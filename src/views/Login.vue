@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="background-image">
         <NavBar />
         <LoginCard />
     </div>
