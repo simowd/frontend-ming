@@ -4,8 +4,8 @@
       <header>
         <img
           src="@/assets/logoming.png"
-          width="60rem"
-          height="70rem"
+          width="50rem"
+          height="60rem"
           class="image-nav-bar"
         />
         <router-link to="/">Tienda</router-link>

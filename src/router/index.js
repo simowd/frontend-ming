@@ -30,12 +30,12 @@ const routes = [
     component: Login
   },
   {
-    path: '/LatestRelease',
+    path: '/latest_release',
     name: 'LatestRelease',
     component: LatestRelease
   },
   {
-    path: '/Sale',
+    path: '/sale',
     name: 'Sale',
     component: Sale
   },

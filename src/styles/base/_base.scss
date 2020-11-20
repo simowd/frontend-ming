@@ -13,3 +13,7 @@ html {
     color: $color-black;
     font-size:4rem
   }
+  .background-image {
+    background-size: cover;
+    background-image: url('~@/assets/background.png');
+  }
