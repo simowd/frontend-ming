@@ -4,7 +4,7 @@
       <div
         class="game-image-latest-releases"
         :style="{
-          backgroundImage: 'url(' + banner + ')',
+          backgroundImage: 'linear-gradient(transparent -2%,#121212), url(' + banner + ')',
           boxShadow: '0 0.5px 2rem ' + color + '',
         }"
       >
