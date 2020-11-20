@@ -1,18 +1,19 @@
 <template>
     <div>
-        <NavBar/>
-        <div class="card-auth">
-
-        </div>
+        <NavBar />
+        <LoginCard />
     </div>
 </template>
 
 <script>
-import NavBar from '../components/generic/NavBar.vue'
+import NavBar from "../components/generic/NavBar.vue";
+import LoginCard from "../components/login/LoginCard.vue"
 export default {
     name: "Login",
-    components:{
-        NavBar
-    }
-}
+    components: {
+        NavBar,
+        LoginCard
+    },
+    
+};
 </script>
