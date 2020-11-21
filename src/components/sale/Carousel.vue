@@ -1,21 +1,36 @@
 <template>
   <div id="sld">
-   <!-- <carousel-3d>
-      <slide
-        class="card-sale-carousel"
-        v-for="(slide, i) in gameInfo"
-        :index="i"
-        :key="slide" >
+    <carousel>
+      <slide v-for="(slide, i) in gameInfo" :index="i" :key="slide">
         <figure>
-          <img v-bind:src="slide.banner"/>
+          <img class="card-sale-carousel" v-bind:src="slide.banner" />
         </figure>
+        <div >
+          <v-row no-gutters>
+            <v-col cols="6">
+              <div>
+                <p>
+                  {{ slide.title }}<br />
+                  ${{
+                    (slide.price - (slide.price * slide.sale) / 100).toFixed(2)
+                  }}
+                  USD
+                </p>
+                <p class="text-sale">${{ slide.price }} USD</p>
+              </div>
+            </v-col>
+            <v-col cols="6">
+              <div>- {{ slide.sale }} %</div>
+            </v-col>
+          </v-row>
+        </div>
       </slide>
-    </carousel-3d> -->
+    </carousel>
   </div>
 </template>
 
 <script>
-//import { Carousel3d, Slide } from "vue-carousel-3d";
+import { Carousel, Slide } from "vue-carousel";
 import axios from "axios";
 
 export default {
@@ -28,8 +43,8 @@ export default {
   },
 
   components: {
-    //Carousel3d,
-    //Slide,
+    Carousel,
+    Slide,
   },
 
   mounted() {
@@ -40,4 +55,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-sale {
+  text-decoration: line-through;
+}
+</style>

@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import '@/styles/index.scss'
-
+import VueCarousel from "vue-carousel";
 
 // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 //import 'bootstrap/dist/css/bootstrap.css'
@@ -17,6 +17,8 @@ import '@/styles/index.scss'
 // Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
+
+Vue.use(VueCarousel);
 
 new Vue({
   router,
