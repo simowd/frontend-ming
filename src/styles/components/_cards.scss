@@ -17,6 +17,13 @@
 .game-info {
     @include game-info(2.5rem);
 }
+.info-footer{
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 2rem;
+    padding-right: 1rem;
+    color: #66698c;
+}
 
 // Game card latest releases
 .card-latest-releases {

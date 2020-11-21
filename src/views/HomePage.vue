@@ -26,14 +26,21 @@
         />
       </v-col>
     </v-row>
+
+    <infinite-loading @infinite="getGames">
+      <div slot="no-more">
+        <img src="@/assets/huachimingo.png" width="200px" height="200px">
+        <p class="info-footer">¡LLegaste al final!</p>
+      </div>
+      </infinite-loading>
   </div>
 </template>
 
 <script>
 import GameCard from "../components/generic/GameCard.vue";
 import NavBar from "../components/generic/NavBar.vue";
-import {URLBACKEND} from "@/assets/url.js"
-
+import { URLBACKEND } from "@/assets/url.js";
+import InfiniteLoading from "vue-infinite-loading";
 import axios from "axios";
 
 export default {
@@ -41,25 +48,40 @@ export default {
   components: {
     GameCard,
     NavBar,
+    InfiniteLoading,
   },
   data() {
     return {
+      page: 1,
       gameInfo: [],
       title: "",
     };
   },
-  mounted() {
-
-    axios
-      .get("http://" + URLBACKEND + "/ming/v1/games?page=1")
-      .then((response) => (this.gameInfo = response.data));
+  // mounted() {
+  //   axios
+  //     .get("http://" + URLBACKEND + "/ming/v1/games?page=1")
+  //     .then((response) => (this.gameInfo = response.data));
+  // },
+  methods: {
+    getGames($state) {
+      axios
+        .get("http://" + URLBACKEND + "/ming/v1/games?page=" + this.page)
+        .then((response) => {
+          if (response.data.length) {
+            this.page += 1;
+            this.gameInfo.push(...response.data);
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        });
+    },
   },
   watch: {
     title: function (val, oldval) {
       const info = {
         query: val,
       };
-    
 
       console.log(oldval);
       if (val === "") {
@@ -68,7 +90,9 @@ export default {
           .then((response) => (this.gameInfo = response.data));
       } else {
         axios
-          .get("http://" + URLBACKEND + "/ming/v1/games?page=1", { params: info })
+          .get("http://" + URLBACKEND + "/ming/v1/games?page=1", {
+            params: info,
+          })
           .then((response) => (this.gameInfo = response.data));
       }
     },
