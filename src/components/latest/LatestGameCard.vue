@@ -21,7 +21,12 @@
         </div>
       </div>
       <div class="game-info-latest-releases">
-        <p>
+        <p v-if="price == 0">
+          {{ title }}<br />
+          {{ date.substr(0, date.indexOf(" ")) }} <br />
+          Free to Play
+        </p>
+        <p v-else>
           {{ title }}<br />
           {{ date.substr(0, date.indexOf(" ")) }} <br />
           ${{ price }} USD
@@ -43,7 +48,7 @@ export default {
     //   const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
     //   console.log(${da}-${mo}-${ye});
     // }
-  }
+  },
 };
 </script>
 

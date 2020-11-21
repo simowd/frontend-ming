@@ -9,9 +9,13 @@
         }"
       ></div>
       <div class="game-info">
-        <p>
+        <p v-if="price == 0">
           {{ title }}<br />
-          ${{ price }} USD
+          Free to Play 
+        </p>
+        <p v-else>
+          {{ title }}<br />
+          ${{price}} USD
         </p>
       </div>
     </div>
