@@ -29,10 +29,10 @@
 
     <infinite-loading @infinite="getGames">
       <div slot="no-more">
-        <img src="@/assets/huachimingo.png" width="200px" height="200px">
-        <p class="info-footer">¡LLegaste al final!</p>
+        <img src="@/assets/huachimingo.png" width="200px" height="200px" />
+        <p class="info-footer">¡Llegaste al final!</p>
       </div>
-      </infinite-loading>
+    </infinite-loading>
   </div>
 </template>
 
@@ -42,6 +42,7 @@ import NavBar from "../components/generic/NavBar.vue";
 import { URLBACKEND } from "@/assets/url.js";
 import InfiniteLoading from "vue-infinite-loading";
 import axios from "axios";
+
 
 export default {
   name: "HomePage",
@@ -63,7 +64,7 @@ export default {
   //     .then((response) => (this.gameInfo = response.data));
   // },
   methods: {
-    getGames($state) {
+    getGames: function ($state) {
       axios
         .get("http://" + URLBACKEND + "/ming/v1/games?page=" + this.page)
         .then((response) => {
@@ -84,10 +85,13 @@ export default {
       };
 
       console.log(oldval);
+
       if (val === "") {
-        axios
-          .get("http://" + URLBACKEND + "/ming/v1/games?page=1")
-          .then((response) => (this.gameInfo = response.data));
+        location.reload();
+        
+        // axios
+        //   .get("http://" + URLBACKEND + "/ming/v1/games?page=2")
+        //   .then((response) => (this.gameInfo = response.data));
       } else {
         axios
           .get("http://" + URLBACKEND + "/ming/v1/games?page=1", {
