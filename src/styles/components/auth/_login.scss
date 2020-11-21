@@ -5,14 +5,25 @@
     margin: 0 auto;
     margin-top: 3rem;
     border-radius: 4rem;
+    display: flex;
+    align-items: flex-start;
 }
 .logo-auth{
     text-align: center;
     padding-top: 4.5rem;
 }
 
+.logo-register{
+    text-align: center;
+    margin-top: -1rem;
+}
+
 .form-auth{
     padding-top: 5rem;
+}
+
+.form-register{
+    margin-top: 1rem;
 }
 
 .login-input{
