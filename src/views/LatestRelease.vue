@@ -34,8 +34,9 @@ export default {
     };
   },
   mounted() {
+    var url1 = "ec2-34-234-223-198.compute-1.amazonaws.com:8080";
     axios
-      .get("http://localhost:8080/ming/v1/games?page=1&latest=true")
+      .get("http://"+url1+"/ming/v1/games?page=1&latest=true")
       .then((response) => (this.gameInfo = response.data));
   },
 };

@@ -6,6 +6,8 @@
         :style="{
           backgroundImage: 'linear-gradient(transparent -2%,#121212), url(' + banner + ')',
           boxShadow: '0 0.5px 2rem ' + color + '',
+          backgroundSize: 'absolute',
+          backgroundPosition: 'center',
         }"
       >
         <div class="game-description">
