@@ -6,15 +6,16 @@ import LatestRelease from '@/views/LatestRelease.vue'
 import SignUp from '@/views/SignUp.vue'
 import Sale from '@/views/Sale.vue'
 import AddPublisher from '@/views/AddPublisher.vue'
+import UserAccount from '@/views/UserAccount.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-   {
-     path: '/',
-     name: 'Home',
-     component: HomePage
-   },
+  {
+    path: '/',
+    name: 'Home',
+    component: HomePage
+  },
 
   {
     path: '/about',
@@ -48,6 +49,11 @@ const routes = [
     path: '/admin/add-publisher',
     name: 'AddPublisher',
     component: AddPublisher
+  },
+  {
+    path: '/MyAccount',
+    name: 'User Account',
+    component: UserAccount
   }
 ]
 
