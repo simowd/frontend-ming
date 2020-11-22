@@ -8,9 +8,11 @@
 
 .ofertas-label-container {
     @include custom-container (8rem, 100%);
-    font-size: 3.5rem;
+    font-size: 5rem;
     text-align: center;
     margin-top: 5rem;
+    align-items: center;
+    display: flex;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 }
