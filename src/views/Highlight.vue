@@ -9,13 +9,13 @@
         <div class="image-overlay"></div>
         <div class="content-highlight" v-if="gameInfo.length > 0">
             <NavBar :color="gameInfo[index].color" :linkColor="white" />
-            <div class="up-arrow" @click="minusIndex">
-                <img src="@/assets/logoming.png" height="50" width="50" />
+            <div class="up-arrow" @click="minusIndex" @keyup.up="minusIndex">
+                <img src="@/assets/up.png" />
             </div>
         </div>
         <v-layout justify-center>
-            <div class="down-arrow" @click="addIndex">
-                <img src="@/assets/logoming.png" height="50" width="50" />
+            <div class="down-arrow" @click="addIndex" @keyup.down="addIndex">
+                <img src="@/assets/down.png" />
             </div>
         </v-layout>
         <div class="all-content" v-if="gameInfo.length > 0">
@@ -130,7 +130,7 @@ export default {
 
 .up-arrow {
     text-align: center;
-    padding-top: 5rem;
+    padding-top: 2rem;
     z-index: 5;
     cursor: pointer;
 }
@@ -140,7 +140,7 @@ export default {
     bottom: 0;
     position: fixed;
     z-index: 5;
-    padding-bottom: 5rem;
+    padding-bottom: 2rem;
     cursor: pointer;
 }
 .all-content {
