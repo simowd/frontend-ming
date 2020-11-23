@@ -46,13 +46,13 @@
         v-model="infoUser.idCountry"
       ></v-text-field>
 
-      <v-combobox
+      <!-- <v-combobox
         outlined
         persistent-hint
         chips
         dense
         color="#707070"
-      ></v-combobox>
+      ></v-combobox> -->
 
       <v-text-field
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -73,7 +73,7 @@
           Crear
         </v-btn>
       </v-layout>
-      {{infoUser}}
+      <!-- {{infoUser}} -->
       <!-- <ul>
         <li v-for="(country, i) in countriesInfo" :index="i" :key="country">
           {{ country.name }}
