@@ -9,7 +9,7 @@
         </v-col>
         <v-col cols="6">
           
-            <div class="search-bar">
+            <div class="search-bar" >
               <v-text-field
                 label="Buscar en Ofertas"
                 outlined
@@ -35,5 +35,6 @@ export default {
 <style scoped>
 .v-text-field--outlined >>> fieldset {
   border-color: #707070;
+  
 }
 </style>

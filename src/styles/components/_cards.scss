@@ -17,7 +17,8 @@
 .game-info {
     @include game-info(2.5rem);
 }
-.info-footer{
+
+.info-footer {
     font-size: 2rem;
     text-align: center;
     padding-top: 2rem;
@@ -62,9 +63,46 @@
 
 // GameCard sale carousel 
 .card-sale-carousel {
-    background-image: url("https://media.playstation.com/is/image/SCEA/hollow-knight-voidheart-edition-normalbanner-01-ps4-us-02oct2018?$native_nt$");
-    width: 100%;
-    height: 100%;
+    //background-image: url("https://media.playstation.com/is/image/SCEA/hollow-knight-voidheart-edition-normalbanner-01-ps4-us-02oct2018?$native_nt$");
+    margin-top: 3rem;
+    margin-left: 2.5rem;
+    margin-right: 1rem;
+    display: flex;
+    width: 95%;
+    height: 95%;
     border-radius: 4rem;
     background-size: cover;
-    }
+    cursor: pointer;
+}
+
+// Card Sale List
+
+.card-sale-list {
+    width: 75%;
+    height: 20rem;
+    border: black;
+    border-style: solid;
+    text-align: center;
+    margin-left: 25rem;
+    margin-top: 5rem;
+    cursor: pointer;
+
+}
+
+//Card Sale Image 
+.card-sale-image {
+    height: 18rem;
+    width: 75%;
+    margin-top: 0.8rem;
+    margin-right: 10.2rem;
+}
+
+.card-carousel-data {
+    display: flex;
+    justify-content: space-between;
+    width: 35%;
+    font-size: 1.5rem;
+    margin-left: 31rem;
+    margin-top: -1rem;
+    font-weight: 200;
+}

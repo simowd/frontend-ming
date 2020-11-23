@@ -1,14 +1,26 @@
 .signup-forms-container {
     @include custom-container (100%, 80rem);
 }
+
 .add-publisher-forms-container{
     @include custom-container (50rem, 60rem)
 }
+
 .ofertas-label-container {
     @include custom-container (8rem, 100%);
-    font-size: 3.5rem;
+    font-size: 5rem;
     text-align: center;
     margin-top: 5rem;
+    align-items: center;
+    display: flex;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.ofertas-container {
+    @include custom-container (2rem, 100%);
+    font-size: 0.5rem;
+    text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 }
