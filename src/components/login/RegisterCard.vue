@@ -162,6 +162,7 @@ export default {
       } else if (this.infoUser.password === null) {
         alert("Falta la Contraseña");
       } else {
+        alert("Usuario Registrado");
         this.create();
       }
     },
