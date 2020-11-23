@@ -36,23 +36,17 @@
         id="publisher"
         v-model="infoUser.publisher"
       ></v-text-field>
-      
-      <v-text-field
-        :rules="[rules.required]"
-        label="País"
-        outlined
-        color="#707070"
-        id="idCountry"
-        v-model="infoUser.idCountry"
-      ></v-text-field>
 
-      <!-- <v-combobox
-        outlined
-        persistent-hint
-        chips
+      <v-combobox
         dense
+        outlined
         color="#707070"
-      ></v-combobox> -->
+        item-color="#707070"
+        :items="countries"
+        label="País"
+        id="idCountry"
+        v-model="country"
+      ></v-combobox>
 
       <v-text-field
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -69,16 +63,16 @@
       ></v-text-field>
 
       <v-layout justify-center>
-        <v-btn class="ma-2" outlined color="#49a82c" width="25rem" @click="verify">
+        <v-btn
+          class="ma-2"
+          outlined
+          color="#49a82c"
+          width="25rem"
+          @click="verify"
+        >
           Crear
         </v-btn>
       </v-layout>
-      <!-- {{infoUser}} -->
-      <!-- <ul>
-        <li v-for="(country, i) in countriesInfo" :index="i" :key="country">
-          {{ country.name }}
-        </li>
-      </ul> -->
     </div>
   </div>
 </template>
@@ -100,6 +94,8 @@ export default {
         password: null,
       },
       countriesInfo: null,
+      countries: [],
+      country: "",
       show1: false,
       rules: {
         required: (value) => !!value || "Requerido",
@@ -115,14 +111,6 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => (this.countriesInfo = response.data));
-
-    //v-for="(country, i) in countriesInfo" :index="i" :key="country"
-    // this.response.forEach(element => console.log(element));
-    // var theArray = ['pa'];
-    // var iterator = theArray.values();
-    // for (let elements of iterator) {
-    //   console.log(elements);
-    // }
   },
   methods: {
     create() {
@@ -143,10 +131,34 @@ export default {
         alert("Falta el País");
       } else if (this.infoUser.password === null) {
         alert("Falta la Contraseña");
+      } else if (this.infoUser.idCountry <= 0) {
+        alert("Ese País no existe");
       } else {
+        alert("Editor Creado");
         this.create();
       }
     },
   },
+  watch: {
+    countriesInfo: function(val) {
+      if (val.length > 0) {
+        val.forEach((element) => {
+          this.countries.push(element.name);
+        });
+      }
+    },
+    country: function(val) {
+      this.infoUser.idCountry = this.countries.indexOf(val);
+      this.infoUser.idCountry++;
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-combobox input {
+  font-size: 8rem;
+  font-weight: 100;
+  text-transform: capitalize;
+}
+</style>
