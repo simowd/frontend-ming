@@ -8,11 +8,11 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/">Tienda</router-link>
-        <router-link to="/Highlighted">Destacados</router-link>
-        <router-link to="/Sale">Ofertas</router-link>
-        <router-link to="/LatestRelease">Últimos Lanzamientos</router-link>
-        <router-link to="/MyAccount">Mi cuenta</router-link>
+        <router-link to="/" :style="{'color': linkColor}">Tienda</router-link>
+        <router-link to="/highlights" :style="{'color': color}">Destacados</router-link>
+        <router-link to="/Sale" :style="{'color': linkColor}">Ofertas</router-link>
+        <router-link to="/LatestRelease" :style="{'color': linkColor}">Últimos Lanzamientos</router-link>
+        <router-link to="/MyAccount" :style="{'color': linkColor}">Mi cuenta</router-link>
       </header>
     </div>
   </div>
@@ -22,6 +22,7 @@
 export default {
   name: "NavBar",
   components: {},
+  props:["color", "linkColor"]  
 };
 </script>
 <style lang="scss" scoped>

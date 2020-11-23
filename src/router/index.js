@@ -6,6 +6,7 @@ import LatestRelease from '@/views/LatestRelease.vue'
 import SignUp from '@/views/SignUp.vue'
 import Sale from '@/views/Sale.vue'
 import AddPublisher from '@/views/AddPublisher.vue'
+import Highlight from '@/views/Highlight.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     path: '/admin/add-publisher',
     name: 'AddPublisher',
     component: AddPublisher
+  },
+  {
+    path: '/highlights',
+    name: 'Highlights',
+    component: Highlight
   }
 ]
 
