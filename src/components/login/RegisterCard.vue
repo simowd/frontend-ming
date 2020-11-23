@@ -98,17 +98,16 @@
                   width="300"
                   dark
                   class="login-button"
-                  @click="create"
+                  @click="verify"
                 >
                   Registrarse
                 </v-btn>
               </v-layout>
             </v-form>
-            {{infoUser}}
           </v-layout>
         </v-col>
         <v-col :cols="5">
-          <img src="@/assets/ugg-login.png" class="logo-auth" />
+          <img src="@/assets/fez-login.png" class="logo-auth" />
         </v-col>
       </v-row>
     </v-container>
@@ -146,8 +145,25 @@ export default {
   methods: {
     create() {
       axios
-        .post("http://" + URLBACKEND + "/ming/v1/users/signup",this.infoUser)
+        .post("http://" + URLBACKEND + "/ming/v1/users/signup", this.infoUser)
         .then((response) => (this.infoUser = response.data));
+    },
+    verify() {
+      if (this.infoUser.name === null) {
+        alert("Falta el Nombre");
+      } else if (this.infoUser.lastname === null) {
+        alert("Falta el Apellido");
+      } else if (this.infoUser.username === null) {
+        alert("Falta el Nombre de Usuario");
+      } else if (this.infoUser.alias === null) {
+        alert("Falta el Apodo");
+      } else if (this.infoUser.email === null) {
+        alert("Falta el Email");
+      } else if (this.infoUser.password === null) {
+        alert("Falta la Contraseña");
+      } else {
+        this.create();
+      }
     },
   },
 };
