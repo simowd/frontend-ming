@@ -72,15 +72,11 @@ export default {
             if (this.index < this.limit - 1) {
                 this.index++;
             }
-            console.log(this.limit);
-            console.log(this.index);
         },
         minusIndex() {
             if (this.index > 0) {
                 this.index--;
             }
-            console.log(this.limit);
-            console.log(this.index);
         },
     },
     watch: {
