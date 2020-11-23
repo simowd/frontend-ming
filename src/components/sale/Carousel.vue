@@ -83,9 +83,10 @@ export default {
   text-align: center;
   margin-top: 1.5rem;
   margin-left: 5rem;
-  border-color: green;
+  border-color: #49a82c;
   border-style: solid;
-  color: green;
+  border-width: thin;
+  color: #49a82c;
   width: 25%;
 }
 </style>
