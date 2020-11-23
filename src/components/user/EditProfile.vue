@@ -16,10 +16,8 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="dialogProfile = false">
-        Cancelar
-      </v-btn>
-      <v-btn color="blue darken-1" text @click="dialogProfile = false">
+      <v-btn color="blue darken-1" text @click="dialogClose"> Cancelar </v-btn>
+      <v-btn color="blue darken-1" text @click="dialogClose">
         Actualizar
       </v-btn>
     </v-card-actions>
@@ -38,9 +36,15 @@ export default {
         "Uruguay",
         "Paraguay",
       ],
+      close: false,
     };
   },
   props: ["dialogProfile"],
+  methods: {
+    dialogClose() {
+      this.$emit("dialogClosed", !this.dialogProfile);
+    },
+  },
 };
 </script>
 

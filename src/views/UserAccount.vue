@@ -12,13 +12,13 @@
         <p v-text="usercountry"></p>
       </v-col>
       <v-col align="left">
-        <v-dialog v-model="dialog" width="500">
+        <v-dialog v-model="dialogProfile" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              depressed
-              elevation="10"
               v-bind="attrs"
               v-on="on"
+              depressed
+              elevation="10"
               large
               raised
               small
@@ -27,27 +27,32 @@
               Editar Perfil
             </v-btn>
           </template>
-          <ChangePassword v-model="dialogPassword" />
+          <EditProfile
+            :dialogProfile="dialogProfile"
+            @dialogClosed="dialogProfile = $event"
+          />
         </v-dialog>
-
         <br />
         <br />
-        <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-dialog v-model="dialogPassword" width="500">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              v-bind="attrs"
-              v-on="on"
               depressed
               elevation="10"
+              v-bind="attrs"
+              v-on="on"
               large
               raised
               small
               x-large
             >
-              Cambiar contraseña
+              Cambiar Contraseña
             </v-btn>
           </template>
-          <EditProfile v-model="dialogProfile" />
+          <ChangePassword
+            :dialogPassword="dialogPassword"
+            @dialogClosed="dialogPassword = $event"
+          />
         </v-dialog>
       </v-col>
     </v-row>
@@ -76,12 +81,12 @@
 
 <script>
 import NavBar from "../components/generic/NavBar.vue";
-import { URLBACKEND } from "@/assets/url.js";
-import axios from "axios";
+// import { URLBACKEND } from "@/assets/url.js";
+// import axios from "axios";
 import ChangePassword from "../components/user/ChangePassword.vue";
 import EditProfile from "../components/user/EditProfile.vue";
 export default {
-  name: "HomePage",
+  name: "UserAccount",
   components: {
     NavBar,
     ChangePassword,
@@ -106,42 +111,39 @@ export default {
   //     .then((response) => (this.gameInfo = response.data));
   // },
   methods: {
-    getGames: function ($state) {
-      axios
-        .get("http://" + URLBACKEND + "/ming/v1/games?page=" + this.page)
-        .then((response) => {
-          if (response.data.length) {
-            this.page += 1;
-            this.gameInfo.push(...response.data);
-            $state.loaded();
-          } else {
-            $state.complete();
-          }
-        });
-    },
+    // getGames: function ($state) {
+    //   axios
+    //     .get("http://" + URLBACKEND + "/ming/v1/games?page=" + this.page)
+    //     .then((response) => {
+    //       if (response.data.length) {
+    //         this.page += 1;
+    //         this.gameInfo.push(...response.data);
+    //         $state.loaded();
+    //       } else {
+    //         $state.complete();
+    //       }
+    //     });
+    // },
   },
   watch: {
-    title: function (val, oldval) {
-      const info = {
-        query: val,
-      };
-
-      console.log(oldval);
-
-      if (val === "") {
-        location.reload();
-
-        // axios
-        //   .get("http://" + URLBACKEND + "/ming/v1/games?page=2")
-        //   .then((response) => (this.gameInfo = response.data));
-      } else {
-        axios
-          .get("http://" + URLBACKEND + "/ming/v1/games?page=1", {
-            params: info,
-          })
-          .then((response) => (this.gameInfo = response.data));
-      }
-    },
+    // title: function (val, oldval) {
+    //   const info = {
+    //     query: val,
+    //   };
+    //   console.log(oldval);
+    //   if (val === "") {
+    //     location.reload();
+    //     // axios
+    //     //   .get("http://" + URLBACKEND + "/ming/v1/games?page=2")
+    //     //   .then((response) => (this.gameInfo = response.data));
+    //   } else {
+    //     axios
+    //       .get("http://" + URLBACKEND + "/ming/v1/games?page=1", {
+    //         params: info,
+    //       })
+    //       .then((response) => (this.gameInfo = response.data));
+    //   }
+    // },
   },
 };
 </script>

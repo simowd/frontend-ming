@@ -1,33 +1,60 @@
 <template>
   <v-card>
-    <v-card-title class="headline grey lighten-2">
-      Privacy Policy
-    </v-card-title>
-
     <v-card-text>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field class="inputs" label="Contraseña Actual" required></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Contraseña Nueva" required></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field label="Repita Contraseña" required></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-card-text>
-
     <v-divider></v-divider>
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="dialogPassword = false"> I accept </v-btn>
+      <v-btn color="blue darken-1" text @click="dialogClose"> Cancelar </v-btn>
+      <v-btn color="blue darken-1" text @click="dialogClose">
+        Actualizar
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-export default {     
-  props: ['dialogPassword'],
+export default {
+  data() {
+    return {
+      countries: [
+        "Bolivia",
+        "Chile",
+        "Argentina",
+        "Brasil",
+        "Uruguay",
+        "Paraguay",
+      ],
+    };
+  },
+  props: ["dialogPassword"],
+  methods: {
+    dialogClose() {
+      this.$emit("dialogClosed", !this.dialogPassword);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
+.inputs {
+  width: 60rem;
+  margin-right: 20rem;
+  margin-top: 3rem;
+}
+
 </style>
