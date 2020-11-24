@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6">
-            <img src="../../assets/account_img.png" />
+            <img src="../../assets/account_img.png" height="150px" />
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field label="Apodo" required></v-text-field>
