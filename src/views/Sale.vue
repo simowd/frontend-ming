@@ -40,7 +40,7 @@
       />
     </div>
 
-    <infinite-loading @infinite="getGames">
+    <infinite-loading @infinite="getGames" ref="infiniteLoading">
       <div slot="no-more">
         <img src="@/assets/huachimingo.png" width="200px" height="200px" />
         <p class="info-footer">¡Llegaste al final!</p>
@@ -99,11 +99,10 @@ export default {
       console.log(oldval);
 
       if (val === "") {
-        location.reload();
-        
-        // axios
-        //   .get("http://" + URLBACKEND + "/ming/v1/games?page=2")
-        //   .then((response) => (this.gameInfo = response.data));
+        console.log(this.gameInfo)
+        this.gameInfo = []
+        this.page = 1
+        this.$refs.infiniteLoading.stateChanger.reset();
       } else {
         axios
           .get("http://"+URLBACKEND+"/ming/v1/games?page=1&sale=true", {
