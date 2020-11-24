@@ -73,16 +73,19 @@ export default {
 .carousel-title{
   font-size: 2rem;
   margin-top: 1rem;
-  text-align: right;
+  text-align: center;
   font-weight: 200;
-  margin-right: 3rem;
+  margin-left: 20rem;
 }
 
 .carousel-discount{
-  font-size: 3rem;
+  font-size: 2rem;
+  font-weight: 300;
+  height: 4rem;
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top:2rem;
   margin-left: 5rem;
+  padding-top: 0.4rem;
   border-color: #49a82c;
   border-style: solid;
   border-width: thin;

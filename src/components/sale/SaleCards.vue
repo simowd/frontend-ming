@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .sale-game-title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
   margin-top: 2rem;
@@ -72,9 +72,10 @@ export default {
 }
 
 .sale-prices{
-  font-size: 2.7rem;
+  font-size: 2.5rem;
   text-align: center;
   margin-top: 4.3rem;
+  margin-right: 2rem;
   font-weight:200;
 }
 </style>
