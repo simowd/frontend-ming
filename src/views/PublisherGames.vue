@@ -124,7 +124,7 @@ export default {
               URLBACKEND +
               "/ming/v1/games?page=1&publisher=" +
               this.idPublisher +
-              "quey=",
+              "",
             {
               params: info,
             }
