@@ -18,6 +18,7 @@
     <v-row no-gutters>
       <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
         <GameCard
+          @statusGame="updatePage"
           :title="game.title"
           :price="game.price"
           :id="game.id"
@@ -57,8 +58,10 @@ export default {
       gameInfo: [],
       title: "",
       idPublisher: null,
+      aux: 0,
     };
   },
+
   methods: {
     getGames: function ($state) {
       this.idPublisher = this.$route.params.id;
@@ -84,10 +87,26 @@ export default {
     },
     addGame() {
       this.idPublisher = this.$route.params.id;
-      this.$router.push('/publisher/add-game/'+this.idPublisher);
+      this.$router.push("/publisher/add-game/" + this.idPublisher);
+    },
+    updatePage() {
+      this.aux++;
     },
   },
   watch: {
+    aux: function (val) {
+      console.log(val);
+      console.log("Estas dentro");
+      if (val === 1) {
+        this.gameInfo = [];
+        this.page = 1;
+        this.$refs.infiniteLoading.stateChanger.reset();
+        console.log(this.$refs.infiniteLoading);
+        val = 0;
+      }
+
+      console.log("Estas afuera");
+    },
     title: function (val) {
       const info = {
         query: val,
@@ -124,3 +143,4 @@ export default {
   margin-left: 10rem;
 }
 </style>
+         
