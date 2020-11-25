@@ -10,7 +10,7 @@
         />
         <router-link to="/">Inicio</router-link>
         <router-link to="/">Administar Cuentas</router-link>
-        <router-link to="/publisher/add-game">Administar Juegos</router-link>
+        <router-link to="/publisher/add-game/1">Administar Juegos</router-link>
       </header>
     </div>
   </div>

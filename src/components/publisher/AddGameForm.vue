@@ -21,8 +21,6 @@
               :items="languages"
               label="Idioma"
               multiple
-              small-chips
-              deletable-chips="true"
               id="languageGames"
               v-model="languageGames"
             ></v-combobox>
@@ -32,8 +30,9 @@
               outlined
               color="#707070"
               item-color="#707070"
-              :items="countries"
+              :items="genres"
               label="Género"
+              multiple
               id="genreGames"
               v-model="genreGames"
             ></v-combobox>
@@ -47,16 +46,16 @@
               v-model="gameInfo.size"
             ></v-text-field>
 
-            <v-combobox
+            <v-select
               dense
               outlined
               color="#707070"
               item-color="#707070"
-              :items="countries"
+              :items="esrbList"
               label="Clasificación"
               id="idEsrb"
               v-model="idEsrb"
-            ></v-combobox>
+            ></v-select>
 
             <v-text-field
               :rules="[rules.required]"
@@ -67,23 +66,39 @@
               v-model="gameInfo.developer"
             ></v-text-field>
 
-            <v-text-field
+            <!-- <v-text-field
               :rules="[rules.required]"
               label="Jugadores"
               outlined
               color="#707070"
               id="players"
               v-model="gameInfo.players"
-            ></v-text-field>
-
-            <!-- <v-text-field
-              :rules="[rules.required]"
-              label="Lanzamiento"
-              outlined
-              color="#707070"
-              id="release_date"
-              v-model="gameInfo.release_date"
             ></v-text-field> -->
+
+            <div>
+              <v-slider
+                :max="100"
+                label="Jugadores"
+                class="align-center"
+                color="#707070"
+                thumb-label
+                track-color="#66698C"
+                thumb-color="#66698C"
+                id="players"
+                v-model="gameInfo.players"
+              >
+                <template v-slot:append>
+                  <v-text-field
+                    id="players"
+                    v-model="gameInfo.players"
+                    class="mt-0 pt-0"
+                    type="number"
+                    style="width: 60px"
+                    color="#707070"
+                  ></v-text-field>
+                </template>
+              </v-slider>
+            </div>
 
             <div>
               <v-dialog
@@ -164,6 +179,9 @@
               item-color="#707070"
               :items="countries"
               label="DirectX"
+              multiple
+              small-chips
+              deletable-chips="true"
               id="directx"
               v-model="directx"
             ></v-combobox>
@@ -292,6 +310,14 @@ export default {
       languagesInfo: null,
       languages: [],
       language: "",
+
+      genresInfo: null,
+      genres: [],
+      genre: "",
+
+      esrbInfo: null,
+      esrbList: [],
+      esrb: "",
       rules: {
         required: (value) => !!value || "Requerido",
       },
@@ -305,6 +331,14 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/languages")
       .then((response) => (this.languagesInfo = response.data));
+
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/genres")
+      .then((response) => (this.genresInfo = response.data));
+
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/esrb")
+      .then((response) => (this.esrbInfo = response.data));
   },
   methods: {
     create() {
@@ -345,6 +379,19 @@ export default {
       this.gameInfo.idCountry = this.countries.indexOf(val);
       this.gameInfo.idCountry++;
     },
+
+    genresInfo: function(val) {
+      if (val.length > 0) {
+        val.forEach((element) => {
+          this.genres.push(element.genre);
+        });
+      }
+    },
+    genres: function(val) {
+      this.gameInfo.genreGames = this.genres.indexOf(val);
+      this.gameInfo.genreGames++;
+    },
+
     languagesInfo: function(val) {
       if (val.length > 0) {
         val.forEach((element) => {
@@ -355,6 +402,18 @@ export default {
     languages: function(val) {
       this.gameInfo.languageGames = this.languages.indexOf(val);
       this.gameInfo.languageGames++;
+    },
+
+    esrbInfo: function(val) {
+      if (val.length > 0) {
+        val.forEach((element) => {
+          this.esrbList.push(element.esrb);
+        });
+      }
+    },
+    esrbList: function(val) {
+      this.gameInfo.idEsrb = this.esrbList.indexOf(val);
+      this.gameInfo.idEsrb++;
     },
   },
 };
