@@ -21,7 +21,7 @@
         </div>
         <div class="game-card-admin-highlight">
           <img
-            src="@/assets/edithighlight.png"
+            src="@/assets/star.png"
             width="45px"
             height="45px"
             :style="{ cursor: 'pointer' }"
@@ -29,7 +29,7 @@
             @click="highlightup(id, highlighted)"
           />
           <img
-            src="@/assets/star.png"
+            src="@/assets/edithighlight.png"
             width="45px"
             height="45px"
             v-else-if="show1"
@@ -84,6 +84,7 @@ export default {
         });
       this.show1 = false;
       this.show = true;
+      this.highlighted=0;
     },
   },
 };

@@ -11,6 +11,7 @@ import UserAccount from "@/views/UserAccount.vue";
 import Highlight from "@/views/Highlight.vue";
 import PublisherAddGame from "@/views/PublisherAddGame.vue";
 import AdminGames from "@/views/AdminGames.vue";
+import PublisherGames from "@/views/PublisherGames.vue";
 
 Vue.use(VueRouter);
 
@@ -71,7 +72,7 @@ const routes = [
     component: Highlight,
   },
   {
-    path: "/publisher/add-game",
+    path: "/publisher/add-game/:id",
     name: "PublisherAddGame",
     component: PublisherAddGame,
   },
@@ -79,6 +80,11 @@ const routes = [
     path: "/admin/games",
     name: "AdminGames",
     component: AdminGames,
+  },
+  {
+    path: "/publisher/games/:id",
+    name: "publisherGames",
+    component: PublisherGames,
   },
 ];
 const router = new VueRouter({

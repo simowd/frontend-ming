@@ -36,6 +36,16 @@
 .game-card-admin-highlight{
     padding-top: 1.5rem;
 }
+// Game card publisher list
+.game-card-publisher{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 15rem;
+    width: 70%;
+}
+.game-card-publisher-icons{
+    padding-top: 1.5rem;
+}
 
 // Game card latest releases
 .card-latest-releases {
