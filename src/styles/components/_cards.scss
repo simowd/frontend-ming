@@ -26,24 +26,28 @@
     padding-right: 1rem;
     color: #66698c;
 }
+
 // Game card admin list
-.game-card-admin{
+.game-card-admin {
     display: flex;
     justify-content: space-between;
     margin-left: 15rem;
     width: 50%;
 }
-.game-card-admin-highlight{
+
+.game-card-admin-highlight {
     padding-top: 1.5rem;
 }
+
 // Game card publisher list
-.game-card-publisher{
+.game-card-publisher {
     display: flex;
     justify-content: space-between;
     margin-left: 15rem;
     width: 70%;
 }
-.game-card-publisher-icons{
+
+.game-card-publisher-icons {
     padding-top: 1.5rem;
 }
 
@@ -119,8 +123,8 @@
     width: 90%;
     margin-right: 3.3rem;
     margin-top: 0.2rem;
-    
-    
+
+
 }
 
 .card-carousel-data {
@@ -131,4 +135,29 @@
     margin-left: 25rem;
     margin-top: -1rem;
     font-weight: 200;
+}
+
+// Publisher List Card
+.card-publisher-list {
+    width: 68%;
+    height: 15rem;
+    border: black;
+    border-style: solid;
+    border-width: thin;
+    text-align: center;
+    margin-left: 28rem;
+    margin-top: 5rem;
+    padding: 1rem;
+    
+
+}
+
+//Publisher Card list Image 
+.card-publisher-list-image {
+    height: 10rem;
+    width: 10rem;
+    margin-right: 3.5rem;
+    margin-top: 1.8rem;
+
+
 }

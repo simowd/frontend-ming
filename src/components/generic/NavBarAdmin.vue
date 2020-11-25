@@ -9,7 +9,7 @@
           class="image-nav-bar"
         />
         <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
-        <router-link to="/">Administar Editores</router-link>
+        <router-link to="/admin/publisher-list">Administar Editores</router-link>
         <router-link to="/admin/games">Administar Juegos</router-link>
       </header>
     </div>
