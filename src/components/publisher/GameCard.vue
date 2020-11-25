@@ -53,7 +53,8 @@
                 <v-btn color="red darken-1" text @click="dialog = false">
                   Cancelar
                 </v-btn>
-                <v-btn color="green darken-1" text @click="deleteGame(id)">
+
+                <v-btn color="#49a82c" text @click="deleteGame(id)">
                   Eliminar
                 </v-btn>
               </v-card-actions>
@@ -74,17 +75,27 @@ export default {
   data() {
     return {
       dialog: false,
+      aux: null,
     };
   },
-  props: ["title", "price", "banner", "id", "color", "highlighted"],
+  inheritAttrs: true,
+  props: {
+    title: String,
+    price: Number,
+    banner: String,
+    id: String,
+    color: String,
+    highlighted: Number,
+  },
   methods: {
     deleteGame(id) {
       axios
-        .delete("http://"+URLBACKEND+"/ming/publisher/"+id+"/game")
+        .delete("http://" + URLBACKEND + "/ming/publisher/" + id + "/game")
         .then((result) => {
           console.log(result);
+          this.$emit("statusGame");
         });
-        location.reload();
+      // location.reload()
       this.dialog = false;
     },
   },

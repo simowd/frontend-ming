@@ -13,6 +13,7 @@ import PublisherAddGame from "@/views/PublisherAddGame.vue";
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
 
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -86,6 +87,7 @@ const routes = [
     name: "publisherGames",
     component: PublisherGames,
   },
+
 ];
 const router = new VueRouter({
   mode: "history",
