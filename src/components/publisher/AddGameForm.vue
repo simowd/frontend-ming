@@ -119,7 +119,10 @@
               :rules="[rules.required]"
               label="Descripción del Juego"
               value=""
-              auto-grow
+              no-resize
+              clearable
+              clear-icon="mdi-close-circle"
+              counter
               color="#707070"
               id="game_description"
               v-model="gameInfo.game_description"
@@ -171,10 +174,63 @@
               v-model="gameInfo.price"
             ></v-text-field>
 
-            <v-color-picker
-              dot-size="25"
-              swatches-max-height="200"
-            ></v-color-picker>
+            <v-file-input
+              v-model="imageFiles"
+              color="#707070"
+              counter
+              label="Seleccione las Imágenes"
+              multiple
+              prepend-icon="mdi-image-plus"
+              outlined
+              :show-size="1000"
+              accept="image/png, image/jpeg, image/bmp"
+            >
+              <template v-slot:selection="{ index, text }">
+                <v-chip v-if="index < 5" color="#707070" dark label small>
+                  {{ text }}
+                </v-chip>
+
+                <span
+                  v-else-if="index === 2"
+                  class="overline grey--text text--darken-3 mx-2"
+                >
+                  +{{ files.length - 2 }} File(s)
+                </span>
+              </template>
+            </v-file-input>
+
+            <v-file-input
+              v-model="files"
+              color="#707070"
+              counter
+              label="Seleccione los Archivos del Juego"
+              multiple
+              prepend-icon="mdi-paperclip"
+              outlined
+              :show-size="1000"
+            >
+              <template v-slot:selection="{ index, text }">
+                <v-chip v-if="index < 5" color="#707070" dark label small>
+                  {{ text }}
+                </v-chip>
+
+                <span
+                  v-else-if="index === 2"
+                  class="overline grey--text text--darken-3 mx-2"
+                >
+                  +{{ files.length - 2 }} File(s)
+                </span>
+              </template>
+            </v-file-input>
+
+            <v-layout justify-center class="picker-container">
+              <v-color-picker
+                dot-size="2rem"
+                mode="hexa"
+                hide-mode-switch="true"
+                width="400"
+              ></v-color-picker>
+            </v-layout>
 
             <v-layout justify-center>
               <v-btn
@@ -204,6 +260,8 @@ export default {
     return {
       date: new Date().toISOString().substr(0, 10),
       modal: false,
+      files: [],
+      imageFiles: [],
       gameInfo: {
         idEsrb: null,
         title: null,
@@ -285,5 +343,8 @@ export default {
   font-size: 8rem;
   font-weight: 100;
   text-transform: capitalize;
+}
+.picker-container {
+  margin-top: 3rem;
 }
 </style>
