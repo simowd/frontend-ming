@@ -8,9 +8,9 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
-        <router-link to="/">Administar Editores</router-link>
-        <router-link to="/">Administar Juegos</router-link>
+        <router-link to="/">Inicio</router-link>
+        <router-link to="/">Administar Cuentas</router-link>
+        <router-link to="/publisher/add-game">Administar Juegos</router-link>
       </header>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "NavBarAdmin",
+  name: "NavBarPublisher",
   components: {},
 };
 </script>

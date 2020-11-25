@@ -8,6 +8,7 @@ import Sale from '@/views/Sale.vue'
 import AddPublisher from '@/views/AddPublisher.vue'
 import UserAccount from '@/views/UserAccount.vue'
 import Highlight from '@/views/Highlight.vue'
+import PublisherAddGame from '@/views/PublisherAddGame.vue'
 
 Vue.use(VueRouter)
 
@@ -60,7 +61,13 @@ const routes = [{
     path: '/highlights',
     name: 'Highlights',
     component: Highlight
+  },
+  {
+    path: '/publisher/add-game',
+    name: 'PublisherAddGame',
+    component: PublisherAddGame
   }
+
 ]
 const router = new VueRouter({
   mode: 'history',
