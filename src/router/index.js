@@ -8,6 +8,7 @@ import Sale from '@/views/Sale.vue'
 import AddPublisher from '@/views/AddPublisher.vue'
 import UserAccount from '@/views/UserAccount.vue'
 import Highlight from '@/views/Highlight.vue'
+import AdminGames from '@/views/AdminGames.vue'
 
 Vue.use(VueRouter)
 
@@ -31,7 +32,7 @@ const routes = [{
     component: Login
   },
   {
-    path: '/latestrelease',
+    path: '/latest-release',
     name: 'LatestRelease',
     component: LatestRelease
   },
@@ -60,6 +61,12 @@ const routes = [{
     path: '/highlights',
     name: 'Highlights',
     component: Highlight
+  },
+  {
+    path: '/admin/games',
+    name: 'AdminGames',
+    component: AdminGames
+
   }
 ]
 const router = new VueRouter({
