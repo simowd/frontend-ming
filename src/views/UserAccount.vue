@@ -2,7 +2,7 @@
   <div class="background-image">
     <NavBar />
     <v-row>
-      <v-col align="right"><img src="../assets/account_img.png" /></v-col>
+      <v-col align="right"><img src="../assets/account_img.png" height="150px" /></v-col>
       <v-col align="center">
         <p>Nombre de Usuario/Apodo</p>
         <p v-text="username"></p>
@@ -76,13 +76,25 @@
         </v-col>
       </v-row>
     </div>
+
+    <v-row no-gutters>
+      <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
+        <GameCard
+          :title="game.title"
+          :price="game.price"
+          :id="game.id"
+          :color="game.color"
+          :banner="game.banner"
+        />
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
 import NavBar from "../components/generic/NavBar.vue";
-// import { URLBACKEND } from "@/assets/url.js";
-// import axios from "axios";
+import { URLBACKEND } from "@/assets/url.js";
+import axios from "axios";
 import ChangePassword from "../components/user/ChangePassword.vue";
 import EditProfile from "../components/user/EditProfile.vue";
 export default {
@@ -105,45 +117,31 @@ export default {
       dialogProfile: false,
     };
   },
-  // mounted() {
-  //   axios
-  //     .get("http://" + URLBACKEND + "/ming/v1/games?page=1")
-  //     .then((response) => (this.gameInfo = response.data));
-  // },
-  methods: {
-    // getGames: function ($state) {
-    //   axios
-    //     .get("http://" + URLBACKEND + "/ming/v1/games?page=" + this.page)
-    //     .then((response) => {
-    //       if (response.data.length) {
-    //         this.page += 1;
-    //         this.gameInfo.push(...response.data);
-    //         $state.loaded();
-    //       } else {
-    //         $state.complete();
-    //       }
-    //     });
-    // },
+  mounted() {
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/users/1/library")
+      .then((response) => (this.gameInfo = response.data));
   },
+  methods: {},
   watch: {
-    // title: function (val, oldval) {
-    //   const info = {
-    //     query: val,
-    //   };
-    //   console.log(oldval);
-    //   if (val === "") {
-    //     location.reload();
-    //     // axios
-    //     //   .get("http://" + URLBACKEND + "/ming/v1/games?page=2")
-    //     //   .then((response) => (this.gameInfo = response.data));
-    //   } else {
-    //     axios
-    //       .get("http://" + URLBACKEND + "/ming/v1/games?page=1", {
-    //         params: info,
-    //       })
-    //       .then((response) => (this.gameInfo = response.data));
-    //   }
-    // },
+    title: function (val, oldval) {
+      const info = {
+        query: val,
+      };
+      console.log(oldval);
+      if (val === "") {
+        location.reload();
+        axios
+          .get("http://" + URLBACKEND + "/ming/v1/users/1/library")
+          .then((response) => (this.gameInfo = response.data));
+      } else {
+        axios
+          .get("http://" + URLBACKEND + "/ming/v1/users/1/library", {
+            params: info,
+          })
+          .then((response) => (this.gameInfo = response.data));
+      }
+    },
   },
 };
 </script>
