@@ -4,7 +4,7 @@
     height: 37rem;
     margin-left: 10rem;
     margin-top: 3rem;
-    cursor: pointer;
+
 }
 
 .game-image {
@@ -12,6 +12,7 @@
     background-image: url("https://larepublica.pe/resizer/JBWEcekaooeuNeGbHYmlR9Q-L7M=/1250x735/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/HFO2JP7PN5FRXE7JWEAQDNC5FA.png");
     background-size: cover;
     box-shadow: 0 0.5px 2rem red;
+    cursor: pointer;
 }
 
 .game-info {
@@ -24,6 +25,16 @@
     padding-top: 2rem;
     padding-right: 1rem;
     color: #66698c;
+}
+// Game card admin list
+.game-card-admin{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 15rem;
+    width: 50%;
+}
+.game-card-admin-highlight{
+    padding-top: 1.5rem;
 }
 
 // Game card latest releases
