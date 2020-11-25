@@ -16,10 +16,13 @@
             <v-combobox
               dense
               outlined
-              color="#707070"
-              item-color="#707070"
-              :items="countries"
+              color="#66698C"
+              item-color="#66698C"
+              :items="languages"
               label="Idioma"
+              multiple
+              small-chips
+              deletable-chips="true"
               id="languageGames"
               v-model="languageGames"
             ></v-combobox>
@@ -285,6 +288,10 @@ export default {
       countriesInfo: null,
       countries: [],
       country: "",
+
+      languagesInfo: null,
+      languages: [],
+      language: "",
       rules: {
         required: (value) => !!value || "Requerido",
       },
@@ -294,6 +301,10 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => (this.countriesInfo = response.data));
+
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/languages")
+      .then((response) => (this.languagesInfo = response.data));
   },
   methods: {
     create() {
@@ -302,19 +313,19 @@ export default {
         .then((response) => (this.infoUser = response.data));
     },
     verify() {
-      if (this.infoUser.username === null) {
+      if (this.gameInfo.username === null) {
         alert("Falta el Nombre de Usuario");
-      } else if (this.infoUser.email === null) {
+      } else if (this.gameInfo.email === null) {
         alert("Falta el Correo Electrónico");
-      } else if (this.infoUser.paypal === null) {
+      } else if (this.gameInfo.paypal === null) {
         alert("Falta el Correo de PayPal");
-      } else if (this.infoUser.publisher === null) {
+      } else if (this.gameInfo.publisher === null) {
         alert("Falta el Editor");
-      } else if (this.infoUser.idCountry === null) {
+      } else if (this.gameInfo.idCountry === null) {
         alert("Falta el País");
-      } else if (this.infoUser.password === null) {
+      } else if (this.gameInfo.password === null) {
         alert("Falta la Contraseña");
-      } else if (this.infoUser.idCountry <= 0) {
+      } else if (this.gameInfo.idCountry <= 0) {
         alert("Ese País no existe");
       } else {
         alert("Editor Creado");
@@ -331,8 +342,19 @@ export default {
       }
     },
     country: function(val) {
-      this.infoUser.idCountry = this.countries.indexOf(val);
-      this.infoUser.idCountry++;
+      this.gameInfo.idCountry = this.countries.indexOf(val);
+      this.gameInfo.idCountry++;
+    },
+    languagesInfo: function(val) {
+      if (val.length > 0) {
+        val.forEach((element) => {
+          this.languages.push(element.language);
+        });
+      }
+    },
+    languages: function(val) {
+      this.gameInfo.languageGames = this.languages.indexOf(val);
+      this.gameInfo.languageGames++;
     },
   },
 };
