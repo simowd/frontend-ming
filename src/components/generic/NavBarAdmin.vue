@@ -10,7 +10,7 @@
         />
         <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
         <router-link to="/">Administar Editores</router-link>
-        <router-link to="/">Administar Juegos</router-link>
+        <router-link to="/admin/games">Administar Juegos</router-link>
       </header>
     </div>
   </div>
@@ -23,7 +23,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 #nav {
   text-align: left;
 }
@@ -40,6 +39,6 @@ export default {
 #nav a.router-link-exact-active {
   font-weight: bold;
   color: #66698c;
+  font-size: 2.5rem;
 }
-
 </style>
