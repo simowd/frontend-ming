@@ -6,6 +6,7 @@ import LatestRelease from '@/views/LatestRelease.vue'
 import SignUp from '@/views/SignUp.vue'
 import Sale from '@/views/Sale.vue'
 import AddPublisher from '@/views/AddPublisher.vue'
+import PublisherList from '@/views/PublisherList.vue'
 import UserAccount from '@/views/UserAccount.vue'
 import Highlight from '@/views/Highlight.vue'
 
@@ -49,6 +50,11 @@ const routes = [{
     path: '/admin/add-publisher',
     name: 'AddPublisher',
     component: AddPublisher
+  },
+  {
+    path: '/admin/publisher-list',
+    name: 'PublisherList',
+    component: PublisherList
   },
   {
     path: '/MyAccount',

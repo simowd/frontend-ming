@@ -1,5 +1,5 @@
 <template>
-  <div id="sld">
+  <div >
     <carousel>
       <slide v-for="(slide, i) in gameInfo" :index="i" :key="slide">
         <figure >
@@ -44,7 +44,6 @@ import axios from "axios";
 import { URLBACKEND } from "@/assets/url.js";
 
 export default {
-  el: "#sld",
   data() {
     return {
       slides: 7,
