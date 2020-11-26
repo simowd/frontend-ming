@@ -21,7 +21,7 @@
                   ${{
                     (slide.price - (slide.price * slide.sale) / 100).toFixed(2)
                   }}
-                  USD -
+                  USD - 
                 </p>
                 <p class="text-sale">${{ slide.price }} USD</p>
                 </div>
