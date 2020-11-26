@@ -74,21 +74,23 @@ import { URLBACKEND } from "@/assets/url.js";
 
 export default {
   name: "PublisherListCard",
-  props: ["id", "publisher", "mail"],
+ 
   data() {
     return {
       dialog: false,
     };
   },
-
+  inheritAttrs: true,
+  props: ["id", "publisher", "mail"],
   methods: {
     deletePublisher(id) {
       axios
         .delete("http://"+URLBACKEND+"/ming/v1/publisher/"+id)
         .then((result) => {
           console.log(result);
+          this.$emit("statusPublisherList");
         });
-        location.reload();
+        //location.reload();
       this.dialog = false;
     },
   },
