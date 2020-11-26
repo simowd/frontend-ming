@@ -35,15 +35,18 @@
         <p class="info-footer">¡Llegaste al final!</p>
       </div>
     </infinite-loading>
+
+    
   </div>
 </template>
 
 <script>
 import NavBarAdmin from "@/components/generic/NavBarAdmin.vue";
-import PublisherListCard from "@/components/publisher/PublisherListCard.vue";
+import PublisherListCard from "@/components/admin/PublisherListCard.vue";
 import axios from "axios";
 import { URLBACKEND } from "@/assets/url.js";
 import InfiniteLoading from "vue-infinite-loading";
+
 
 export default {
   name: "PublisherList",
@@ -51,6 +54,7 @@ export default {
     NavBarAdmin,
     PublisherListCard,
     InfiniteLoading,
+    
   },
 
   data() {
@@ -58,6 +62,8 @@ export default {
       publisherInfo: [],
       publisher: "",
       page: 1,
+
+      
     };
   },
 
