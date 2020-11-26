@@ -36,7 +36,7 @@
               id="genreGames"
               @change="genresValue"
             ></v-combobox>
-            
+
             <v-text-field
               :rules="[rules.required]"
               label="Tamaño"
@@ -54,6 +54,7 @@
               :items="esrbList"
               label="Clasificación"
               id="idEsrb"
+              @change="EsrbValue"
             ></v-select>
 
             <v-text-field
@@ -167,14 +168,15 @@
               outlined
               color="#707070"
               item-color="#707070"
-              :items="directxList"
+              :items="directx"
               label="DirectX"
               multiple
               small-chips
               deletable-chips="true"
               id="directx"
+              @change="DirectXValue"
             ></v-combobox>
-
+              {{DirectXArray}}
             <v-text-field
               :rules="[rules.required]"
               label="Precio"
@@ -275,8 +277,10 @@ export default {
       imageFiles: [],
       languageList: [],
       genresList: [],
+      categoryList: null,
+      directxList:[],
       gameInfo: {
-        idEsrb: null,
+        idEsrb: 0,
         title: null,
         game_description: null,
         size: null,
@@ -288,7 +292,7 @@ export default {
         download_path: null,
         images: null,
         developer: null,
-        directx: null,
+        directx: [],
         operatingSystem: null,
         languageGames: [],
         genreGames: [],
@@ -306,11 +310,11 @@ export default {
 
       esrbInfo: null,
       esrbList: [],
-      esrb: "",
+      EsrbArray: [],
 
       directxInfo: null,
-      directxList: [],
-      directx: "",
+      directx: [],
+      DirectXArray: [],
 
       rules: {
         required: (value) => !!value || "Requerido",
@@ -368,35 +372,65 @@ export default {
       this.languageList = [];
 
       for (var i = 0; i < values.length; i++) {
-
         var value = values[i];
         for (var j = 0; j < this.LanguageArray.length; j++) {
-          var split = this.LanguageArray[j].split("|"); 
-          if (split[1] === value){
-            this.languageList.push(split[0]);
+          var split = this.LanguageArray[j].split("|");
+          if (split[1] === value) {
+            this.languageList.push(parseInt(split[0], 10));
           }
         }
       }
-      this.languageList.sort(function(a, b){return a-b});
+      this.languageList.sort(function(a, b) {
+        return a - b;
+      });
       this.gameInfo.languageGames = this.languageList;
     },
     genresValue(values) {
       this.genresList = [];
-      
-      for (var i = 0; i < values.length; i++) {
 
+      for (var i = 0; i < values.length; i++) {
         var value = values[i];
         for (var j = 0; j < this.GenreArray.length; j++) {
-          var split = this.GenreArray[j].split("|"); 
-          if (split[1] === value){
-            this.genresList.push(split[0]);
+          var split = this.GenreArray[j].split("|");
+          if (split[1] === value) {
+            this.genresList.push(parseInt(split[0], 10));
           }
         }
       }
-      this.genresList.sort(function(a, b){return a-b});
+      this.genresList.sort(function(a, b) {
+        return a - b;
+      });
       this.gameInfo.genreGames = this.genresList;
     },
+    EsrbValue(value) {
+      this.categoryList = null;
 
+      for (var j = 0; j < this.EsrbArray.length; j++) {
+        var split = this.EsrbArray[j].split("|");
+        if (split[1] === value) {
+          this.categoryList = split[0];
+        }
+      }
+      var integer = parseInt(this.categoryList, 10);
+      this.gameInfo.idEsrb = integer;
+    },
+    DirectXValue(values) {
+      this.directxList = [];
+
+      for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        for (var j = 0; j < this.DirectXArray.length; j++) {
+          var split = this.DirectXArray[j].split("|");
+          if (split[1] === value) {
+            this.directxList.push(parseInt(split[0], 10));
+          }
+        }
+      }
+      this.directxList.sort(function(a, b) {
+        return a - b;
+      });
+      this.gameInfo.directx = this.directxList;
+    },
   },
   watch: {
     genresInfo: function(val) {
@@ -405,9 +439,7 @@ export default {
           this.genres.push(element.genre);
         });
         val.forEach((element) => {
-          this.GenreArray.push(
-            element.idGenre + "|" + element.genre
-          );
+          this.GenreArray.push(element.idGenre + "|" + element.genre);
         });
       }
     },
@@ -418,9 +450,7 @@ export default {
           this.languages.push(element.language);
         });
         val.forEach((element) => {
-          this.LanguageArray.push(
-            element.idLanguage + "|" + element.language
-          );
+          this.LanguageArray.push(element.idLanguage + "|" + element.language);
         });
       }
     },
@@ -430,24 +460,21 @@ export default {
         val.forEach((element) => {
           this.esrbList.push(element.esrb);
         });
+        val.forEach((element) => {
+          this.EsrbArray.push(element.idEsrb + "|" + element.esrb);
+        });
       }
-    },
-    esrbList: function(val) {
-      this.gameInfo.idEsrb = this.esrbList.indexOf(val);
-      this.gameInfo.idEsrb++;
     },
 
     directxInfo: function(val) {
       if (val.length > 0) {
         val.forEach((element) => {
-          this.directxList.push(element.directx);
+          this.directx.push(element.directx);
+        });
+        val.forEach((element) => {
+          this.DirectXArray.push(element.idDirectx + "|" + element.directx);
         });
       }
-    },
-    directxList: function(val) {
-      this.gameInfo.directx = this.directxList.indexOf(val);
-      console.log(this.gameInfo.directx++);
-      this.gameInfo.directx++;
     },
   },
 };
