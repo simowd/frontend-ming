@@ -22,7 +22,7 @@
               label="Idioma"
               multiple
               id="languageGames"
-              v-model="languageGames"
+              @change="languagesValue"
             ></v-combobox>
 
             <v-combobox
@@ -34,9 +34,9 @@
               label="Género"
               multiple
               id="genreGames"
-              v-model="genreGames"
+              @change="genresValue"
             ></v-combobox>
-
+            
             <v-text-field
               :rules="[rules.required]"
               label="Tamaño"
@@ -54,7 +54,6 @@
               :items="esrbList"
               label="Clasificación"
               id="idEsrb"
-              v-model="idEsrb"
             ></v-select>
 
             <v-text-field
@@ -65,15 +64,6 @@
               id="developer"
               v-model="gameInfo.developer"
             ></v-text-field>
-
-            <!-- <v-text-field
-              :rules="[rules.required]"
-              label="Jugadores"
-              outlined
-              color="#707070"
-              id="players"
-              v-model="gameInfo.players"
-            ></v-text-field> -->
 
             <div>
               <v-slider
@@ -177,13 +167,12 @@
               outlined
               color="#707070"
               item-color="#707070"
-              :items="countries"
+              :items="directxList"
               label="DirectX"
               multiple
               small-chips
               deletable-chips="true"
               id="directx"
-              v-model="directx"
             ></v-combobox>
 
             <v-text-field
@@ -263,6 +252,7 @@
               >
                 Crear
               </v-btn>
+              {{ gameInfo }}
             </v-layout>
           </div>
         </v-col>
@@ -283,6 +273,8 @@ export default {
       modal: false,
       files: [],
       imageFiles: [],
+      languageList: [],
+      genresList: [],
       gameInfo: {
         idEsrb: null,
         title: null,
@@ -298,26 +290,28 @@ export default {
         developer: null,
         directx: null,
         operatingSystem: null,
-        languageGames: null,
-        genreGames: null,
+        languageGames: [],
+        genreGames: [],
         price: null,
         sale: 0,
       },
-      countriesInfo: null,
-      countries: [],
-      country: "",
 
       languagesInfo: null,
       languages: [],
-      language: "",
+      LanguageArray: [],
 
       genresInfo: null,
       genres: [],
-      genre: "",
+      GenreArray: [],
 
       esrbInfo: null,
       esrbList: [],
       esrb: "",
+
+      directxInfo: null,
+      directxList: [],
+      directx: "",
+
       rules: {
         required: (value) => !!value || "Requerido",
       },
@@ -339,6 +333,10 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/esrb")
       .then((response) => (this.esrbInfo = response.data));
+
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/directx")
+      .then((response) => (this.directxInfo = response.data));
   },
   methods: {
     create() {
@@ -366,30 +364,52 @@ export default {
         this.create();
       }
     },
-  },
-  watch: {
-    countriesInfo: function(val) {
-      if (val.length > 0) {
-        val.forEach((element) => {
-          this.countries.push(element.name);
-        });
+    languagesValue(values) {
+      this.languageList = [];
+
+      for (var i = 0; i < values.length; i++) {
+
+        var value = values[i];
+        for (var j = 0; j < this.LanguageArray.length; j++) {
+          var split = this.LanguageArray[j].split("|"); 
+          if (split[1] === value){
+            this.languageList.push(split[0]);
+          }
+        }
       }
+      this.languageList.sort(function(a, b){return a-b});
+      this.gameInfo.languageGames = this.languageList;
     },
-    country: function(val) {
-      this.gameInfo.idCountry = this.countries.indexOf(val);
-      this.gameInfo.idCountry++;
+    genresValue(values) {
+      this.genresList = [];
+      
+      for (var i = 0; i < values.length; i++) {
+
+        var value = values[i];
+        for (var j = 0; j < this.GenreArray.length; j++) {
+          var split = this.GenreArray[j].split("|"); 
+          if (split[1] === value){
+            this.genresList.push(split[0]);
+          }
+        }
+      }
+      this.genresList.sort(function(a, b){return a-b});
+      this.gameInfo.genreGames = this.genresList;
     },
 
+  },
+  watch: {
     genresInfo: function(val) {
       if (val.length > 0) {
         val.forEach((element) => {
           this.genres.push(element.genre);
         });
+        val.forEach((element) => {
+          this.GenreArray.push(
+            element.idGenre + "|" + element.genre
+          );
+        });
       }
-    },
-    genres: function(val) {
-      this.gameInfo.genreGames = this.genres.indexOf(val);
-      this.gameInfo.genreGames++;
     },
 
     languagesInfo: function(val) {
@@ -397,11 +417,12 @@ export default {
         val.forEach((element) => {
           this.languages.push(element.language);
         });
+        val.forEach((element) => {
+          this.LanguageArray.push(
+            element.idLanguage + "|" + element.language
+          );
+        });
       }
-    },
-    languages: function(val) {
-      this.gameInfo.languageGames = this.languages.indexOf(val);
-      this.gameInfo.languageGames++;
     },
 
     esrbInfo: function(val) {
@@ -414,6 +435,19 @@ export default {
     esrbList: function(val) {
       this.gameInfo.idEsrb = this.esrbList.indexOf(val);
       this.gameInfo.idEsrb++;
+    },
+
+    directxInfo: function(val) {
+      if (val.length > 0) {
+        val.forEach((element) => {
+          this.directxList.push(element.directx);
+        });
+      }
+    },
+    directxList: function(val) {
+      this.gameInfo.directx = this.directxList.indexOf(val);
+      console.log(this.gameInfo.directx++);
+      this.gameInfo.directx++;
     },
   },
 };
