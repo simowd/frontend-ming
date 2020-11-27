@@ -23,6 +23,7 @@
           :id="game.id"
           :color="game.color"
           :banner="game.banner"
+          :sale="game.sale"
         />
       </v-col>
     </v-row>
@@ -42,7 +43,6 @@ import NavBar from "../components/generic/NavBar.vue";
 import { URLBACKEND } from "@/assets/url.js";
 import InfiniteLoading from "vue-infinite-loading";
 import axios from "axios";
-
 
 export default {
   name: "HomePage",
@@ -88,9 +88,9 @@ export default {
 
       if (val === "") {
         // location.reload();
-        console.log(this.gameInfo)
-        this.gameInfo = []
-        this.page = 1
+        console.log(this.gameInfo);
+        this.gameInfo = [];
+        this.page = 1;
         this.$refs.infiniteLoading.stateChanger.reset();
       } else {
         axios

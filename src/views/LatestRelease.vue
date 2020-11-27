@@ -12,6 +12,7 @@
           :banner="game.banner"
           :description="game.description"
           :date="game.release_date"
+          :sale="game.sale"
         />
       </v-col>
     </v-row>
@@ -29,7 +30,7 @@
 import NavBar from "../components/generic/NavBar.vue";
 import LatestGameCard from "@/components/latest/LatestGameCard.vue";
 import axios from "axios";
-import {URLBACKEND} from "@/assets/url.js"
+import { URLBACKEND } from "@/assets/url.js";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
@@ -37,18 +38,24 @@ export default {
   components: {
     NavBar,
     LatestGameCard,
-    InfiniteLoading
+    InfiniteLoading,
   },
   data() {
     return {
       gameInfo: [],
-      page: 1
+      page: 1,
     };
   },
- methods: {
+  methods: {
     getGames($state) {
       axios
-        .get("http://" + URLBACKEND + "/ming/v1/games?page="+this.page+"&latest=true")
+        .get(
+          "http://" +
+            URLBACKEND +
+            "/ming/v1/games?page=" +
+            this.page +
+            "&latest=true"
+        )
         .then((response) => {
           if (response.data.length) {
             this.page += 1;
@@ -60,6 +67,5 @@ export default {
         });
     },
   },
-
 };
 </script>
