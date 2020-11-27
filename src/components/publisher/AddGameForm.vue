@@ -399,7 +399,12 @@ export default {
         price: 0,
         sale: 0,
       },
-
+      rb: {
+        idOperatingSystem: null,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
       languagesInfo: null,
       languages: [],
       LanguageArray: [],
