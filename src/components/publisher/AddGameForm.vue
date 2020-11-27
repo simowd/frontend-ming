@@ -95,28 +95,31 @@
               <v-dialog
                 ref="dialog"
                 v-model="modal"
-                :return-value.sync="date"
+                :return-value.sync="localDate"
                 persistent
                 width="290px"
                 color="#707070"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
-                    label="Lanzamiento"
+                    v-model="localDate"
                     prepend-icon="mdi-calendar"
+                    label="Lanzamiento"
                     readonly
-                    v-bind="attrs"
                     v-on="on"
                     color="#707070"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" scrollable color="#707070">
+                <v-date-picker v-model="localDate" scrollable color="#707070">
                   <v-spacer></v-spacer>
                   <v-btn text color="#707070" @click="modal = false">
-                    Cancel
+                    Cancelar
                   </v-btn>
-                  <v-btn text color="#707070" @click="$refs.dialog.save(date)">
+                  <v-btn
+                    text
+                    color="#707070"
+                    @click="$refs.dialog.save(localDate)"
+                  >
                     OK
                   </v-btn>
                 </v-date-picker>
@@ -140,7 +143,95 @@
         </v-col>
         <v-col :cols="6">
           <div class="add-publisher-forms-container" justify-center>
-            <div>
+            <v-btn
+              :loading="loading"
+              :disabled="loading"
+              outlined
+              color="#707070"
+              class="ma-2"
+              @click="showWindows(); loader = 'loading'"
+            >
+              Windows
+              <v-icon right>
+                mdi-microsoft-windows
+              </v-icon>
+            </v-btn>
+
+            <div v-if="windows == true">
+              <v-text-field
+                :rules="[rules.required]"
+                label="Procesador"
+                outlined
+                color="#707070"
+              ></v-text-field>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Memoria"
+                outlined
+                color="#707070"
+              ></v-text-field>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Gráficos"
+                outlined
+                color="#707070"
+              ></v-text-field>
+            </div>
+
+            <v-btn
+              :loading="loading1"
+              :disabled="loading1"
+              outlined
+              color="#707070"
+              class="ma-2"
+              @click="showMacOS(); loader = 'loading1'"
+            >
+              MacOS
+              <v-icon right>
+                mdi-apple
+              </v-icon>
+            </v-btn>
+
+            <div v-if="macos == true">
+              <v-text-field
+                :rules="[rules.required]"
+                label="Procesador"
+                outlined
+                color="#707070"
+              ></v-text-field>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Memoria"
+                outlined
+                color="#707070"
+              ></v-text-field>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Gráficos"
+                outlined
+                color="#707070"
+              ></v-text-field>
+            </div>
+
+            <v-btn
+              :loading="loading2"
+              :disabled="loading2"
+              outlined
+              color="#707070"
+              class="ma-2"
+              @click="showLinux(); loader = 'loading2'"
+            >
+              Linux
+              <v-icon right>
+                mdi-ubuntu
+              </v-icon>
+            </v-btn>
+
+            <div v-if="linux == true">
               <v-text-field
                 :rules="[rules.required]"
                 label="Procesador"
@@ -176,18 +267,18 @@
               id="directx"
               @change="DirectXValue"
             ></v-combobox>
-              {{DirectXArray}}
+
             <v-text-field
               :rules="[rules.required]"
               label="Precio"
               outlined
               color="#707070"
               id="price"
-              v-model="gameInfo.price"
+              v-model.number="gameInfo.price"
+              @keypress="isNumber($event)"
             ></v-text-field>
 
             <v-file-input
-              v-model="imageFiles"
               color="#707070"
               counter
               label="Seleccione las Imágenes"
@@ -212,7 +303,6 @@
             </v-file-input>
 
             <v-file-input
-              v-model="files"
               color="#707070"
               counter
               label="Seleccione los Archivos del Juego"
@@ -241,6 +331,7 @@
                 mode="hexa"
                 hide-mode-switch="true"
                 width="400"
+                v-model="ColorValue"
               ></v-color-picker>
             </v-layout>
 
@@ -268,35 +359,44 @@ import { URLBACKEND } from "@/assets/url.js";
 import axios from "axios";
 
 export default {
+  props: ["date"],
   name: "AddGameForm",
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
       modal: false,
+      localDate: this.date,
+      ColorValue: null,
       files: [],
       imageFiles: [],
       languageList: [],
       genresList: [],
       categoryList: null,
-      directxList:[],
+      directxList: [],
+      loader: null,
+      loading: false,
+      loading1: false,
+      loading2: false,
+      windows: false,
+      macos: false,
+      linux: false,
       gameInfo: {
         idEsrb: 0,
         title: null,
         game_description: null,
         size: null,
         players: null,
-        requirements: null,
+        requirements: [],
         release_date: null,
         color: null,
         highlighted: 0,
-        download_path: null,
-        images: null,
+        download_path: "",
+        images: [],
         developer: null,
         directx: [],
-        operatingSystem: null,
+        operatingSystem: [1, 2, 3],
         languageGames: [],
         genreGames: [],
-        price: null,
+        price: 0,
         sale: 0,
       },
 
@@ -431,6 +531,28 @@ export default {
       });
       this.gameInfo.directx = this.directxList;
     },
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    showWindows() {
+      this.windows=!this.windows;
+    },
+    showMacOS() {
+      this.macos=!this.macos;
+    },
+    showLinux() {
+      this.linux=!this.linux;
+    },
   },
   watch: {
     genresInfo: function(val) {
@@ -476,6 +598,21 @@ export default {
         });
       }
     },
+    localDate() {
+      this.$emit("update", this.localDate);
+      this.gameInfo.release_date = this.localDate;
+    },
+    ColorValue() {
+      this.gameInfo.color = this.ColorValue.hexa;
+    },
+    loader() {
+      const l = this.loader;
+      this[l] = !this[l];
+
+      setTimeout(() => (this[l] = false), 400);
+
+      this.loader = null;
+    },
   },
 };
 </script>
@@ -488,5 +625,42 @@ export default {
 }
 .picker-container {
   margin-top: 3rem;
+}
+
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
