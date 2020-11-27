@@ -12,7 +12,7 @@ import Highlight from "@/views/Highlight.vue";
 import PublisherAddGame from "@/views/PublisherAddGame.vue";
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
-
+import PageNotFound from "@/views/PageNotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -87,6 +87,11 @@ const routes = [
     name: "publisherGames",
     component: PublisherGames,
   },
+  {
+    path: "*",
+    name: "PageNotFound",
+    component: PageNotFound
+  }
 
 ];
 const router = new VueRouter({

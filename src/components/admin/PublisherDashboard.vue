@@ -1,25 +1,19 @@
 <template>
-  <div>
+  <div class="everything">
     <div class="up">
       <div class="paypal">PayPal: {{ dashboardInfo.paypal }}</div>
       <div class="data">
         Total Ventas: {{ dashboardInfo.sells }} <br />
         Total Ganancias: ${{ dashboardInfo.earnings }} USD
       </div>
-      <!-- <v-row no-gutters >
-        <v-col cols="6">
-            
-                <Chart  type="doughnut" :data="chartData" />
-            
-          
-        </v-col>
-        <v-col cols="6">
-          <Chart  type="doughnut" :data="pchartData" />
-        </v-col>
-      </v-row> -->
-      <Chart  type="doughnut" :data="chartData" />
-        <Chart  type="doughnut" :data="pchartData" />
-      <Chart  type="bar" :data="basicData" />
+      <div class="dash">
+        <p>Ventas por Juego</p> 
+        <Chart class="gdonut" type="doughnut" :data="chartData" />
+        <p>Ventas por País</p> 
+          <Chart class="donut" type="doughnut" :data="pchartData" />
+        <p>Ventas por Mes</p> 
+          <Chart class="sbar" type="bar" :data="basicData" />
+      </div>
     </div>
   </div>
 </template>
@@ -56,12 +50,12 @@ export default {
         datasets: [
           {
             label: "Ventas",
-            backgroundColor: "#42A5F5",
+            backgroundColor: "#66698c",
             data: [],
           },
           {
             label: "Ganancias",
-            backgroundColor: "#FFA726",
+            backgroundColor: "#513031",
             data: [],
           },
         ],
@@ -72,13 +66,13 @@ export default {
         datasets: [
           {
             data: [],
-            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
-            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+            backgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
           },
           {
             data: [],
-            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
-            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+            backgroundColor: ["#b7c6c8","#e1edee","#120e10","#66698c"],
+            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
           },
         ],
       },
@@ -88,13 +82,13 @@ export default {
         datasets: [
           {
             data: [],
-            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
-            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+            backgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
           },
           {
             data: [],
-            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
-            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+            backgroundColor: ["#b7c6c8","#e1edee","#120e10","#66698c"],
+            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
           },
         ],
       },
@@ -179,7 +173,7 @@ export default {
   font-size: 3rem;
   font-weight: 300;
   display: flex;
-  
+
   align-items: flex-start;
 }
 
@@ -188,19 +182,27 @@ export default {
 }
 
 .sbar {
-  width: 40rem;
-  height: 40rem;
   
 }
 
 .donut {
-  width: 50rem;
-  height: 50rem;
+  
 }
 
-.row {
-  text-align: center;
-  margin-right: 15rem;
-  margin-top: 6rem;
+.gdonut {
+  
+  
+  
+}
+
+.dash{
+  margin-top: 3rem;
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 2.5rem;
+}
+
+.everything{
+  overflow: auto;
 }
 </style>
