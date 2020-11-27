@@ -24,6 +24,7 @@
           :color="game.color"
           :banner="game.banner"
           :highlighted="game.highlight"
+          :sale="game.sale"
         />
       </v-col>
     </v-row>

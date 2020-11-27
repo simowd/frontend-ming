@@ -8,16 +8,30 @@
           boxShadow: '0 0.5px 2rem ' + color + '',
         }"
       ></div>
-      <div class="game-card-publisher">
+      <div
+        class="game-card-publisher"
+        :style="{
+          width: '80%',
+        }"
+      >
         <div class="game-info">
-          <p v-if="price == 0">
-            {{ title }}<br />
-            Free to Play
-          </p>
-          <p v-else>
-            {{ title }}<br />
-            ${{ price }} USD
-          </p>
+          <p>{{ title }}<br /></p>
+          <p v-if="price == 0">Free to Play</p>
+          <div
+            v-else-if="sale > 0"
+            :style="{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginLeft: '0rem',
+            }"
+          >
+            <!-- <p class="home-page-discount">- {{ sale }} %</p> -->
+            <p>${{ (price - (price * sale) / 100).toFixed(2) }} USD -</p>
+            <p class="text-sale">${{ price }} USD</p>
+          </div>
+
+          <p v-else>${{ price }} USD</p>
         </div>
         <div class="game-card-publisher-icons">
           <img
@@ -62,6 +76,7 @@
           </v-dialog>
         </div>
       </div>
+      <p v-if="sale > 0" class="home-page-discount">- {{ sale }} %</p>
     </div>
   </div>
 </template>
@@ -86,6 +101,7 @@ export default {
     id: String,
     color: String,
     highlighted: Number,
+    sale: Number,
   },
   methods: {
     deleteGame(id) {
@@ -102,3 +118,24 @@ export default {
 };
 </script>
 
+<style scoped>
+.text-sale {
+  text-decoration: line-through;
+}
+
+.home-page-discount {
+  font-size: 1.5rem;
+  font-weight: 300;
+  height: 3rem;
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-left: 19rem;
+  padding-top: 0.4rem;
+  margin-right: 6rem;
+  border-color: #49a82c;
+  border-style: solid;
+  border-width: thin;
+  color: #49a82c;
+  width: 20%;
+}
+</style>

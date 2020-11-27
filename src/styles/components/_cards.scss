@@ -13,7 +13,13 @@
     background-size: cover;
     box-shadow: 0 0.5px 2rem red;
     cursor: pointer;
+    transition: 0.5s;
 }
+.game-image:hover {
+    @include custom-image(47rem, 27rem, #2E10FC, 4rem);
+}
+
+
 
 .game-info {
     @include game-info(2.5rem);
@@ -73,8 +79,14 @@
     align-items: flex-end;
     box-shadow: 0 0.5px 2rem blue;
     cursor: pointer;
+    transition: 0.5s;
     // background-position: ;
 }
+
+.game-image-latest-releases:hover {
+    @include custom-image(75rem, 67rem, #2E10FC, 4rem);
+}
+
 
 .game-description {
     color: white;
@@ -103,6 +115,11 @@
     border-radius: 4rem;
     background-size: cover;
     cursor: pointer;
+    transition: 0.2s;
+}
+.card-sale-carousel:hover {
+    width: 83%;
+    height: 52rem;
 }
 
 // Card Sale List
@@ -118,17 +135,19 @@
     margin-top: 5rem;
     padding: 1rem;
     cursor: pointer;
+    transition: 0.5s;
+}
+.card-sale-list:hover {
+    width: 71%;
 
 }
-
 //Card Sale Image 
 .card-sale-image {
     height: 17.5rem;
     width: 90%;
     margin-right: 3.3rem;
     margin-top: 0.2rem;
-
-
+    transition: 0.5s;
 }
 
 .card-carousel-data {

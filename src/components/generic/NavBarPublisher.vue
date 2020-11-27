@@ -8,9 +8,9 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/">Inicio</router-link>
-        <router-link to="/">Administar Cuentas</router-link>
-        <router-link to="/publisher/games/1">Administar Juegos</router-link>
+        <router-link to="/">Administrar Cuenta</router-link>
+        <router-link to="/">Dashboard</router-link>
+        <router-link to="/publisher/games/1">Administrar Juegos</router-link>
       </header>
     </div>
   </div>
