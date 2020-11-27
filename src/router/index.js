@@ -12,8 +12,12 @@ import Highlight from "@/views/Highlight.vue";
 import PublisherAddGame from "@/views/PublisherAddGame.vue";
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
+<<<<<<< HEAD
 import Game from "@/views/Game.vue"
 
+=======
+import PageNotFound from "@/views/PageNotFound.vue";
+>>>>>>> 5f9d80532b30a07d50be05bb9c4865e3bf4aa5cc
 
 Vue.use(VueRouter);
 
@@ -93,6 +97,11 @@ const routes = [
     name: "Game",
     component: Game,
   },
+  {
+    path: "*",
+    name: "PageNotFound",
+    component: PageNotFound
+  }
 
 ];
 const router = new VueRouter({

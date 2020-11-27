@@ -57,7 +57,7 @@ export default {
   watch: {
     errores: function(val) {
       if (val === 404) {
-        this.$router.push({ path: "/" });
+        this.$router.push({ path: "*" });
       }
     },
   },

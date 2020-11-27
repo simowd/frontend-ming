@@ -95,28 +95,31 @@
               <v-dialog
                 ref="dialog"
                 v-model="modal"
-                :return-value.sync="date"
+                :return-value.sync="localDate"
                 persistent
                 width="290px"
                 color="#707070"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="date"
-                    label="Lanzamiento"
+                    v-model="localDate"
                     prepend-icon="mdi-calendar"
+                    label="Lanzamiento"
                     readonly
-                    v-bind="attrs"
                     v-on="on"
                     color="#707070"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="date" scrollable color="#707070">
+                <v-date-picker v-model="localDate" scrollable color="#707070">
                   <v-spacer></v-spacer>
                   <v-btn text color="#707070" @click="modal = false">
-                    Cancel
+                    Cancelar
                   </v-btn>
-                  <v-btn text color="#707070" @click="$refs.dialog.save(date)">
+                  <v-btn
+                    text
+                    color="#707070"
+                    @click="$refs.dialog.save(localDate)"
+                  >
                     OK
                   </v-btn>
                 </v-date-picker>
@@ -141,26 +144,138 @@
         <v-col :cols="6">
           <div class="add-publisher-forms-container" justify-center>
             <div>
-              <v-text-field
-                :rules="[rules.required]"
-                label="Procesador"
+              <v-btn
+                :loading="loading"
+                :disabled="loading"
                 outlined
                 color="#707070"
-              ></v-text-field>
+                class="ma-2"
+                @click="
+                  showWindows();
+                  loader = 'loading';
+                "
+              >
+                Windows
+                <v-icon right>
+                  mdi-microsoft-windows
+                </v-icon>
+              </v-btn>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Memoria"
-                outlined
-                color="#707070"
-              ></v-text-field>
+              <div v-if="windows == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.processor"
+                ></v-text-field>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Gráficos"
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.graphics"
+                ></v-text-field>
+              </div>
+            </div>
+
+            <div>
+              <v-btn
+                :loading="loading2"
+                :disabled="loading2"
                 outlined
                 color="#707070"
-              ></v-text-field>
+                class="ma-2"
+                @click="
+                  showMacOS();
+                  loader = 'loading2';
+                "
+              >
+                MacOS
+                <v-icon right>
+                  mdi-apple
+                </v-icon>
+              </v-btn>
+
+              <div v-if="macos == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.processor"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.graphics"
+                ></v-text-field>
+              </div>
+            </div>
+
+            <div>
+              <v-btn
+                :loading="loading1"
+                :disabled="loading1"
+                outlined
+                color="#707070"
+                class="ma-2"
+                @click="
+                  showLinux();
+                  loader = 'loading1';
+                "
+              >
+                Linux
+                <v-icon right>
+                  mdi-ubuntu
+                </v-icon>
+              </v-btn>
+
+              <div v-if="linux == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.processor"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.graphics"
+                ></v-text-field>
+              </div>
             </div>
 
             <v-combobox
@@ -176,18 +291,18 @@
               id="directx"
               @change="DirectXValue"
             ></v-combobox>
-              {{DirectXArray}}
+
             <v-text-field
               :rules="[rules.required]"
               label="Precio"
               outlined
               color="#707070"
               id="price"
-              v-model="gameInfo.price"
+              v-model.number="gameInfo.price"
+              @keypress="isNumber($event)"
             ></v-text-field>
 
             <v-file-input
-              v-model="imageFiles"
               color="#707070"
               counter
               label="Seleccione las Imágenes"
@@ -212,7 +327,6 @@
             </v-file-input>
 
             <v-file-input
-              v-model="files"
               color="#707070"
               counter
               label="Seleccione los Archivos del Juego"
@@ -241,6 +355,7 @@
                 mode="hexa"
                 hide-mode-switch="true"
                 width="400"
+                v-model="ColorValue"
               ></v-color-picker>
             </v-layout>
 
@@ -254,7 +369,7 @@
               >
                 Crear
               </v-btn>
-              {{ gameInfo }}
+
             </v-layout>
           </div>
         </v-col>
@@ -268,38 +383,67 @@ import { URLBACKEND } from "@/assets/url.js";
 import axios from "axios";
 
 export default {
+  props: ["date"],
   name: "AddGameForm",
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
       modal: false,
+      localDate: this.date,
+      ColorValue: null,
       files: [],
       imageFiles: [],
       languageList: [],
       genresList: [],
       categoryList: null,
-      directxList:[],
+      directxList: [],
+      loader: null,
+      loading: false,
+      loading1: false,
+      loading2: false,
+      windows: false,
+      macos: false,
+      linux: false,
+      countWindows: 0,
+      countLinux: 0,
+      countMacOS: 0,
       gameInfo: {
         idEsrb: 0,
         title: null,
         game_description: null,
         size: null,
         players: null,
-        requirements: null,
+        requirements: [],
         release_date: null,
         color: null,
         highlighted: 0,
-        download_path: null,
-        images: null,
+        download_path: "",
+        images: [],
         developer: null,
         directx: [],
-        operatingSystem: null,
+        operatingSystem: [1, 2, 3],
         languageGames: [],
         genreGames: [],
-        price: null,
+        price: 0,
         sale: 0,
       },
-
+      rbWindows: {
+        idOperatingSystem: 1,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
+      rbLinux: {
+        idOperatingSystem: 2,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
+      rbMacOS: {
+        idOperatingSystem: 3,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
       languagesInfo: null,
       languages: [],
       LanguageArray: [],
@@ -345,28 +489,28 @@ export default {
   methods: {
     create() {
       axios
-        .post("http://" + URLBACKEND + "/ming/v1/publisher", this.infoUser)
-        .then((response) => (this.infoUser = response.data));
+        .post("http://" + URLBACKEND + "/ming/v1/publisher/1/game", this.gameInfo)
+        .then((response) => (this.gameInfo = response.data));
     },
     verify() {
-      if (this.gameInfo.username === null) {
-        alert("Falta el Nombre de Usuario");
-      } else if (this.gameInfo.email === null) {
-        alert("Falta el Correo Electrónico");
-      } else if (this.gameInfo.paypal === null) {
-        alert("Falta el Correo de PayPal");
-      } else if (this.gameInfo.publisher === null) {
-        alert("Falta el Editor");
-      } else if (this.gameInfo.idCountry === null) {
-        alert("Falta el País");
-      } else if (this.gameInfo.password === null) {
-        alert("Falta la Contraseña");
-      } else if (this.gameInfo.idCountry <= 0) {
-        alert("Ese País no existe");
-      } else {
-        alert("Editor Creado");
-        this.create();
-      }
+      // if (this.gameInfo.username === null) {
+      //   alert("Falta el Nombre de Usuario");
+      // } else if (this.gameInfo.email === null) {
+      //   alert("Falta el Correo Electrónico");
+      // } else if (this.gameInfo.paypal === null) {
+      //   alert("Falta el Correo de PayPal");
+      // } else if (this.gameInfo.publisher === null) {
+      //   alert("Falta el Editor");
+      // } else if (this.gameInfo.idCountry === null) {
+      //   alert("Falta el País");
+      // } else if (this.gameInfo.password === null) {
+      //   alert("Falta la Contraseña");
+      // } else if (this.gameInfo.idCountry <= 0) {
+      //   alert("Ese País no existe");
+      // } else {
+      alert("Juego Creado");
+      this.create();
+      // }
     },
     languagesValue(values) {
       this.languageList = [];
@@ -431,6 +575,40 @@ export default {
       });
       this.gameInfo.directx = this.directxList;
     },
+    isNumber: function(evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        charCode !== 46
+      ) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    showWindows() {
+      this.windows = !this.windows;
+      this.countWindows++;
+      if (this.countWindows === 1) {
+        this.gameInfo.requirements.push(this.rbWindows);
+      }
+    },
+    showLinux() {
+      this.linux = !this.linux;
+      this.countLinux++;
+      if (this.countLinux === 1) {
+        this.gameInfo.requirements.push(this.rbLinux);
+      }
+    },
+    showMacOS() {
+      this.macos = !this.macos;
+      this.countMacOS++;
+      if (this.countMacOS === 1) {
+        this.gameInfo.requirements.push(this.rbMacOS);
+      }
+    },
   },
   watch: {
     genresInfo: function(val) {
@@ -476,6 +654,21 @@ export default {
         });
       }
     },
+    localDate() {
+      this.$emit("update", this.localDate);
+      this.gameInfo.release_date = this.localDate;
+    },
+    ColorValue() {
+      this.gameInfo.color = this.ColorValue.hexa;
+    },
+    loader() {
+      const l = this.loader;
+      this[l] = !this[l];
+
+      setTimeout(() => (this[l] = false), 500);
+
+      this.loader = null;
+    },
   },
 };
 </script>
@@ -488,5 +681,42 @@ export default {
 }
 .picker-container {
   margin-top: 3rem;
+}
+
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
