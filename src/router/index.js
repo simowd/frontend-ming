@@ -12,6 +12,7 @@ import Highlight from "@/views/Highlight.vue";
 import PublisherAddGame from "@/views/PublisherAddGame.vue";
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
+import Game from "@/views/Game.vue"
 
 
 Vue.use(VueRouter);
@@ -86,6 +87,11 @@ const routes = [
     path: "/publisher/games/:id",
     name: "publisherGames",
     component: PublisherGames,
+  },
+  {
+    path: "/games/:id",
+    name: "Game",
+    component: Game,
   },
 
 ];
