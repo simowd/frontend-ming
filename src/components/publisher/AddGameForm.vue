@@ -143,115 +143,139 @@
         </v-col>
         <v-col :cols="6">
           <div class="add-publisher-forms-container" justify-center>
-            <v-btn
-              :loading="loading"
-              :disabled="loading"
-              outlined
-              color="#707070"
-              class="ma-2"
-              @click="showWindows(); loader = 'loading'"
-            >
-              Windows
-              <v-icon right>
-                mdi-microsoft-windows
-              </v-icon>
-            </v-btn>
-
-            <div v-if="windows == true">
-              <v-text-field
-                :rules="[rules.required]"
-                label="Windows - Procesador"
+            <div>
+              <v-btn
+                :loading="loading"
+                :disabled="loading"
                 outlined
                 color="#707070"
-              ></v-text-field>
+                class="ma-2"
+                @click="
+                  showWindows();
+                  loader = 'loading';
+                "
+              >
+                Windows
+                <v-icon right>
+                  mdi-microsoft-windows
+                </v-icon>
+              </v-btn>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Windows - Memoria"
-                outlined
-                color="#707070"
-              ></v-text-field>
+              <div v-if="windows == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.processor"
+                ></v-text-field>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Windows - Gráficos"
-                outlined
-                color="#707070"
-              ></v-text-field>
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Windows - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbWindows.graphics"
+                ></v-text-field>
+              </div>
             </div>
 
-            <v-btn
-              :loading="loading1"
-              :disabled="loading1"
-              outlined
-              color="#707070"
-              class="ma-2"
-              @click="showMacOS(); loader = 'loading1'"
-            >
-              MacOS
-              <v-icon right>
-                mdi-apple
-              </v-icon>
-            </v-btn>
-
-            <div v-if="macos == true">
-              <v-text-field
-                :rules="[rules.required]"
-                label="MacOS - Procesador"
+            <div>
+              <v-btn
+                :loading="loading2"
+                :disabled="loading2"
                 outlined
                 color="#707070"
-              ></v-text-field>
+                class="ma-2"
+                @click="
+                  showMacOS();
+                  loader = 'loading2';
+                "
+              >
+                MacOS
+                <v-icon right>
+                  mdi-apple
+                </v-icon>
+              </v-btn>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="MacOS - Memoria"
-                outlined
-                color="#707070"
-              ></v-text-field>
+              <div v-if="macos == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.processor"
+                ></v-text-field>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="MacOS - Gráficos"
-                outlined
-                color="#707070"
-              ></v-text-field>
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="MacOS - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbMacOS.graphics"
+                ></v-text-field>
+              </div>
             </div>
 
-            <v-btn
-              :loading="loading2"
-              :disabled="loading2"
-              outlined
-              color="#707070"
-              class="ma-2"
-              @click="showLinux(); loader = 'loading2'"
-            >
-              Linux
-              <v-icon right>
-                mdi-ubuntu
-              </v-icon>
-            </v-btn>
-
-            <div v-if="linux == true">
-              <v-text-field
-                :rules="[rules.required]"
-                label="Linux - Procesador"
+            <div>
+              <v-btn
+                :loading="loading1"
+                :disabled="loading1"
                 outlined
                 color="#707070"
-              ></v-text-field>
+                class="ma-2"
+                @click="
+                  showLinux();
+                  loader = 'loading1';
+                "
+              >
+                Linux
+                <v-icon right>
+                  mdi-ubuntu
+                </v-icon>
+              </v-btn>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Linux - Memoria"
-                outlined
-                color="#707070"
-              ></v-text-field>
+              <div v-if="linux == true">
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Procesador"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.processor"
+                ></v-text-field>
 
-              <v-text-field
-                :rules="[rules.required]"
-                label="Linux - Gráficos"
-                outlined
-                color="#707070"
-              ></v-text-field>
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Memoria"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.memory"
+                ></v-text-field>
+
+                <v-text-field
+                  :rules="[rules.required]"
+                  label="Linux - Gráficos"
+                  outlined
+                  color="#707070"
+                  v-model="rbLinux.graphics"
+                ></v-text-field>
+              </div>
             </div>
 
             <v-combobox
@@ -345,7 +369,7 @@
               >
                 Crear
               </v-btn>
-              {{ gameInfo }}
+
             </v-layout>
           </div>
         </v-col>
@@ -379,6 +403,9 @@ export default {
       windows: false,
       macos: false,
       linux: false,
+      countWindows: 0,
+      countLinux: 0,
+      countMacOS: 0,
       gameInfo: {
         idEsrb: 0,
         title: null,
@@ -399,8 +426,20 @@ export default {
         price: 0,
         sale: 0,
       },
-      rb: {
-        idOperatingSystem: null,
+      rbWindows: {
+        idOperatingSystem: 1,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
+      rbLinux: {
+        idOperatingSystem: 2,
+        processor: null,
+        memory: null,
+        graphics: null,
+      },
+      rbMacOS: {
+        idOperatingSystem: 3,
         processor: null,
         memory: null,
         graphics: null,
@@ -450,28 +489,28 @@ export default {
   methods: {
     create() {
       axios
-        .post("http://" + URLBACKEND + "/ming/v1/publisher", this.infoUser)
-        .then((response) => (this.infoUser = response.data));
+        .post("http://" + URLBACKEND + "/ming/v1/publisher/1/game", this.gameInfo)
+        .then((response) => (this.gameInfo = response.data));
     },
     verify() {
-      if (this.gameInfo.username === null) {
-        alert("Falta el Nombre de Usuario");
-      } else if (this.gameInfo.email === null) {
-        alert("Falta el Correo Electrónico");
-      } else if (this.gameInfo.paypal === null) {
-        alert("Falta el Correo de PayPal");
-      } else if (this.gameInfo.publisher === null) {
-        alert("Falta el Editor");
-      } else if (this.gameInfo.idCountry === null) {
-        alert("Falta el País");
-      } else if (this.gameInfo.password === null) {
-        alert("Falta la Contraseña");
-      } else if (this.gameInfo.idCountry <= 0) {
-        alert("Ese País no existe");
-      } else {
-        alert("Editor Creado");
-        this.create();
-      }
+      // if (this.gameInfo.username === null) {
+      //   alert("Falta el Nombre de Usuario");
+      // } else if (this.gameInfo.email === null) {
+      //   alert("Falta el Correo Electrónico");
+      // } else if (this.gameInfo.paypal === null) {
+      //   alert("Falta el Correo de PayPal");
+      // } else if (this.gameInfo.publisher === null) {
+      //   alert("Falta el Editor");
+      // } else if (this.gameInfo.idCountry === null) {
+      //   alert("Falta el País");
+      // } else if (this.gameInfo.password === null) {
+      //   alert("Falta la Contraseña");
+      // } else if (this.gameInfo.idCountry <= 0) {
+      //   alert("Ese País no existe");
+      // } else {
+      alert("Juego Creado");
+      this.create();
+      // }
     },
     languagesValue(values) {
       this.languageList = [];
@@ -550,13 +589,25 @@ export default {
       }
     },
     showWindows() {
-      this.windows=!this.windows;
-    },
-    showMacOS() {
-      this.macos=!this.macos;
+      this.windows = !this.windows;
+      this.countWindows++;
+      if (this.countWindows === 1) {
+        this.gameInfo.requirements.push(this.rbWindows);
+      }
     },
     showLinux() {
-      this.linux=!this.linux;
+      this.linux = !this.linux;
+      this.countLinux++;
+      if (this.countLinux === 1) {
+        this.gameInfo.requirements.push(this.rbLinux);
+      }
+    },
+    showMacOS() {
+      this.macos = !this.macos;
+      this.countMacOS++;
+      if (this.countMacOS === 1) {
+        this.gameInfo.requirements.push(this.rbMacOS);
+      }
     },
   },
   watch: {
