@@ -160,21 +160,21 @@
             <div v-if="windows == true">
               <v-text-field
                 :rules="[rules.required]"
-                label="Procesador"
+                label="Windows - Procesador"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Memoria"
+                label="Windows - Memoria"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Gráficos"
+                label="Windows - Gráficos"
                 outlined
                 color="#707070"
               ></v-text-field>
@@ -197,21 +197,21 @@
             <div v-if="macos == true">
               <v-text-field
                 :rules="[rules.required]"
-                label="Procesador"
+                label="MacOS - Procesador"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Memoria"
+                label="MacOS - Memoria"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Gráficos"
+                label="MacOS - Gráficos"
                 outlined
                 color="#707070"
               ></v-text-field>
@@ -234,21 +234,21 @@
             <div v-if="linux == true">
               <v-text-field
                 :rules="[rules.required]"
-                label="Procesador"
+                label="Linux - Procesador"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Memoria"
+                label="Linux - Memoria"
                 outlined
                 color="#707070"
               ></v-text-field>
 
               <v-text-field
                 :rules="[rules.required]"
-                label="Gráficos"
+                label="Linux - Gráficos"
                 outlined
                 color="#707070"
               ></v-text-field>
@@ -609,7 +609,7 @@ export default {
       const l = this.loader;
       this[l] = !this[l];
 
-      setTimeout(() => (this[l] = false), 400);
+      setTimeout(() => (this[l] = false), 500);
 
       this.loader = null;
     },
