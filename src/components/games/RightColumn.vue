@@ -36,13 +36,13 @@
     <h2>
       Fecha de lanzamiento:
       <span class="text">
-        {{ game.releaseDate.substr(0, game.releaseDate.indexOf(" ")) }}
+        {{ date }}
       </span>
     </h2>
 
     <h1>Requerimientos Mínimos</h1>
 
-    <v-tabs v-model="tab" background-color="transparent" grow>
+    <v-tabs v-model="tab" background-color="transparent" grow color=" #66698c">
       <v-tab v-for="item in game.gameRequirements" :key="item.index">
         {{ item.operatingSystem }}
       </v-tab>
@@ -64,10 +64,6 @@
         </h2>
         <h2 v-if="item.graphics != null">
           Gráficos:
-          <span class="text"> {{ item.graphics }} </span>
-        </h2>
-        <h2 v-if="item.graphics != null">
-          Almacenamiento:
           <span class="text"> {{ item.graphics }} </span>
         </h2>
       </v-tab-item>
@@ -96,12 +92,15 @@
 </template>
 
 <script>
+import * as dayjs from 'dayjs'
+
 export default {
   name: "RightColumn",
   props: ["game"],
   data() {
     return {
       tab: null,
+      date: dayjs(this.game.releaseDate).format('DD/MM/YYYY')
     };
   },
 };
