@@ -9,13 +9,13 @@
         <div class="image-overlay"></div>
         <div class="content-highlight" v-if="gameInfo.length > 0">
             <NavBar :color="gameInfo[index].color" :linkColor="white" />
-            <div class="up-arrow" @click="minusIndex" @keyup.up="minusIndex">
-                <img src="@/assets/up.png" />
+            <div class="up-arrow"  @keyup.up="minusIndex" v-if="index > 0">
+                <img src="@/assets/up.png" @click="minusIndex"/>
             </div>
         </div>
         <v-layout justify-center>
-            <div class="down-arrow" @click="addIndex" @keyup.down="addIndex">
-                <img src="@/assets/down.png" />
+            <div class="down-arrow"  @keyup.down="addIndex" v-if="index < gameInfo.length-1">
+                <img src="@/assets/down.png" @click="addIndex" />
             </div>
         </v-layout>
         <div class="all-content" v-if="gameInfo.length > 0">
@@ -29,7 +29,7 @@
                         {{ gameInfo[index].description }}
                     </h3>
                     <v-layout justify-center>
-                    <v-btn outlined color="white" class="ma-5" width="200" height="50" x-large>
+                    <v-btn outlined color="white" class="ma-5" width="200" height="50" x-large @click="game">
                         Detalles
                     </v-btn>
                     </v-layout>
@@ -78,6 +78,9 @@ export default {
                 this.index--;
             }
         },
+        game(){
+            this.$router.push("/games/" + this.gameInfo[this.index].id);
+        }
     },
     watch: {
         index: function(val) {
@@ -126,7 +129,7 @@ export default {
 
 .up-arrow {
     text-align: center;
-    padding-top: 2rem;
+    padding-top: 1rem;
     z-index: 5;
     cursor: pointer;
 }

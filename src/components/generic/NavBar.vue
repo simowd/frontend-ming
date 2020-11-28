@@ -8,7 +8,7 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/" :style="{'color': linkColor, 'color': colorDos}">Tienda</router-link>
+        <router-link to="/" :style="{'color': linkColor}">Tienda</router-link>
         <router-link to="/highlights" :style="{'color': color}">Destacados</router-link>
         <router-link to="/Sale" :style="{'color': linkColor}">Ofertas</router-link>
         <router-link to="/Latest-release" :style="{'color': linkColor}">Últimos Lanzamientos</router-link>
