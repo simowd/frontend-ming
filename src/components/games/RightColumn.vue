@@ -51,7 +51,7 @@
     <v-tabs-items v-model="tab" class="transparent-body">
       <v-tab-item
         v-for="item in game.gameRequirements"
-        :key="item"
+        :key="item.index"
         class="transparent-body"
       >
         <h2 v-if="item.processor != null">
@@ -64,6 +64,10 @@
         </h2>
         <h2 v-if="item.graphics != null">
           Gráficos:
+          <span class="text"> {{ item.graphics }} </span>
+        </h2>
+        <h2 v-if="item.graphics != null">
+          Almacenamiento:
           <span class="text"> {{ item.graphics }} </span>
         </h2>
       </v-tab-item>
