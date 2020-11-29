@@ -370,7 +370,6 @@
                 Crear
               </v-btn>
             </v-layout>
-            {{gameInfo}}
           </div>
         </v-col>
       </v-row>
@@ -497,24 +496,8 @@ export default {
         .then((response) => (this.gameInfo = response.data));
     },
     verify() {
-      // if (this.gameInfo.username === null) {
-      //   alert("Falta el Nombre de Usuario");
-      // } else if (this.gameInfo.email === null) {
-      //   alert("Falta el Correo Electrónico");
-      // } else if (this.gameInfo.paypal === null) {
-      //   alert("Falta el Correo de PayPal");
-      // } else if (this.gameInfo.publisher === null) {
-      //   alert("Falta el Editor");
-      // } else if (this.gameInfo.idCountry === null) {
-      //   alert("Falta el País");
-      // } else if (this.gameInfo.password === null) {
-      //   alert("Falta la Contraseña");
-      // } else if (this.gameInfo.idCountry <= 0) {
-      //   alert("Ese País no existe");
-      // } else {
       this.create();
       alert("Juego Creado");
-      // }
     },
     languagesValue(values) {
       this.languageList = [];
