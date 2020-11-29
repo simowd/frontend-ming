@@ -144,6 +144,87 @@
         <v-col :cols="6">
           <div class="add-publisher-forms-container" justify-center>
             <div>
+              <v-combobox
+                dense
+                outlined
+                color="#707070"
+                item-color="#707070"
+                :items="directx"
+                label="DirectX"
+                multiple
+                small-chips
+                deletable-chips="true"
+                id="directx"
+                @change="DirectXValue"
+              ></v-combobox>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Precio"
+                outlined
+                color="#707070"
+                id="price"
+                v-model.number="gameInfo.price"
+                @keypress="isNumber($event)"
+              ></v-text-field>
+
+              <v-file-input
+                color="#707070"
+                counter
+                label="Seleccione las Imágenes"
+                multiple
+                prepend-icon="mdi-image-plus"
+                outlined
+                :show-size="1000"
+                accept="image/png, image/jpeg, image/bmp"
+              >
+                <template v-slot:selection="{ index, text }">
+                  <v-chip v-if="index < 5" color="#707070" dark label small>
+                    {{ text }}
+                  </v-chip>
+
+                  <span
+                    v-else-if="index === 2"
+                    class="overline grey--text text--darken-3 mx-2"
+                  >
+                    +{{ files.length - 2 }} File(s)
+                  </span>
+                </template>
+              </v-file-input>
+
+              <v-file-input
+                color="#707070"
+                counter
+                label="Seleccione los Archivos del Juego"
+                multiple
+                prepend-icon="mdi-paperclip"
+                outlined
+                :show-size="1000"
+              >
+                <template v-slot:selection="{ index, text }">
+                  <v-chip v-if="index < 5" color="#707070" dark label small>
+                    {{ text }}
+                  </v-chip>
+
+                  <span
+                    v-else-if="index === 2"
+                    class="overline grey--text text--darken-3 mx-2"
+                  >
+                    +{{ files.length - 2 }} File(s)
+                  </span>
+                </template>
+              </v-file-input>
+
+              <v-layout justify-center class="picker-container">
+                <v-color-picker
+                  dot-size="2rem"
+                  mode="hexa"
+                  hide-mode-switch="true"
+                  width="400"
+                  v-model="ColorValue"
+                ></v-color-picker>
+              </v-layout>
+
               <v-btn
                 :loading="loading"
                 :disabled="loading"
@@ -278,87 +359,6 @@
               </div>
             </div>
 
-            <v-combobox
-              dense
-              outlined
-              color="#707070"
-              item-color="#707070"
-              :items="directx"
-              label="DirectX"
-              multiple
-              small-chips
-              deletable-chips="true"
-              id="directx"
-              @change="DirectXValue"
-            ></v-combobox>
-
-            <v-text-field
-              :rules="[rules.required]"
-              label="Precio"
-              outlined
-              color="#707070"
-              id="price"
-              v-model.number="gameInfo.price"
-              @keypress="isNumber($event)"
-            ></v-text-field>
-
-            <v-file-input
-              color="#707070"
-              counter
-              label="Seleccione las Imágenes"
-              multiple
-              prepend-icon="mdi-image-plus"
-              outlined
-              :show-size="1000"
-              accept="image/png, image/jpeg, image/bmp"
-            >
-              <template v-slot:selection="{ index, text }">
-                <v-chip v-if="index < 5" color="#707070" dark label small>
-                  {{ text }}
-                </v-chip>
-
-                <span
-                  v-else-if="index === 2"
-                  class="overline grey--text text--darken-3 mx-2"
-                >
-                  +{{ files.length - 2 }} File(s)
-                </span>
-              </template>
-            </v-file-input>
-
-            <v-file-input
-              color="#707070"
-              counter
-              label="Seleccione los Archivos del Juego"
-              multiple
-              prepend-icon="mdi-paperclip"
-              outlined
-              :show-size="1000"
-            >
-              <template v-slot:selection="{ index, text }">
-                <v-chip v-if="index < 5" color="#707070" dark label small>
-                  {{ text }}
-                </v-chip>
-
-                <span
-                  v-else-if="index === 2"
-                  class="overline grey--text text--darken-3 mx-2"
-                >
-                  +{{ files.length - 2 }} File(s)
-                </span>
-              </template>
-            </v-file-input>
-
-            <v-layout justify-center class="picker-container">
-              <v-color-picker
-                dot-size="2rem"
-                mode="hexa"
-                hide-mode-switch="true"
-                width="400"
-                v-model="ColorValue"
-              ></v-color-picker>
-            </v-layout>
-
             <v-layout justify-center>
               <v-btn
                 class="ma-2"
@@ -369,12 +369,12 @@
               >
                 Crear
               </v-btn>
-
             </v-layout>
           </div>
         </v-col>
       </v-row>
     </v-container>
+    
   </div>
 </template>
 
@@ -420,7 +420,7 @@ export default {
         images: [],
         developer: null,
         directx: [],
-        operatingSystem: [1, 2, 3],
+        operatingSystem: [],
         languageGames: [],
         genreGames: [],
         price: 0,
@@ -489,28 +489,15 @@ export default {
   methods: {
     create() {
       axios
-        .post("http://" + URLBACKEND + "/ming/v1/publisher/1/game", this.gameInfo)
+        .post(
+          "http://" + URLBACKEND + "/ming/v1/publisher/1/game",
+          this.gameInfo
+        )
         .then((response) => (this.gameInfo = response.data));
     },
     verify() {
-      // if (this.gameInfo.username === null) {
-      //   alert("Falta el Nombre de Usuario");
-      // } else if (this.gameInfo.email === null) {
-      //   alert("Falta el Correo Electrónico");
-      // } else if (this.gameInfo.paypal === null) {
-      //   alert("Falta el Correo de PayPal");
-      // } else if (this.gameInfo.publisher === null) {
-      //   alert("Falta el Editor");
-      // } else if (this.gameInfo.idCountry === null) {
-      //   alert("Falta el País");
-      // } else if (this.gameInfo.password === null) {
-      //   alert("Falta la Contraseña");
-      // } else if (this.gameInfo.idCountry <= 0) {
-      //   alert("Ese País no existe");
-      // } else {
-      alert("Juego Creado");
       this.create();
-      // }
+      alert("Juego Creado");
     },
     languagesValue(values) {
       this.languageList = [];
@@ -593,6 +580,10 @@ export default {
       this.countWindows++;
       if (this.countWindows === 1) {
         this.gameInfo.requirements.push(this.rbWindows);
+        this.gameInfo.operatingSystem.push(1);
+        this.gameInfo.operatingSystem.sort(function(a, b) {
+        return a - b;
+      });
       }
     },
     showLinux() {
@@ -600,6 +591,10 @@ export default {
       this.countLinux++;
       if (this.countLinux === 1) {
         this.gameInfo.requirements.push(this.rbLinux);
+        this.gameInfo.operatingSystem.push(2);
+        this.gameInfo.operatingSystem.sort(function(a, b) {
+        return a - b;
+      });
       }
     },
     showMacOS() {
@@ -607,6 +602,10 @@ export default {
       this.countMacOS++;
       if (this.countMacOS === 1) {
         this.gameInfo.requirements.push(this.rbMacOS);
+        this.gameInfo.operatingSystem.push(3);
+        this.gameInfo.operatingSystem.sort(function(a, b) {
+        return a - b;
+      });
       }
     },
   },
@@ -718,5 +717,11 @@ export default {
   to {
     transform: rotate(360deg);
   }
+}
+.Prueba {
+  background-color: black;
+  color: black;
+  width: 5rem;
+  height: 500rem;
 }
 </style>

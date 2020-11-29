@@ -29,6 +29,11 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
-  // color: black;
-  // background-color: black;
+}
+
+@mixin form-custom-container ($width){
+  width: $width;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
 }
