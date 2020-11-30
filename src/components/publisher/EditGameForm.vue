@@ -150,7 +150,7 @@
               label="DirectX"
               multiple
               small-chips
-              deletable-chips="true"
+              deletable-chips
               id="directx"
               @change="DirectXValue"
               v-model="this.gameEditInfo.directx"
@@ -231,7 +231,7 @@
                 <v-color-picker
                   dot-size="2rem"
                   mode="hexa"
-                  hide-mode-switch="true"
+                  hide-mode-switch
                   width="400"
                   v-model="ColorValue"
                 ></v-color-picker>
