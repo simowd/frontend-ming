@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.9.6",
     "firebase": "^8.1.1",
+    "nanoid": "^3.1.18",
     "primeicons": "^4.1.0",
     "primevue": "^3.0.1",
     "roboto-fontface": "*",

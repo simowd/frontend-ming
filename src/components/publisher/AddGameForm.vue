@@ -139,34 +139,46 @@
               id="game_description"
               v-model="gameInfo.game_description"
             ></v-textarea>
+            <v-combobox
+              dense
+              outlined
+              color="#707070"
+              item-color="#707070"
+              :items="directx"
+              label="DirectX"
+              multiple
+              small-chips
+              deletable-chips
+              id="directx"
+              @change="DirectXValue"
+            ></v-combobox>
+
+            <v-text-field
+              :rules="[rules.required]"
+              label="Precio"
+              outlined
+              color="#707070"
+              id="price"
+              v-model.number="gameInfo.price"
+              @keypress="isNumber($event)"
+            ></v-text-field>
           </div>
         </v-col>
         <v-col :cols="6">
           <div class="add-publisher-forms-container" justify-center>
             <div>
-              <v-combobox
-                dense
-                outlined
+              <v-file-input
                 color="#707070"
-                item-color="#707070"
-                :items="directx"
-                label="DirectX"
-                multiple
-                small-chips
-                deletable-chips="true"
-                id="directx"
-                @change="DirectXValue"
-              ></v-combobox>
-
-              <v-text-field
-                :rules="[rules.required]"
-                label="Precio"
+                counter
+                label="Seleccione el banner del juego"
+                prepend-icon="mdi-image-plus"
                 outlined
-                color="#707070"
-                id="price"
-                v-model.number="gameInfo.price"
-                @keypress="isNumber($event)"
-              ></v-text-field>
+                accept="image/png, image/jpeg, image/bmp"
+                :show-size="1000"
+                v-model="uploadBanner"
+                @change="subirBanner"
+              >
+              </v-file-input>
 
               <v-file-input
                 color="#707070"
@@ -177,6 +189,8 @@
                 outlined
                 :show-size="1000"
                 accept="image/png, image/jpeg, image/bmp"
+                v-model="imageFiles"
+                @change="subirImage"
               >
                 <template v-slot:selection="{ index, text }">
                   <v-chip v-if="index < 5" color="#707070" dark label small>
@@ -196,10 +210,11 @@
                 color="#707070"
                 counter
                 label="Seleccione los Archivos del Juego"
-                multiple
                 prepend-icon="mdi-paperclip"
                 outlined
                 :show-size="1000"
+                v-model="uploadFile"
+                @change="subirFile"
               >
                 <template v-slot:selection="{ index, text }">
                   <v-chip v-if="index < 5" color="#707070" dark label small>
@@ -219,7 +234,7 @@
                 <v-color-picker
                   dot-size="2rem"
                   mode="hexa"
-                  hide-mode-switch="true"
+                  hide-mode-switch
                   width="400"
                   v-model="ColorValue"
                 ></v-color-picker>
@@ -374,13 +389,18 @@
         </v-col>
       </v-row>
     </v-container>
-    
   </div>
 </template>
 
 <script>
 import { URLBACKEND } from "@/assets/url.js";
+import { firebaseConfig } from "@/assets/firebaseAPI.js"
 import axios from "axios";
+
+import firebase from "firebase/app";
+import "firebase/firebase-storage";
+
+import { nanoid } from "nanoid";
 
 export default {
   props: ["date"],
@@ -391,7 +411,10 @@ export default {
       localDate: this.date,
       ColorValue: null,
       files: [],
+      uploadFile: null,
       imageFiles: [],
+      uploadImages: null,
+      uploadBanner: null,
       languageList: [],
       genresList: [],
       categoryList: null,
@@ -463,7 +486,15 @@ export default {
       rules: {
         required: (value) => !!value || "Requerido",
       },
+
+      storage: null,
+
+      upImage: [],
     };
+  },
+  created() {
+    firebase.initializeApp(firebaseConfig);
+    this.storage = firebase.storage();
   },
   mounted() {
     axios
@@ -487,6 +518,123 @@ export default {
       .then((response) => (this.directxInfo = response.data));
   },
   methods: {
+    subirFile() {
+      var self = this;
+      var storageRef = firebase.storage().ref();
+      console.log(storageRef);
+      var type = this.uploadFile.name.split(".").pop();
+      var nuid = nanoid();
+      var uploadTask = storageRef
+        .child("files/" + nuid + "." + type)
+        .put(this.uploadFile);
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          console.log(error);
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log("File available at", downloadURL);
+            self.gameInfo.download_path = downloadURL;
+          });
+        }
+      );
+    },
+    subirImage() {
+      if (this.gameInfo.images.length > 1) {
+        this.gameInfo.images = [];
+        this.subirBanner();
+      }
+
+      var self = this;
+      this.imageFiles.map(function(image, index) {
+        console.log(index)
+        console.log(image)
+        var storageRef1 = firebase.storage().ref();
+        let type = image.name.split(".").pop();
+        let nuid = nanoid();
+        var uploadTask1 = storageRef1
+          .child("images/" + nuid + "." + type)
+          .put(image);
+        uploadTask1.on(
+          "state_changed",
+          function(snapshot) {
+            var progress1 =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress1 + "% done");
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log("Upload is paused");
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log("Upload is running");
+                break;
+            }
+          },
+          function(error) {
+            console.log(error);
+          },
+          function() {
+            uploadTask1.snapshot.ref
+              .getDownloadURL()
+              .then(function(downloadURL) {
+                console.log("File available at", downloadURL);
+                self.gameInfo.images.push(downloadURL);
+              });
+          }
+        );
+      });
+    },
+    subirBanner() {
+      var self = this;
+      var storageRef2 = firebase.storage().ref();
+      var type2 = this.uploadBanner.name.split(".").pop();
+      var nuid2 = nanoid();
+      console.log(this.uploadBanner);
+      var uploadTask2 = storageRef2
+        .child("images/" + nuid2 + "." + type2)
+        .put(this.uploadBanner);
+      uploadTask2.on(
+        "state_changed",
+        async function(snapshot) {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          console.log(error);
+        },
+        async function() {
+          uploadTask2.snapshot.ref
+            .getDownloadURL()
+            .then(async function(downloadURL) {
+              console.log("File available at", downloadURL);
+              await self.gameInfo.images.splice(0, 0, downloadURL);
+            });
+        }
+      );
+    },
     create() {
       axios
         .post(
@@ -496,6 +644,7 @@ export default {
         .then((response) => (this.gameInfo = response.data));
     },
     verify() {
+      console.log(this.gameInfo);
       this.create();
       alert("Juego Creado");
     },
@@ -582,8 +731,8 @@ export default {
         this.gameInfo.requirements.push(this.rbWindows);
         this.gameInfo.operatingSystem.push(1);
         this.gameInfo.operatingSystem.sort(function(a, b) {
-        return a - b;
-      });
+          return a - b;
+        });
       }
     },
     showLinux() {
@@ -593,8 +742,8 @@ export default {
         this.gameInfo.requirements.push(this.rbLinux);
         this.gameInfo.operatingSystem.push(2);
         this.gameInfo.operatingSystem.sort(function(a, b) {
-        return a - b;
-      });
+          return a - b;
+        });
       }
     },
     showMacOS() {
@@ -604,8 +753,8 @@ export default {
         this.gameInfo.requirements.push(this.rbMacOS);
         this.gameInfo.operatingSystem.push(3);
         this.gameInfo.operatingSystem.sort(function(a, b) {
-        return a - b;
-      });
+          return a - b;
+        });
       }
     },
   },
