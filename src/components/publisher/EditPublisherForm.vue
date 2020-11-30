@@ -110,6 +110,7 @@ export default {
         repeat_password: null,
       },
       countriesInfo: null,
+      idUser: null,
       countries: [],
       country: "",
       show1: false,
@@ -129,13 +130,15 @@ export default {
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => (this.countriesInfo = response.data));
     axios
-      .get("http://" + URLBACKEND + "/ming/v1/publisher/4")
-      .then((response) => (this.infoUser = response.data));
+      .get("http://" + URLBACKEND + "/ming/v1/publisher/"+this.$route.params.id)
+      .then((response) => {
+        this.infoUser = response.data;
+        this.idUser= this.infoUser.idUser})
   },
   methods: {
     create() {
       axios
-        .put("http://" + URLBACKEND + "/ming/v1/publisher/4", this.infoUser)
+        .put("http://" + URLBACKEND + "/ming/v1/publisher/"+this.idUser, this.infoUser)
         .then((response) => (this.infoUser = response.data));
     },
     verify() {

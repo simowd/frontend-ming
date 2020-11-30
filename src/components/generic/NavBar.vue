@@ -7,6 +7,7 @@
           width="50rem"
           height="60rem"
           class="image-nav-bar"
+          @click="HomePage" 
         />
         <router-link to="/" :style="{'color': linkColor}">Tienda</router-link>
         <router-link to="/highlights" :style="{'color': color}">Destacados</router-link>
@@ -22,7 +23,12 @@
 export default {
   name: "NavBar",
   components: {},
-  props:["color", "linkColor", "colorDos"]  
+  props:["color", "linkColor", "colorDos"],
+  methods:{
+    HomePage(){
+       this.$router.push("/");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
