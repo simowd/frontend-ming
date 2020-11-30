@@ -14,6 +14,7 @@ import PublisherEditGame from "@/views/PublisherEditGame.vue"
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
 import PublisherDashboard from "@/views/PublisherDashboard.vue";
+import EditPublisherAccount from "@/views/EditPublisherAccount.vue";
 import Game from "@/views/Game.vue"
 import PageNotFound from "@/views/PageNotFound.vue";
 
@@ -99,6 +100,11 @@ const routes = [
     path: "/publisher/dashboard/:id",
     name: "publisherDashboard",
     component: PublisherDashboard,
+  },
+  {
+    path: "/publisher/account/:id",
+    name: "editPublisherAccount",
+    component: EditPublisherAccount,
   },
   {
     path: "/games/:id",
