@@ -66,6 +66,17 @@
           Gráficos:
           <span class="text"> {{ item.graphics }} </span>
         </h2>
+        <h2>
+          Procesador de Gráficos:
+          <span
+            v-for="(gra, key) in game.direct_x"
+            :key="gra.index"
+            class="text"
+          >
+            <span v-if="key === game.direct_x.length - 1"> {{ gra.version }} </span>
+            <span v-else> {{ gra.version }} -</span>
+          </span>
+        </h2>
       </v-tab-item>
     </v-tabs-items>
     <div class="os">
@@ -92,7 +103,7 @@
 </template>
 
 <script>
-import * as dayjs from 'dayjs'
+import * as dayjs from "dayjs";
 
 export default {
   name: "RightColumn",
@@ -100,7 +111,7 @@ export default {
   data() {
     return {
       tab: null,
-      date: dayjs(this.game.releaseDate).format('DD/MM/YYYY')
+      date: dayjs(this.game.releaseDate).format("DD/MM/YYYY"),
     };
   },
 };
@@ -138,7 +149,7 @@ h1 {
   font-weight: 900;
   font-size: 2.5rem;
 }
-.os{
-    padding-top: 5rem;
+.os {
+  padding-top: 5rem;
 }
 </style>

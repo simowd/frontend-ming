@@ -431,7 +431,7 @@ export default {
         download_path: "",
         images: [],
         developer: null,
-        directx: [],
+        direct_x: [],
         operatingSystem: [],
         languageGames: [],
         genreGames: [],
@@ -618,7 +618,7 @@ export default {
       this.directxList.sort(function(a, b) {
         return a - b;
       });
-      this.gameInfo.directx = this.directxList;
+      this.gameInfo.direct_x = this.directxList;
     },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
