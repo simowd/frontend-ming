@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+#API keys
+
+/src/assets/firebaseAPI.js
