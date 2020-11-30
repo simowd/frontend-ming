@@ -42,7 +42,7 @@
             :style="{ cursor: 'pointer', marginRight: '1rem' }"
           />
 
-          <v-dialog v-model="dialog" persistent max-width="290">
+          <v-dialog v-model="dialog" persistent max-width="400">
             <template v-slot:activator="{ on, attrs }">
               <img
                 src="@/assets/delete.png"
@@ -60,7 +60,8 @@
             </template>
             <v-card>
               <v-card-title class="headline">
-                ¿Desea eliminar juego?
+                <p>  ¿Desea eliminar el juego {{title}}?</p>
+            
               </v-card-title>
 
               <v-card-actions>

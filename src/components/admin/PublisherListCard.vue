@@ -32,7 +32,7 @@
         </div>
       </v-col>
       <v-col cols="2">
-        <v-dialog v-model="dialog" persistent max-width="290">
+        <v-dialog v-model="dialog" persistent max-width="450">
           <template v-slot:activator="{ on, attrs }">
             <img
               class="logo"
