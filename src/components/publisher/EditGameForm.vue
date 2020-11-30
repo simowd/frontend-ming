@@ -153,7 +153,7 @@
               deletable-chips="true"
               id="directx"
               @change="DirectXValue"
-              v-model="this.gameEditInfo.directx"
+              v-model="this.directxGetValue"
             ></v-combobox>
 
             <v-text-field
@@ -440,6 +440,7 @@ export default {
         sale: 0,
       },
       gameEditInfo: {},
+      directxGetValue: [],
       rbWindows: {
         idOperatingSystem: 1,
         processor: null,
@@ -539,6 +540,10 @@ export default {
             }
           }
         });
+        this.gameEditInfo.direct_x.map((item) => {
+          this.directxGetValue.push(item.version)
+        });
+        this.DirectXValue(this.directxGetValue);
       });
   },
   methods: {
