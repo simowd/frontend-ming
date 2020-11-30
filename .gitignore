@@ -24,4 +24,4 @@ pnpm-debug.log*
 
 #API keys
 
-/src/assets/firebaseAPI.js
+src/assets/firebaseAPI.js
