@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <v-row no-gutters class="card-sale-list">
+      <v-row no-gutters class="card-sale-list" @click="game">
         <v-col cols="4">
           <div>
             <img class="card-sale-image" v-bind:src="banner" />
@@ -36,6 +36,13 @@
 export default {
   name: "SaleCards",
   props: ["title", "price", "banner", "id", "color", "sale", "release_date"],
+
+  methods:{
+    
+    game() {
+      this.$router.push("/games/" + this.id);
+    },
+  },
 };
 </script>
 
