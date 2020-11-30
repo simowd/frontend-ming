@@ -7,6 +7,7 @@
           width="50rem"
           height="60rem"
           class="image-nav-bar"
+          @click="HomePage"
         />
         <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
         <router-link to="/admin/publisher-list">Administrar Editores</router-link>
@@ -20,6 +21,11 @@
 export default {
   name: "NavBarAdmin",
   components: {},
+  methods:{
+    HomePage(){
+       this.$router.push("/admin/add-publisher");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

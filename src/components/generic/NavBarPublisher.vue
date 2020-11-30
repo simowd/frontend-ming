@@ -7,6 +7,7 @@
           width="50rem"
           height="60rem"
           class="image-nav-bar"
+          @click="HomePage"
         />
         <router-link to="/publisher/account/1">Administrar Cuenta</router-link>
         <router-link to="/publisher/dashboard/1">Dashboard</router-link>
@@ -20,10 +21,14 @@
 export default {
   name: "NavBarPublisher",
   components: {},
+  methods: {
+    HomePage() {
+      this.$router.push("/publisher/account/1");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-
 #nav {
   text-align: left;
 }
@@ -42,5 +47,4 @@ export default {
   color: #66698c;
   font-size: 2.5rem;
 }
-
 </style>
