@@ -382,6 +382,7 @@
                 Editar
               </v-btn>
             </v-layout>
+            {{gameInfo}}
           </div>
         </v-col>
       </v-row>
