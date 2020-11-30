@@ -4,7 +4,7 @@
         <v-row
       no-gutters
       class="card-publisher-list"
-      :style="{ height: '125rem' }"
+      :style="{ height: '140rem' }"
     >
       <v-col cols="3">
         <div>
@@ -32,7 +32,7 @@
       <v-col cols="2">
         
       </v-col>
-      <PublisherDashboard1 :id="5" />
+      <PublisherDashboard1 :id="publisherInfo.idUser" />
     </v-row>
     </div>
 </template>
@@ -56,7 +56,7 @@ export default {
     },
     mounted() {
     axios
-      .get("http://" + URLBACKEND + "/ming/v1/publisher/6")
+      .get("http://" + URLBACKEND + "/ming/v1/publisher/"+this.$route.params.id)
       .then((response) => (this.publisherInfo = response.data));
   },
 }

@@ -7,11 +7,11 @@
         Total Ganancias: ${{ dashboardInfo.earnings }} USD
       </div>
       <div class="dash">
-        <p>Ventas por Juego</p> 
+        <p>Ventas y Ganancias por Juego</p> 
         <Chart class="gdonut" type="doughnut" :data="chartData" />
-        <p>Ventas por País</p> 
+        <p>Ventas y Ganancias por País</p> 
           <Chart class="donut" type="doughnut" :data="pchartData" />
-        <p>Ventas por Mes</p> 
+        <p>Ventas y Ganancias por Mes</p> 
           <Chart class="sbar" type="bar" :data="basicData" />
       </div>
     </div>
@@ -163,7 +163,7 @@ export default {
 .paypal {
   font-size: 1.7rem;
   font-weight: 300;
-  margin-left: 21.8rem;
+  margin-left: 30.8rem;
 }
 
 .data {

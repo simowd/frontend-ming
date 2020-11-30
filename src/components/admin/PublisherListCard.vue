@@ -71,7 +71,7 @@
       no-gutters
       class="card-publisher-list"
       v-else
-      :style="{ height: '125rem' }"
+      :style="{ height: '140rem' }"
     >
       <v-col cols="3">
         <div>
