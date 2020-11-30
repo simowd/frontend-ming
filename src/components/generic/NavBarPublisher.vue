@@ -8,8 +8,8 @@
           height="60rem"
           class="image-nav-bar"
         />
-        <router-link to="/">Administrar Cuenta</router-link>
-        <router-link to="/">Dashboard</router-link>
+        <router-link to="/publisher/account/1">Administrar Cuenta</router-link>
+        <router-link to="/publisher/dashboard/1">Dashboard</router-link>
         <router-link to="/publisher/games/1">Administrar Juegos</router-link>
       </header>
     </div>

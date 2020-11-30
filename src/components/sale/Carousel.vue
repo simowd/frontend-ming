@@ -6,6 +6,7 @@
           <img
             class="card-sale-carousel"
             v-bind:src="slide.banner"
+            @click="game(slide.id)"
             :style="{
           boxShadow: '0 1px 2rem ' + slide.color + ''
         }"
@@ -60,6 +61,13 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/games?page=1&sale=true")
       .then((response) => (this.gameInfo = response.data));
+  },
+
+  methods:{
+    
+    game(id) {
+      this.$router.push("/games/" + id);
+    },
   },
 };
 </script>
