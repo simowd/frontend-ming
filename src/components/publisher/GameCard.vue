@@ -36,6 +36,7 @@
         <div class="game-card-publisher-icons">
           <img
             src="@/assets/edit.png"
+            @click="editGame(id)"
             width="35px"
             height="35px"
             :style="{ cursor: 'pointer', marginRight: '1rem' }"
@@ -113,6 +114,9 @@ export default {
         });
       // location.reload()
       this.dialog = false;
+    },
+    editGame(id) {
+      this.$router.push("/publisher/edit-game/" + id);
     },
   },
 };

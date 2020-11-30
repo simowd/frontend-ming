@@ -10,6 +10,7 @@ import PublisherList from "@/views/PublisherList.vue";
 import UserAccount from "@/views/UserAccount.vue";
 import Highlight from "@/views/Highlight.vue";
 import PublisherAddGame from "@/views/PublisherAddGame.vue";
+import PublisherEditGame from "@/views/PublisherEditGame.vue"
 import AdminGames from "@/views/AdminGames.vue";
 import PublisherGames from "@/views/PublisherGames.vue";
 import Game from "@/views/Game.vue"
@@ -77,6 +78,11 @@ const routes = [
     path: "/publisher/add-game/:id",
     name: "PublisherAddGame",
     component: PublisherAddGame,
+  },
+  {
+    path: "/publisher/edit-game/:id",
+    name: "PublisherEditGame",
+    component: PublisherEditGame,
   },
   {
     path: "/admin/games",
