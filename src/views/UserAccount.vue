@@ -2,10 +2,12 @@
   <div class="background-image">
     <NavBar />
     <v-row>
-      <v-col align="right"><img src="../assets/account_img.png" height="150px" /></v-col>
+      <v-col align="right"
+        ><img src="../assets/account_img.png" height="150px"
+      /></v-col>
       <v-col align="center">
         <p>Nombre de Usuario/Apodo</p>
-        <p v-text="username"></p>
+        <p>{{ username }} / {{ usernickname }}</p>
         <p>Correo Electronico</p>
         <p v-text="usermail"></p>
         <p>Pais</p>
@@ -79,13 +81,13 @@
 
     <v-row no-gutters>
       <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
-        <GameCard
+        <!-- <GameCard
           :title="game.title"
           :price="game.price"
           :id="game.id"
           :color="game.color"
           :banner="game.banner"
-        />
+        /> -->
       </v-col>
     </v-row>
   </div>
@@ -109,18 +111,23 @@ export default {
       page: 1,
       gameInfo: [],
       title: "",
-      username: "Fulano",
-      usernickname: "CosmeFulano",
-      usermail: "cosmefulano@yahoo.com",
-      usercountry: "Bolivia",
+      username: "Username",
+      usernickname: "NickName",
+      usermail: "sample@yahoo.com",
+      usercountry: "Some Country",
       dialogPassword: false,
       dialogProfile: false,
     };
   },
   mounted() {
-    axios
-      .get("http://" + URLBACKEND + "/ming/v1/users/1/library")
-      .then((response) => (this.gameInfo = response.data));
+    axios.get("http://" + URLBACKEND + "/ming/v1/users/1").then((response) => {
+      // this.gameInfo = response.data;
+      console.log(response.data);
+      this.username = response.data.username;
+      this.usernickname = response.data.alias;
+      this.usermail = response.data.email;
+      this.usercountry = response.data.country;
+    });
   },
   methods: {},
   watch: {
