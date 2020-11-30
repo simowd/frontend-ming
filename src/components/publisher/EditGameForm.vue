@@ -183,12 +183,25 @@
               <v-file-input
                 color="#707070"
                 counter
+                label="Seleccione el banner del juego"
+                prepend-icon="mdi-image-plus"
+                outlined
+                :show-size="1000"
+                v-model="uploadBanner"
+                @change="subirBanner"
+              >
+              </v-file-input>
+              <v-file-input
+                color="#707070"
+                counter
                 label="Seleccione las Imágenes"
                 multiple
                 prepend-icon="mdi-image-plus"
                 outlined
                 :show-size="1000"
                 accept="image/png, image/jpeg, image/bmp"
+                v-model="imageFiles"
+                @change="subirImage"
               >
                 <template v-slot:selection="{ index, text }">
                   <v-chip v-if="index < 5" color="#707070" dark label small>
@@ -208,10 +221,11 @@
                 color="#707070"
                 counter
                 label="Seleccione los Archivos del Juego"
-                multiple
                 prepend-icon="mdi-paperclip"
                 outlined
                 :show-size="1000"
+                v-model="uploadFile"
+                @change="subirFile"
               >
                 <template v-slot:selection="{ index, text }">
                   <v-chip v-if="index < 5" color="#707070" dark label small>
@@ -393,6 +407,15 @@
 import { URLBACKEND } from "@/assets/url.js";
 import axios from "axios";
 
+import { firebaseConfig } from "@/assets/firebaseAPI.js";
+
+import firebase from "firebase/app";
+import "firebase/firebase-storage";
+
+import { nanoid } from "nanoid";
+
+import * as dayjs from "dayjs";
+
 export default {
   props: ["date"],
   name: "EditGameForm",
@@ -431,7 +454,7 @@ export default {
         download_path: "",
         images: [],
         developer: null,
-        direct_x: [],
+        directx: [],
         operatingSystem: [],
         languageGames: [],
         genreGames: [],
@@ -477,7 +500,15 @@ export default {
       rules: {
         required: (value) => !!value || "Requerido",
       },
+
+      uploadFile: null,
+      uploadImages: null,
+      uploadBanner: null,
     };
+  },
+  created() {
+    firebase.initializeApp(firebaseConfig);
+    this.storage = firebase.storage();
   },
   mounted() {
     this.idGame = this.$route.params.id;
@@ -511,6 +542,10 @@ export default {
         this.gameInfo.players = this.gameEditInfo.players;
         this.gameInfo.game_description = this.gameEditInfo.game_description;
         this.gameInfo.price = this.gameEditInfo.price;
+        this.gameInfo.idEsrb = this.gameEditInfo.esrb.idEsrb;
+        this.gameInfo.release_date = dayjs(this.gameEditInfo.releaseDate).format("YYYY-MM-DD");
+        this.gameInfo.images = this.gameEditInfo.images;
+        this.gameInfo.download_path = this.gameEditInfo.download_path;
         this.ColorValue.hexa = this.gameEditInfo.color;
         this.languagesValue(this.gameEditInfo.language);
         this.genresValue(this.gameEditInfo.genres);
@@ -520,9 +555,6 @@ export default {
           item.processor;
           item.memory;
           item.graphics;
-          console.log(
-            item.operatingSystem + item.processor + item.memory + item.graphics
-          );
           if (item.operatingSystem === "Windows") {
             this.rbWindows.processor = item.processor;
             this.rbWindows.memory = item.memory;
@@ -540,12 +572,126 @@ export default {
           }
         });
         this.gameEditInfo.direct_x.map((item) => {
-          this.directxGetValue.push(item.version)
+          this.directxGetValue.push(item.version);
         });
         this.DirectXValue(this.directxGetValue);
       });
   },
   methods: {
+    subirFile() {
+      var self = this;
+      var storageRef = firebase.storage().ref();
+      console.log(storageRef);
+      var type = this.uploadFile.name.split(".").pop();
+      var nuid = nanoid();
+      var uploadTask = storageRef
+        .child("files/" + nuid + "." + type)
+        .put(this.uploadFile);
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          console.log(error);
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log("File available at", downloadURL);
+            self.gameInfo.download_path = downloadURL;
+          });
+        }
+      );
+    },
+    subirImage() {
+      this.gameInfo.images.splice(1);
+      var self = this;
+      this.imageFiles.map(function(image, index) {
+        console.log(index);
+        console.log(image);
+        var storageRef1 = firebase.storage().ref();
+        let type = image.name.split(".").pop();
+        let nuid = nanoid();
+        var uploadTask1 = storageRef1
+          .child("images/" + nuid + "." + type)
+          .put(image);
+        uploadTask1.on(
+          "state_changed",
+          function(snapshot) {
+            var progress1 =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress1 + "% done");
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log("Upload is paused");
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log("Upload is running");
+                break;
+            }
+          },
+          function(error) {
+            console.log(error);
+          },
+          function() {
+            uploadTask1.snapshot.ref
+              .getDownloadURL()
+              .then(function(downloadURL) {
+                console.log("File available at", downloadURL);
+                self.gameInfo.images.push(downloadURL);
+              });
+          }
+        );
+      });
+    },
+    subirBanner() {
+      var self = this;
+      var storageRef2 = firebase.storage().ref();
+      var type2 = this.uploadBanner.name.split(".").pop();
+      var nuid2 = nanoid();
+      console.log(this.uploadBanner);
+      var uploadTask2 = storageRef2
+        .child("images/" + nuid2 + "." + type2)
+        .put(this.uploadBanner);
+      uploadTask2.on(
+        "state_changed",
+        async function(snapshot) {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          console.log(error);
+        },
+        async function() {
+          uploadTask2.snapshot.ref
+            .getDownloadURL()
+            .then(async function(downloadURL) {
+              console.log("File available at", downloadURL);
+              await self.gameInfo.images.shift();
+              await self.gameInfo.images.splice(0, 0, downloadURL);
+            });
+        }
+      );
+    },
     update() {
       axios
         .put(
