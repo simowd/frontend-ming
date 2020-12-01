@@ -1,10 +1,13 @@
 <template>
   <div class="background-image">
     <NavBar />
-    <v-row>
-      <v-col align="right"
-        ><img src="../assets/account_img.png" height="150px"
-      /></v-col>
+    <v-row no-gutters>
+      <v-col align="right">
+        <v-card height="150px" width="150px">
+          <v-img :src="photoPathUser" height="150px" width="150px" />
+        </v-card>
+        <!-- <img src="../assets/account_img.png" height="150px"/> -->
+      </v-col>
       <v-col align="center">
         <p>Nombre de Usuario/Apodo</p>
         <p>{{ username }} / {{ usernickname }}</p>
@@ -32,6 +35,7 @@
           <EditProfile
             :dialogProfile="dialogProfile"
             @dialogClosed="dialogProfile = $event"
+            :photoPathUser="photoPathUser"
           />
         </v-dialog>
         <br />
@@ -54,6 +58,7 @@
           <ChangePassword
             :dialogPassword="dialogPassword"
             @dialogClosed="dialogPassword = $event"
+            :userID="userID"
           />
         </v-dialog>
       </v-col>
@@ -110,6 +115,7 @@ export default {
     return {
       page: 1,
       gameInfo: [],
+      photoPathUser: "",
       title: "",
       username: "Username",
       usernickname: "NickName",
@@ -117,17 +123,35 @@ export default {
       usercountry: "Some Country",
       dialogPassword: false,
       dialogProfile: false,
+      userID: 8,
     };
   },
   mounted() {
-    axios.get("http://" + URLBACKEND + "/ming/v1/users/1").then((response) => {
-      // this.gameInfo = response.data;
-      console.log(response.data);
-      this.username = response.data.username;
-      this.usernickname = response.data.alias;
-      this.usermail = response.data.email;
-      this.usercountry = response.data.country;
-    });
+    // http://localhost:8080/ming/v1/countries
+
+    axios
+      .get("http://" + URLBACKEND + "/ming/v1/users/" + this.userID)
+      .then((response) => {
+        // this.gameInfo = response.data;
+        // console.log(response.data);
+        this.username = response.data.username;
+        this.usernickname = response.data.alias;
+        this.usermail = response.data.email;
+        this.usercountry = response.data.country;
+        this.photoPathUser = response.data.photo_path;
+      });
+    // axios
+    //   .post("https://" + URLBACKEND + "/ming/user", {
+    //     name: "Erica",
+    //     lastname: "Butcher",
+    //     username: "Crash Bandicoot",
+    //     alias: "Crash",
+    //     email: "contra@gmail.com",
+    //     password: "contra707",
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //   });
   },
   methods: {},
   watch: {
