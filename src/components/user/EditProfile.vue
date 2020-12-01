@@ -1,14 +1,15 @@
-<template>
-  <v-card min-height="50%" min-width="50%">
+<template >
+  <v-card>
+    <br /><br /><br /><br />
     <v-card-text>
       <v-container>
         <v-row>
-          <v-col cols="12" sm="6">
-            <v-card round class="rounded-card" height="200px" width="200px">
+          <v-col cols="12" sm="6" class="justify-center" align="center">
+            <v-card round class="rounded-card" height="300px" width="300px">
               <v-img
                 :src="photoPathUser"
-                max-height="200px"
-                max-width="200px"
+                max-height="300px"
+                max-width="300px"
               />
             </v-card>
           </v-col>
@@ -17,21 +18,57 @@
               label="Apodo"
               required
               v-model="userNickname"
+              outlined
+              color="black"
+              class="ma-4"
+              width="280"
+              height="50"
             ></v-text-field>
             <v-text-field
               label="Email"
               required
               v-model="userEmail"
+              outlined
+              color="black"
+              class="ma-4"
+              width="280"
+              height="50"
             ></v-text-field>
-            <v-select :items="countries" label="Pais" single></v-select>
+            <v-select
+              :items="countries"
+              label="Pais"
+              single
+              outlined
+              color="black"
+              class="ma-4"
+              width="140"
+              height="50"
+            ></v-select>
           </v-col>
         </v-row>
       </v-container>
     </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="dialogClose"> Cancelar </v-btn>
-      <v-btn color="blue darken-1" text @click="dialogClose">
+    <v-card-actions class="justify-center">
+      <v-btn
+        color="red"
+        outlined
+        class="ma-4"
+        width="280"
+        height="50"
+        text
+        @click="dialogClose"
+      >
+        Cancelar
+      </v-btn>
+      <v-btn
+        color="green"
+        outlined
+        class="ma-4"
+        width="280"
+        height="50"
+        text
+        @click="dialogClose"
+      >
         Actualizar
       </v-btn>
     </v-card-actions>
@@ -63,16 +100,6 @@ export default {
         }
         // console.log(this.countries);
       });
-    // const res =
-    // axios
-    //   .put(
-    //     "http://" + URLBACKEND + "/ming/v1/users/" + this.userID + "/password",
-    //     { old_password: "new", new_password: "qwerty12345" },
-    //     { headers: { "Content-Type": "application/json" } }
-    //   )
-    //   .then(function (response) {
-    //     console.log(response);
-    //   });
   },
   props: ["dialogProfile", "photoPathUser"],
   methods: {

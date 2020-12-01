@@ -11,17 +11,17 @@
       <v-col align="center">
         <div class="text-info">
           <!-- <v-card> -->
-          <p>Nombre de Usuario/Apodo</p>
+          <p class="bold_text">Nombre de Usuario / Apodo</p>
           <p>{{ username }} / {{ usernickname }}</p>
-          <p>Correo Electronico</p>
+          <p class="bold_text">Correo Electronico</p>
           <p v-text="usermail"></p>
-          <p>Pais</p>
+          <p class="bold_text">Pais</p>
           <p v-text="usercountry"></p>
           <!-- </v-card> -->
         </div>
       </v-col>
       <v-col align="left">
-        <v-dialog v-model="dialogProfile" persistent max-width="600px">
+        <v-dialog v-model="dialogProfile" persistent max-width="80%">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-bind="attrs"
@@ -46,7 +46,7 @@
             :photoPathUser="photoPathUser"
           />
         </v-dialog>
-        <v-dialog v-model="dialogPassword" width="500">
+        <v-dialog v-model="dialogPassword" width="60%">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               depressed
@@ -93,7 +93,7 @@
         </v-col>
       </v-row>
     </div>
-    <hr />
+
     <v-row no-gutters>
       <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
         <GameCard
@@ -188,6 +188,36 @@ export default {
         });
     },
   },
+  watch: {
+    title: function (val, oldval) {
+      const info = {
+        query: val,
+      };
+      console.log(oldval);
+      console.log(info);
+
+      if (val === "") {
+        // location.reload();
+        // console.log(this.gameInfo);
+        this.gameInfo = [];
+        this.page = 1;
+        this.$refs.infiniteLoading.stateChanger.reset();
+      } else {
+        axios
+          .get(
+            "http://" +
+              URLBACKEND +
+              "/ming/v1/users/" +
+              this.userID +
+              "/library",
+            {
+              params: info,
+            }
+          )
+          .then((response) => (this.gameInfo = response.data));
+      }
+    },
+  },
 };
 </script>
 
@@ -208,5 +238,8 @@ export default {
 }
 .rounded-card {
   border-radius: 50%;
+}
+.bold_text {
+  font-weight: 900;
 }
 </style>

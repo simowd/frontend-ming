@@ -1,11 +1,12 @@
 <template>
   <v-card>
+    <br /><br />
+    <br /><br />
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12">
             <v-text-field
-              class="inputs"
               label="Contraseña Actual"
               required
               v-model="oldPass"
@@ -13,7 +14,10 @@
               @click:append="() => (values.val1 = !values.val1)"
               :type="values.val1 ? 'password' : 'text'"
               :rules="[rules.password]"
-            ></v-text-field>
+              outlined
+              width="50%"
+            >
+            </v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -24,7 +28,10 @@
               @click:append="() => (values.val2 = !values.val2)"
               :type="values.val2 ? 'password' : 'text'"
               :rules="[rules.password]"
-            ></v-text-field>
+              outlined
+              width="80%"
+            >
+            </v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -35,17 +42,36 @@
               @click:append="() => (values.val3 = !values.val3)"
               :type="values.val3 ? 'password' : 'text'"
               :rules="[rules.password]"
+              outlined
+              width="80%"
             ></v-text-field>
           </v-col>
         </v-row>
       </v-container>
     </v-card-text>
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="blue darken-1" text @click="dialogClose"> Cancelar </v-btn>
-      <v-btn color="blue darken-1" text @click="sendChangedPass">
+    <v-card-actions class="justify-center">
+      <v-btn
+        color="red"
+        outlined
+        class="ma-4"
+        width="280"
+        height="50"
+        text
+        @click="dialogClose"
+      >
+        Cancelar
+      </v-btn>
+      <v-btn
+        color="green"
+        outlined
+        class="ma-4"
+        width="280"
+        height="50"
+        text
+        @click="sendChangedPass"
+      >
         Actualizar
       </v-btn>
     </v-card-actions>
@@ -74,23 +100,18 @@ export default {
       rules: {
         required: (value) => !!value || "Required.",
         password: (value) => {
-          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
           return (
             pattern.test(value) ||
-            "Min. 8 characters with at least one capital letter, a number and a special character."
+            "Min. 8 characters with at least one capital letter and a number."
           );
         },
       },
     };
   },
-  props: ["dialogPassword", "userID"],
-  computed: {
-    passwordRules() {
-      return [
-        (v) => !!v || "Contraña requerida",
-        (v) => v.length > 6 || "La contraseña debe tener 8 digitos",
-      ];
-    },
+  props: {
+    dialogPassword: { type: Boolean },
+    userID: { type: Number, default: 0 },
   },
   methods: {
     dialogClose() {
