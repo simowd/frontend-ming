@@ -1,11 +1,15 @@
 <template>
-  <v-card>
+  <v-card min-height="50%" min-width="50%">
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12" sm="6">
-            <v-card height="150px" width="150px">
-              <v-img :src="photoPathUser" height="150px" width="150px" />
+            <v-card round class="rounded-card" height="200px" width="200px">
+              <v-img
+                :src="photoPathUser"
+                max-height="200px"
+                max-width="200px"
+              />
             </v-card>
           </v-col>
           <v-col cols="12" sm="6">
@@ -82,5 +86,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.rounded-card {
+  border-radius: 50%;
+}
 </style>

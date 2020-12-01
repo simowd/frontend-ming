@@ -3,19 +3,21 @@
     <NavBar />
     <v-row no-gutters>
       <v-col align="right">
-        <v-card height="150px" width="150px">
-          <v-img :src="photoPathUser" height="150px" width="150px" />
+        <v-card round class="rounded-card" height="200px" width="200px">
+          <v-img :src="photoPathUser" max-height="200px" max-width="200px" />
         </v-card>
         <!-- <img src="../assets/account_img.png" height="150px"/> -->
       </v-col>
       <v-col align="center">
         <div class="text-info">
+          <!-- <v-card> -->
           <p>Nombre de Usuario/Apodo</p>
           <p>{{ username }} / {{ usernickname }}</p>
           <p>Correo Electronico</p>
           <p v-text="usermail"></p>
           <p>Pais</p>
           <p v-text="usercountry"></p>
+          <!-- </v-card> -->
         </div>
       </v-col>
       <v-col align="left">
@@ -25,11 +27,15 @@
               v-bind="attrs"
               v-on="on"
               depressed
-              elevation="10"
               large
               raised
               small
               x-large
+              outlined
+              color="black"
+              class="ma-4"
+              width="280"
+              height="50"
             >
               Editar Perfil
             </v-btn>
@@ -40,19 +46,21 @@
             :photoPathUser="photoPathUser"
           />
         </v-dialog>
-        <br />
-        <br />
         <v-dialog v-model="dialogPassword" width="500">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               depressed
-              elevation="10"
               v-bind="attrs"
               v-on="on"
               large
               raised
               small
               x-large
+              outlined
+              color="black"
+              class="ma-4"
+              width="280"
+              height="50"
             >
               Cambiar Contraseña
             </v-btn>
@@ -136,12 +144,10 @@ export default {
       usercountry: "Some Country",
       dialogPassword: false,
       dialogProfile: false,
-      userID: 1,
+      userID: 3,
     };
   },
   mounted() {
-    // http://localhost:8080/ming/v1/countries
-
     axios
       .get("http://" + URLBACKEND + "/ming/v1/users/" + this.userID)
       .then((response) => {
@@ -185,7 +191,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #text {
   padding-top: 2rem;
   font-family: "Montserrat", sans-serif;
@@ -195,8 +201,12 @@ export default {
   font-size: 2rem;
 }
 .text-info {
-  font-size: 1rem;
-  width: 20%;
+  font-size: 1.3rem;
+  text-size-adjust: inherit;
+  width: 70%;
   text-align: center;
+}
+.rounded-card {
+  border-radius: 50%;
 }
 </style>
