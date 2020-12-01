@@ -1,6 +1,20 @@
 <template>
   <div class="background-image">
     <NavBar />
+    <div align="center">
+      <v-alert
+        :value="alert"
+        v-model="alertPass"
+        dismissible
+        color="blue"
+        border="left"
+        elevation="2"
+        colored-border
+        width="80%"
+        icon="mdi-information"
+        >Datos editados correctamente
+      </v-alert>
+    </div>
     <v-row no-gutters>
       <v-col align="right">
         <v-card round class="rounded-card" height="200px" width="200px">
@@ -68,6 +82,7 @@
           <ChangePassword
             :dialogPassword="dialogPassword"
             @dialogClosed="dialogPassword = $event"
+            @success="alertPass = $event"
             :userID="userID"
           />
         </v-dialog>
@@ -144,6 +159,7 @@ export default {
       usercountry: "Some Country",
       dialogPassword: false,
       dialogProfile: false,
+      alertPass: false,
       userID: 3,
     };
   },
