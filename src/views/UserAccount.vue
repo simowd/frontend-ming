@@ -9,12 +9,14 @@
         <!-- <img src="../assets/account_img.png" height="150px"/> -->
       </v-col>
       <v-col align="center">
-        <p>Nombre de Usuario/Apodo</p>
-        <p>{{ username }} / {{ usernickname }}</p>
-        <p>Correo Electronico</p>
-        <p v-text="usermail"></p>
-        <p>Pais</p>
-        <p v-text="usercountry"></p>
+        <div class="text-info">
+          <p>Nombre de Usuario/Apodo</p>
+          <p>{{ username }} / {{ usernickname }}</p>
+          <p>Correo Electronico</p>
+          <p v-text="usermail"></p>
+          <p>Pais</p>
+          <p v-text="usercountry"></p>
+        </div>
       </v-col>
       <v-col align="left">
         <v-dialog v-model="dialogProfile" persistent max-width="600px">
@@ -83,18 +85,25 @@
         </v-col>
       </v-row>
     </div>
-
+    <hr />
     <v-row no-gutters>
       <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
-        <!-- <GameCard
+        <GameCard
           :title="game.title"
           :price="game.price"
           :id="game.id"
           :color="game.color"
           :banner="game.banner"
-        /> -->
+          :sale="game.sale"
+        />
       </v-col>
     </v-row>
+    <infinite-loading @infinite="getGames" ref="infiniteLoading">
+      <div slot="no-more">
+        <img src="@/assets/huachimingo.png" width="200px" height="200px" />
+        <p class="info-footer">¡Llegaste al final!</p>
+      </div>
+    </infinite-loading>
   </div>
 </template>
 
@@ -104,16 +113,20 @@ import { URLBACKEND } from "@/assets/url.js";
 import axios from "axios";
 import ChangePassword from "../components/user/ChangePassword.vue";
 import EditProfile from "../components/user/EditProfile.vue";
+import GameCard from "../components/generic/GameCard";
+import InfiniteLoading from "vue-infinite-loading";
+
 export default {
   name: "UserAccount",
   components: {
     NavBar,
     ChangePassword,
     EditProfile,
+    GameCard,
+    InfiniteLoading,
   },
   data() {
     return {
-      page: 1,
       gameInfo: [],
       photoPathUser: "",
       title: "",
@@ -123,7 +136,7 @@ export default {
       usercountry: "Some Country",
       dialogPassword: false,
       dialogProfile: false,
-      userID: 8,
+      userID: 1,
     };
   },
   mounted() {
@@ -153,25 +166,20 @@ export default {
     //     console.log(response);
     //   });
   },
-  methods: {},
-  watch: {
-    title: function (val, oldval) {
-      const info = {
-        query: val,
-      };
-      console.log(oldval);
-      if (val === "") {
-        location.reload();
-        axios
-          .get("http://" + URLBACKEND + "/ming/v1/users/1/library")
-          .then((response) => (this.gameInfo = response.data));
-      } else {
-        axios
-          .get("http://" + URLBACKEND + "/ming/v1/users/1/library", {
-            params: info,
-          })
-          .then((response) => (this.gameInfo = response.data));
-      }
+  methods: {
+    getGames: function ($state) {
+      axios
+        .get(
+          "http://" + URLBACKEND + "/ming/v1/users/" + this.userID + "/library"
+        )
+        .then((response) => {
+          // if (response.data.length) {
+          this.gameInfo.push(...response.data);
+          $state.loaded();
+          // } else {
+          $state.complete();
+          // }
+        });
     },
   },
 };
@@ -185,5 +193,10 @@ export default {
   font-weight: bold;
   color: #707070;
   font-size: 2rem;
+}
+.text-info {
+  font-size: 1rem;
+  width: 20%;
+  text-align: center;
 }
 </style>
