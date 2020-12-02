@@ -2,12 +2,12 @@
   <div>
     <div>
       <v-row no-gutters class="card-sale-list" @click="game">
-        <v-col cols="4">
+        <v-col cols="3.5">
           <div>
             <img class="card-sale-image" v-bind:src="banner" />
           </div>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="3.5">
           <div class="sale-game-title">
             {{ title }}
           </div>
@@ -53,6 +53,7 @@ export default {
   font-family: 'Montserrat', sans-serif;
   margin-top: 2rem;
   text-align: left;
+  margin-right: 10rem;
   
 }
 
