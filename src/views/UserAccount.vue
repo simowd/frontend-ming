@@ -6,12 +6,13 @@
         :value="alertPass"
         v-model="alertPass"
         dismissible
+        border="top"
         color="blue"
-        border="left"
-        elevation="2"
+        elevation="15"
+        type="success"
+        class="alert"
         colored-border
-        width="80%"
-        icon="mdi-information"
+        width="60%"
         >Datos editados correctamente
       </v-alert>
     </div>
@@ -63,10 +64,14 @@
             @dialogClosed="dialogProfile = $event"
             :photoPathUser="user.photoPathUser"
             @changedUser="user = $event"
-            @success="alertPass = $event"
+            @success="
+              alertPass = $event;
+              dismissAlert();
+            "
             :user="user"
           />
         </v-dialog>
+        <br />
         <v-dialog v-model="dialogPassword" width="60%">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -89,7 +94,10 @@
           <ChangePassword
             :dialogPassword="dialogPassword"
             @dialogClosed="dialogPassword = $event"
-            @success="alertPass = $event"
+            @success="
+              alertPass = $event;
+              dismissAlert;
+            "
             :userID="userID"
           />
         </v-dialog>
@@ -174,6 +182,7 @@ export default {
       userID: 3,
     };
   },
+  created() {},
   mounted() {
     
     axios
@@ -217,7 +226,13 @@ export default {
           // }
         });
     },
+    dismissAlert() {
+      setTimeout(() => {
+        this.alertPass = false;
+      }, 5000);
+    },
   },
+
   watch: {
     title: function (val, oldval) {
       const info = {
