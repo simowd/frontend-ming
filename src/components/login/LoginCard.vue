@@ -16,11 +16,12 @@
               <v-container class="form-auth">
                 <v-text-field
                   outlined
-                  :rules="[rules.required, rules.email]"
-                  label="Correo Electrónico"
+                  :rules="[rules.required]"
+                  label="Nombre de Usuario"
                   dense
                   color="#66698C"
                   class="login-input"
+                  v-model="login.username"
                 >
                 </v-text-field>
                 <v-text-field
@@ -31,6 +32,7 @@
                   dense
                   color="#66698C"
                   class="login-input"
+                  v-model="login.password"
                 >
                 </v-text-field>
               </v-container>
@@ -42,6 +44,7 @@
                   width="300"
                   dark
                   class="login-button"
+                  @click="LoginFunction"
                 >
                   Ingresar
                 </v-btn>
@@ -65,12 +68,28 @@
 </template>
 
 <script>
+import { URLBACKEND } from "@/assets/url.js";
+import axios from "axios";
+
 export default {
   name: "LoginCard",
   data() {
     return {
       title: "Preliminary report",
       email: "",
+      login: {
+        username: "",
+        password: "",
+      },
+      infoUser: {
+        id_user: "",
+        id_publisher: "",
+        user_type: "",
+        username: "",
+        publisher: "",
+        alias: "",
+        photo_path: "",
+      },
       rules: {
         min: (v) => (v && v.length >= 8) || "Min 8 characters",
         required: (value) => !!value || "Required.",
@@ -80,6 +99,30 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    LoginFunction() {
+      axios
+        .post("http://" + URLBACKEND + "/ming/v1/login", this.login)
+        .then((response) => {
+          this.infoUser = response.data;
+
+          this.$ls.set("user_type", this.infoUser.user_type);
+          this.$ls.set("data", JSON.stringify(this.infoUser));
+          this.$ls.set("id_user",this.infoUser.id_user);
+          if (this.infoUser.user_type == 0) {
+            this.$router.push("/");
+          } else {
+            if (this.infoUser.user_type == 1) {
+              this.$router.push(
+                "/publisher/account/" + this.infoUser.id_publisher
+              );
+            } else {
+              this.$router.push("/admin/games");
+            }
+          }
+        });
+    },
   },
 };
 </script>

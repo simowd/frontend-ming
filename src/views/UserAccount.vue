@@ -175,16 +175,19 @@ export default {
     };
   },
   mounted() {
+    
     axios
-      .get("http://" + URLBACKEND + "/ming/v1/users/" + this.userID)
+      .get("http://" + URLBACKEND + "/ming/v1/users/" + this.$ls.get("id_user"))
       .then((response) => {
         // this.gameInfo = response.data;
         // console.log(response.data);
+        this.userID=this.$ls.get("id_user")
         this.user.username = response.data.username;
         this.user.usernickname = response.data.alias;
         this.user.usermail = response.data.email;
         this.user.usercountry = response.data.country;
         this.user.photoPathUser = response.data.photo_path;
+        
       });
     // axios
     //   .post("https://" + URLBACKEND + "/ming/user", {
@@ -203,7 +206,7 @@ export default {
     getGames: function ($state) {
       axios
         .get(
-          "http://" + URLBACKEND + "/ming/v1/users/" + this.userID + "/library"
+          "http://" + URLBACKEND + "/ming/v1/users/" + this.$ls.get("id_user") + "/library"
         )
         .then((response) => {
           // if (response.data.length) {

@@ -8,3 +8,9 @@ header{
     display: flex;
     justify-content: space-between;
 }
+.profile-photo{
+    height: 45px;
+    width: 45px;
+    background-image: url("~@/assets/logoming.png");
+    border-radius: 50%;
+}
