@@ -9,9 +9,10 @@
           class="image-nav-bar"
           @click="HomePage"
         />
-        <router-link to="/publisher/account/1">Administrar Cuenta</router-link>
-        <router-link to="/publisher/dashboard/1">Dashboard</router-link>
-        <router-link to="/publisher/games/1">Administrar Juegos</router-link>
+        <router-link :to="'/publisher/account/'+this.id_publisher">Administrar Cuenta</router-link>
+        <router-link :to="'/publisher/dashboard/'+this.id_publisher">Dashboard</router-link>
+        <router-link :to="'/publisher/games/'+this.id_publisher">Administrar Juegos</router-link>
+        <p  class="account" @click="LogOut">Cerrar Sesión</p>
       </header>
     </div>
   </div>
@@ -21,9 +22,26 @@
 export default {
   name: "NavBarPublisher",
   components: {},
+  data() {
+    return {
+      id_publisher: ''
+    };
+  },
+  mounted() {
+
+    if (this.$ls.get("data") != null) {
+      this.id_publisher=this.$ls.get("id_publisher")
+    }
+  },
+
   methods: {
     HomePage() {
-      this.$router.push("/publisher/account/1");
+      this.$router.push("/publisher/account/"+this.id_publisher);
+    },
+      LogOut() {
+      this.$ls.clear();
+      this.$router.push("/login");
+      this.flag = 0;
     },
   },
 };
@@ -31,6 +49,15 @@ export default {
 <style lang="scss" scoped>
 #nav {
   text-align: left;
+}
+.account {
+  padding-top: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  font-weight: bold;
+  color: #707070;
+  font-size: 2rem;
+  cursor: pointer;
 }
 
 #nav a {

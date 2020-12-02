@@ -108,6 +108,7 @@ export default {
           this.infoUser = response.data;
 
           this.$ls.set("user_type", this.infoUser.user_type);
+          this.$ls.set("id_publisher", this.infoUser.id_publisher);
           this.$ls.set("data", JSON.stringify(this.infoUser));
           this.$ls.set("id_user",this.infoUser.id_user);
           if (this.infoUser.user_type == 0) {

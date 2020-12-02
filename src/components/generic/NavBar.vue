@@ -19,32 +19,39 @@
         <router-link to="/Latest-release" :style="{ color: linkColor }"
           >Últimos Lanzamientos</router-link
         >
-        <router-link to="/MyAccount" :style="{ color: linkColor }"
-          >Mi cuenta</router-link
-        >
-        <img
-          v-if="flag == 0"
-          src="@/assets/pub-icon.png"
-          width="60rem"
-          height="60rem"
-          class="image-nav-bar"
-          @click="LogOut"
-          :style="{
-            borderRadius: '50%',
-            cursor: 'pointer',
-          }"
-        />
+        <div v-if="flag == 1">
+          <v-menu offset-y transition="slide-y-transition">
+            <template v-slot:activator="{ on }">
+              <p class="account" v-on="on">Mi Cuenta</p>
+            </template>
+            <v-list>
+              <v-list-item
+                :to="item.link"
+                @click="LogOut"
+                v-for="(item, index) in items"
+                :key="index"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+        <div v-else class="login">
+          <router-link to="/login" :style="{ color: linkColor }"
+            >Iniciar Sesion</router-link
+          >
+          <!-- <router-link to="/register" :style="{ color: color }" >Registrarse</router-link> -->
+        </div>
+
         <img
           v-if="flag == 1"
           :src="banner"
           width="60rem"
           height="60rem"
           class="image-nav-bar"
-          @click="LogOut"
           :style="{
             backgroundImage: 'url(' + this.banner + ')',
             borderRadius: '50%',
-            cursor: 'pointer',
           }"
         />
       </header>
@@ -59,7 +66,13 @@ export default {
   data() {
     return {
       flag: 0,
+      showMenu: false,
       banner: null,
+      items: [
+        { title: "Mi cuenta", link: "/MyAccount" },
+        { title: "Carrito", link: "/" },
+        { title: "Cerrar Sesion" },
+      ],
     };
   },
   props: ["color", "linkColor", "colorDos"],
@@ -68,11 +81,14 @@ export default {
     if (this.$ls.get("data") != null) {
       if (JSON.parse(this.$ls.get("data")).photo_path != null) {
         this.flag = 1;
-        this.banner=JSON.parse(this.$ls.get("data")).photo_path
-        console.log(this.banner)
+        this.banner = JSON.parse(this.$ls.get("data")).photo_path;
+        console.log(this.banner);
+      } else {
+        this.flag = 1;
+        this.banner=require('../../assets/pub-icon.png')
       }
     }
-    console.log(this.$ls.get('user_type'))
+
   },
   methods: {
     HomePage() {
@@ -91,7 +107,18 @@ export default {
   text-align: center;
   text-align: center;
 }
-
+.login {
+  margin-top: 2.1rem;
+}
+.account {
+  padding-top: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  font-weight: bold;
+  color: #707070;
+  font-size: 2rem;
+  cursor: pointer;
+}
 #nav a {
   padding-top: 2rem;
   font-family: "Montserrat", sans-serif;

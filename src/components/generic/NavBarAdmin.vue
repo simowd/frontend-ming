@@ -12,6 +12,7 @@
         <router-link to="/admin/add-publisher">Agregar Publisher</router-link>
         <router-link to="/admin/publisher-list">Administrar Editores</router-link>
         <router-link to="/admin/games">Administrar Juegos</router-link>
+        <p  class="account" @click="LogOut">Cerrar Sesión</p>
       </header>
     </div>
   </div>
@@ -24,13 +25,27 @@ export default {
   methods:{
     HomePage(){
        this.$router.push("/admin/add-publisher");
-    }
+    },
+    LogOut() {
+      this.$ls.clear();
+      this.$router.push("/login");
+      this.flag = 0;
+    },
   }
 };
 </script>
 <style lang="scss" scoped>
 #nav {
   text-align: left;
+}
+.account {
+  padding-top: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  font-weight: bold;
+  color: #707070;
+  font-size: 2rem;
+  cursor: pointer;
 }
 
 #nav a {
