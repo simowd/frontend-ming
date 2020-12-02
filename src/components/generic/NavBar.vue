@@ -38,7 +38,7 @@
         </div>
         <div v-else class="login">
           <router-link to="/login" :style="{ color: linkColor }"
-            >Iniciar Sesion</router-link
+            >Iniciar Sesión</router-link
           >
           <!-- <router-link to="/register" :style="{ color: color }" >Registrarse</router-link> -->
         </div>
