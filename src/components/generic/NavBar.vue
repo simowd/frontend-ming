@@ -70,7 +70,7 @@ export default {
       banner: null,
       items: [
         { title: "Mi cuenta", link: "/MyAccount" },
-        { title: "Carrito", link: "/" },
+        { title: "Carrito", link: "/cart" },
         { title: "Cerrar Sesion" },
       ],
     };
@@ -85,10 +85,9 @@ export default {
         console.log(this.banner);
       } else {
         this.flag = 1;
-        this.banner=require('../../assets/pub-icon.png')
+        this.banner = require("../../assets/pub-icon.png");
       }
     }
-
   },
   methods: {
     HomePage() {

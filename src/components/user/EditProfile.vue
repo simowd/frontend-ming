@@ -1,5 +1,5 @@
 <template >
-  <v-card :loading="requestChanges">
+  <v-card :loading="requestChanges" color="custom-color">
     <br /><br /><br /><br />
     <v-card-text>
       <v-container>
@@ -163,6 +163,8 @@ export default {
     savedAvatar() {
       this.saving = false;
       this.saved = true;
+      // PARA DEVOLVER EL LINK Y QUE SE ACTUALICE EN EL PROFILE
+      // this.user.photoPathUser = ;
     },
     dialogClose() {
       this.$emit("dialogClosed", !this.dialogProfile);
@@ -211,5 +213,9 @@ export default {
 <style scoped>
 .rounded-card {
   border-radius: 50%;
+}
+.custom-color {
+  /* background-color: rgb(141, 141, 141); */
+  border-color: rgb(255, 255, 255);
 }
 </style>
