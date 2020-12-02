@@ -95,7 +95,6 @@
         </v-btn>
       </v-layout>
     </div>
-    {{ infoUser }}
   </div>
 </template>
 
