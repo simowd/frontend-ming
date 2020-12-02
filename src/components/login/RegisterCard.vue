@@ -110,7 +110,14 @@
         </v-col>
         <v-col :cols="5">
           <img src="@/assets/fez-login.png" class="logo-auth" />
-          <v-alert dense outlined type="error" v-if="alert" width="45rem">
+          <v-alert
+            dense
+            border="left"
+            colored-border
+            type="error"
+            v-if="alert"
+            width="45rem"
+          >
             {{ this.alert_text }}
           </v-alert>
           <!-- <<v-alert dense outlined :type="alert_type" v-if="alert" width="45rem">
@@ -168,6 +175,7 @@ export default {
       } else {
         if (this.valid) {
           this.create();
+          this.$router.push("/login");
         } else {
           this.alert_text = "El formulario no es válido.";
           this.alert = true;

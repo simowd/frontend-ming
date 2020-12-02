@@ -1,67 +1,88 @@
 <template>
   <div>
     <div class="add-publisher-forms-container" justify-center>
-      <v-text-field
-        :rules="[rules.required]"
-        label="Nombre de Usuario"
-        outlined
-        color="#707070"
-        id="username"
-        v-model="infoUser.username"
-      ></v-text-field>
+      <v-form v-model="valid" ref="form">
+        <v-text-field
+          :rules="[rules.required]"
+          label="Nombre de Usuario"
+          outlined
+          color="#707070"
+          id="username"
+          v-model="infoUser.username"
+        ></v-text-field>
 
-      <v-text-field
-        :rules="[rules.required, rules.email]"
-        label="Correo Electrónico"
-        outlined
-        color="#707070"
-        id="email"
-        v-model="infoUser.email"
-      ></v-text-field>
+        <v-text-field
+          :rules="[rules.required, rules.email]"
+          label="Correo Electrónico"
+          outlined
+          color="#707070"
+          id="email"
+          v-model="infoUser.email"
+        ></v-text-field>
 
-      <v-text-field
-        :rules="[rules.required, rules.email]"
-        label="Pay Pal"
-        outlined
-        color="#707070"
-        id="paypal"
-        v-model="infoUser.paypal"
-      ></v-text-field>
+        <v-text-field
+          :rules="[rules.required, rules.email]"
+          label="Pay Pal"
+          outlined
+          color="#707070"
+          id="paypal"
+          v-model="infoUser.paypal"
+        ></v-text-field>
 
-      <v-text-field
-        :rules="[rules.required]"
-        label="Editor"
-        outlined
-        color="#707070"
-        id="publisher"
-        v-model="infoUser.publisher"
-      ></v-text-field>
+        <v-text-field
+          :rules="[rules.required]"
+          label="Editor"
+          outlined
+          color="#707070"
+          id="publisher"
+          v-model="infoUser.publisher"
+        ></v-text-field>
 
-      <v-combobox
+        <v-combobox
+          dense
+          outlined
+          color="#707070"
+          item-color="#707070"
+          :items="countries"
+          label="País"
+          id="idCountry"
+          v-model="country"
+        ></v-combobox>
+
+        <v-text-field
+          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          name="input-10-1"
+          label="Contraseña"
+          hint="Mínimo 8 caracteres"
+          color="#66698C"
+          outlined
+          @click:append="show1 = !show1"
+          id="password"
+          v-model="infoUser.password"
+        ></v-text-field>
+      </v-form>
+      <v-alert
         dense
-        outlined
-        color="#707070"
-        item-color="#707070"
-        :items="countries"
-        label="País"
-        id="idCountry"
-        v-model="country"
-      ></v-combobox>
-
-      <v-text-field
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
-        :type="show1 ? 'text' : 'password'"
-        name="input-10-1"
-        label="Contraseña"
-        hint="Mínimo 8 caracteres"
-        color="#66698C"
-        outlined
-        @click:append="show1 = !show1"
-        id="password"
-        v-model="infoUser.password"
-      ></v-text-field>
-
+        border="left"
+        colored-border
+        type="error"
+        v-if="alert"
+        width="60rem"
+      >
+        {{ this.alert_text }}
+      </v-alert>
+      <v-alert
+        dense
+        border="left"
+        colored-border
+        type="success"
+        v-if="alert_sucess"
+        width="60rem"
+      >
+        Cuenta de Publisher creada.
+      </v-alert>
       <v-layout justify-center>
         <v-btn
           class="ma-2"
@@ -74,6 +95,7 @@
         </v-btn>
       </v-layout>
     </div>
+    {{ infoUser }}
   </div>
 </template>
 
@@ -85,6 +107,10 @@ export default {
   name: "AddPublisherForm",
   data() {
     return {
+      valid: null,
+      alert: false,
+      alert_sucess: false,
+      alert_text: null,
       infoUser: {
         username: null,
         email: null,
@@ -119,24 +145,58 @@ export default {
         .then((response) => (this.infoUser = response.data));
     },
     verify() {
-      if (this.infoUser.username === null) {
-        alert("Falta el Nombre de Usuario");
-      } else if (this.infoUser.email === null) {
-        alert("Falta el Correo Electrónico");
-      } else if (this.infoUser.paypal === null) {
-        alert("Falta el Correo de PayPal");
-      } else if (this.infoUser.publisher === null) {
-        alert("Falta el Editor");
-      } else if (this.infoUser.idCountry === null) {
-        alert("Falta el País");
-      } else if (this.infoUser.password === null) {
-        alert("Falta la Contraseña");
-      } else if (this.infoUser.idCountry <= 0) {
-        alert("Ese País no existe");
+      if (this.checkProperties(this.infoUser)) {
+        this.alert_text = "Todos los campos deben ser rellenados.";
+        this.alert = true;
+        this.alertTime();
       } else {
-        alert("Editor Creado");
-        this.create();
+        if (this.infoUser.username.length >= 20) {
+          this.alert_text = "El username es mayor a 20 caracteres.";
+          this.alert = true;
+          this.alertTime();
+        } else {
+          if (this.valid) {
+            if (this.infoUser.idCountry === 0) {
+              this.alert_text = "El País no es válido.";
+              this.alert = true;
+              this.alertTime();
+            } else {
+              // this.create();
+              this.alert_sucess = true;
+              this.alertTime();
+              this.$refs.form.reset();
+              this.restoreObjValues();
+            }
+          } else {
+            this.alert_text = "El formulario no es válido.";
+            this.alert = true;
+            this.alertTime();
+          }
+        }
       }
+    },
+    alertTime() {
+      setTimeout(() => {
+        this.alert = false;
+        this.alert_sucess = false;
+      }, 3000);
+    },
+    checkProperties(obj) {
+      var flag = false;
+      for (var key in obj) {
+        if (obj[key] === null || obj[key] === "") {
+          flag = true;
+        }
+      }
+      return flag;
+    },
+    restoreObjValues() {
+      this.infoUser.username = null;
+      this.infoUser.email = null;
+      this.infoUser.paypal = null;
+      this.infoUser.publisher = null;
+      this.infoUser.idCountry = null;
+      this.infoUser.password = null;
     },
   },
   watch: {
