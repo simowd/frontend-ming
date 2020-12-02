@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row no-gutters class="card-publisher-list" v-if="flag == false">
+      <v-row no-gutters class="card-publisher-list" v-if="flag == false">
       <v-col cols="3">
         <div>
           <img
@@ -66,11 +66,12 @@
         </v-dialog>
       </v-col>
     </v-row>
-
-    <v-row
+    
+    <v-expansion-panel v-else>
+      <v-row
       no-gutters
       class="card-publisher-list"
-      v-else
+      
       :style="{ height: '140rem' }"
     >
       <v-col cols="3">
@@ -139,6 +140,8 @@
       </v-col>
       <PublisherDashboard :id="id" />
     </v-row>
+    </v-expansion-panel>
+    
   </div>
 </template>
 

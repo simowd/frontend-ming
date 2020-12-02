@@ -1,19 +1,22 @@
 <template>
   <div class="everything">
-    <div class="up">
-      <div class="paypal">PayPal: {{ dashboardInfo.paypal }}</div>
+    <div v-if="errorCaught==null">
+      <div class="paypal1">PayPal: {{ dashboardInfo.paypal }}</div>
       <div class="data">
         Total Ventas: {{ dashboardInfo.sells }} <br />
         Total Ganancias: ${{ dashboardInfo.earnings }} USD
       </div>
       <div class="dash">
-        <p>Ventas y Ganancias por Juego</p> 
+        <p>Ventas y Ganancias por Juego</p>
         <Chart class="gdonut" type="doughnut" :data="chartData" />
-        <p>Ventas y Ganancias por País</p> 
-          <Chart class="donut" type="doughnut" :data="pchartData" />
-        <p>Ventas y Ganancias por Mes</p> 
-          <Chart class="sbar" type="bar" :data="basicData" />
+        <p>Ventas y Ganancias por País</p>
+        <Chart class="donut" type="doughnut" :data="pchartData" />
+        <p>Ventas y Ganancias por Mes</p>
+        <Chart class="sbar" type="bar" :data="basicData" />
       </div>
+    </div>
+    <div class="error1" v-else>
+      <p>No se encontraron datos</p>
     </div>
   </div>
 </template>
@@ -30,6 +33,7 @@ export default {
   data() {
     return {
       dashboardInfo: [],
+      errorCaught: null,
       meses: [
         "Enero",
         "Febrero",
@@ -66,13 +70,13 @@ export default {
         datasets: [
           {
             data: [],
-            backgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
-            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            backgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
+            hoverBackgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
           },
           {
             data: [],
-            backgroundColor: ["#b7c6c8","#e1edee","#120e10","#66698c"],
-            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            backgroundColor: ["#b7c6c8", "#e1edee", "#120e10", "#66698c"],
+            hoverBackgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
           },
         ],
       },
@@ -82,13 +86,13 @@ export default {
         datasets: [
           {
             data: [],
-            backgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
-            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            backgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
+            hoverBackgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
           },
           {
             data: [],
-            backgroundColor: ["#b7c6c8","#e1edee","#120e10","#66698c"],
-            hoverBackgroundColor: ["#66698c","#120e10","#b7c6c8","#e1edee"],
+            backgroundColor: ["#b7c6c8", "#e1edee", "#120e10", "#66698c"],
+            hoverBackgroundColor: ["#66698c", "#120e10", "#b7c6c8", "#e1edee"],
           },
         ],
       },
@@ -154,13 +158,22 @@ export default {
           //   console.log(this.dashboardInfo.gameData[0].game),
           //   console.log(this.dashboardInfo.gameData[1].game)
         )
-      );
+      )
+      .catch((error) => {
+        (this.errorCaught  =error.response);
+      });
   },
 };
 </script>
 
 <style scoped>
 .paypal {
+  font-size: 1.7rem;
+  font-weight: 300;
+  margin-left: 30.8rem;
+}
+
+.paypal1 {
   font-size: 1.7rem;
   font-weight: 300;
   margin-left: 30.8rem;
@@ -178,31 +191,33 @@ export default {
 }
 
 .up {
-  margin-bottom: 137rem;
+  
+}
+
+.error1{
+  text-align: center;
+  font-size: 7rem;
+  margin-left: 18rem;
+  
 }
 
 .sbar {
-  
 }
 
 .donut {
-  
 }
 
 .gdonut {
-  
-  
-  
 }
 
-.dash{
+.dash {
   margin-top: 3rem;
   padding: 0.5rem;
   text-align: left;
   font-size: 2.5rem;
 }
 
-.everything{
+.everything {
   overflow: auto;
 }
 </style>
