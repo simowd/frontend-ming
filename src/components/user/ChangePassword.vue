@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card :loading="requestChanges">
+    <v-card :loading="requestChanges" class="cardColor">
       <br /><br />
       <br /><br />
       <v-card-text>
@@ -174,4 +174,8 @@ export default {
 </script>
 
 <style scoped>
+.cardColor {
+  /* background-color: rgba(156, 156, 156, 0.74) !important; */
+  /* border-color: white !important; */
+}
 </style>
