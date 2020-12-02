@@ -174,9 +174,4 @@ export default {
 </script>
 
 <style scoped>
-.inputs {
-  width: 60rem;
-  margin-right: 20rem;
-  margin-top: 3rem;
-}
 </style>

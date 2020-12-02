@@ -3,7 +3,7 @@
     <NavBar />
     <div align="center">
       <v-alert
-        :value="alert"
+        :value="alertPass"
         v-model="alertPass"
         dismissible
         color="blue"
@@ -18,7 +18,11 @@
     <v-row no-gutters>
       <v-col align="right">
         <v-card round class="rounded-card" height="200px" width="200px">
-          <v-img :src="photoPathUser" max-height="200px" max-width="200px" />
+          <v-img
+            :src="user.photoPathUser"
+            max-height="200px"
+            max-width="200px"
+          />
         </v-card>
         <!-- <img src="../assets/account_img.png" height="150px"/> -->
       </v-col>
@@ -26,11 +30,11 @@
         <div class="text-info">
           <!-- <v-card> -->
           <p class="bold_text">Nombre de Usuario / Apodo</p>
-          <p>{{ username }} / {{ usernickname }}</p>
+          <p>{{ user.username }} / {{ user.usernickname }}</p>
           <p class="bold_text">Correo Electronico</p>
-          <p v-text="usermail"></p>
+          <p v-text="user.usermail"></p>
           <p class="bold_text">Pais</p>
-          <p v-text="usercountry"></p>
+          <p v-text="user.usercountry"></p>
           <!-- </v-card> -->
         </div>
       </v-col>
@@ -57,7 +61,10 @@
           <EditProfile
             :dialogProfile="dialogProfile"
             @dialogClosed="dialogProfile = $event"
-            :photoPathUser="photoPathUser"
+            :photoPathUser="user.photoPathUser"
+            @changedUser="user = $event"
+            @success="alertPass = $event"
+            :user="user"
           />
         </v-dialog>
         <v-dialog v-model="dialogPassword" width="60%">
@@ -151,12 +158,16 @@ export default {
   data() {
     return {
       gameInfo: [],
-      photoPathUser: "",
+
       title: "",
-      username: "Username",
-      usernickname: "NickName",
-      usermail: "sample@yahoo.com",
-      usercountry: "Some Country",
+
+      user: {
+        username: "Username",
+        usernickname: "NickName",
+        usermail: "sample@yahoo.com",
+        usercountry: "Some Country",
+        photoPathUser: "",
+      },
       dialogPassword: false,
       dialogProfile: false,
       alertPass: false,
@@ -169,11 +180,11 @@ export default {
       .then((response) => {
         // this.gameInfo = response.data;
         // console.log(response.data);
-        this.username = response.data.username;
-        this.usernickname = response.data.alias;
-        this.usermail = response.data.email;
-        this.usercountry = response.data.country;
-        this.photoPathUser = response.data.photo_path;
+        this.user.username = response.data.username;
+        this.user.usernickname = response.data.alias;
+        this.user.usermail = response.data.email;
+        this.user.usercountry = response.data.country;
+        this.user.photoPathUser = response.data.photo_path;
       });
     // axios
     //   .post("https://" + URLBACKEND + "/ming/user", {
@@ -216,7 +227,6 @@ export default {
         // location.reload();
         // console.log(this.gameInfo);
         this.gameInfo = [];
-        this.page = 1;
         this.$refs.infiniteLoading.stateChanger.reset();
       } else {
         axios

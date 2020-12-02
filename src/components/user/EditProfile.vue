@@ -1,5 +1,5 @@
 <template >
-  <v-card>
+  <v-card :loading="requestChanges">
     <br /><br /><br /><br />
     <v-card-text>
       <v-container>
@@ -7,7 +7,7 @@
           <v-col cols="12" sm="6" class="justify-center" align="center">
             <v-card round class="rounded-card" height="300px" width="300px">
               <v-img
-                :src="photoPathUser"
+                :src="user.photoPathUser"
                 max-height="300px"
                 max-width="300px"
               />
@@ -17,7 +17,7 @@
             <v-text-field
               label="Apodo"
               required
-              v-model="userNickname"
+              v-model="user.usernickname"
               outlined
               color="black"
               class="ma-4"
@@ -27,7 +27,7 @@
             <v-text-field
               label="Email"
               required
-              v-model="userEmail"
+              v-model="user.usermail"
               outlined
               color="black"
               class="ma-4"
@@ -35,6 +35,7 @@
               height="50"
             ></v-text-field>
             <v-select
+              v-model="selectedCountry"
               :items="countries"
               label="Pais"
               single
@@ -48,6 +49,14 @@
         </v-row>
       </v-container>
     </v-card-text>
+    <v-card-subtitle
+      align="center"
+      v-if="errorText"
+      class="red--text pt-2"
+      style="font-size: 1.5em"
+    >
+      * Todos los campos deben ser completados
+    </v-card-subtitle>
     <v-card-actions class="justify-center">
       <v-btn
         color="red"
@@ -67,7 +76,7 @@
         width="280"
         height="50"
         text
-        @click="dialogClose"
+        @click="sendEditData"
       >
         Actualizar
       </v-btn>
@@ -81,11 +90,12 @@ import { URLBACKEND } from "@/assets/url.js";
 export default {
   data() {
     return {
+      requestChanges: false,
+      errorText: false,
       close: false,
       countries: [],
-      userID: 8,
-      userNickname: "",
-      userEmail: "",
+      userID: 3,
+      selectedCountry: "",
     };
   },
 
@@ -100,14 +110,64 @@ export default {
         }
         // console.log(this.countries);
       });
+    this.selectedCountry = this.user.usercountry;
   },
-  props: ["dialogProfile", "photoPathUser"],
+  props: {
+    dialogProfile: { type: Boolean },
+    photoPathUser: { type: String },
+    user: {
+      default: {
+        username: "Username",
+        usernickname: "NickName",
+        usermail: "sample@yahoo.com",
+        usercountry: "Some Country",
+        photoPathUser: require("../../assets/huachimingo.png"),
+      },
+    },
+  },
   methods: {
     dialogClose() {
       this.$emit("dialogClosed", !this.dialogProfile);
     },
     sendEditData() {
-      this.dialogClose();
+      this.requestChanges = true;
+      // console.log(this.countries.indexOf(this.selectedCountry) + 1);
+      var self = this;
+      axios
+        .put(
+          "http://" + URLBACKEND + "/ming/v1/users/" + this.userID,
+          {
+            name: this.user.username,
+            lastname: this.user.username,
+            alias: this.user.usernickname,
+            email: this.user.usermail,
+            id_country: this.countries.indexOf(this.selectedCountry) + 1,
+            photo_path: this.user.photoPathUser,
+          },
+          { headers: { "Content-Type": "application/json" } }
+        )
+        .then((response) => {
+          console.log(response.status);
+          console.log(this.user);
+          if (response.status == 200) {
+            self.$emit("dialogClosed", false);
+            self.$emit("success", true);
+            self.$emit("changedUser", this.user);
+            this.requestChanges = false;
+          } else {
+            self.$emit("dialogClosed", false);
+            console.log("not 200");
+          }
+          console.log("response");
+        })
+        .catch((error) => {
+          console.log(error.response);
+          this.requestChanges = false;
+          this.errorText = true;
+        })
+        .catch((error) => {
+          console.log(error.response + "");
+        });
     },
   },
 };
