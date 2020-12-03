@@ -17,11 +17,10 @@ import PublisherDashboard from "@/views/PublisherDashboard.vue";
 import EditPublisherAccount from "@/views/EditPublisherAccount.vue";
 import Game from "@/views/Game.vue"
 import PageNotFound from "@/views/PageNotFound.vue";
-
+import Cart from "../views/Cart.vue"
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "Home",
     component: HomePage,
@@ -34,12 +33,20 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import( /* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next({name: "Home"})
+      }
+      else{
+        next()
+      }
+    },
   },
   {
     path: "/latest-release",
@@ -55,21 +62,63 @@ const routes = [
     path: "/register",
     name: "SignUp",
     component: SignUp,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next({name: "Home"})
+      }
+      else{
+        next()
+      }
+    },
   },
   {
     path: "/admin/add-publisher",
     name: "AddPublisher",
     component: AddPublisher,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/admin/publisher-list",
     name: "PublisherList",
     component: PublisherList,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
-    path: "/MyAccount",
+    path: "/my-account",
     name: "User Account",
     component: UserAccount,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next()
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/highlights",
@@ -80,31 +129,119 @@ const routes = [
     path: "/publisher/add-game/:id",
     name: "PublisherAddGame",
     component: PublisherAddGame,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/edit-game/:id",
     name: "PublisherEditGame",
     component: PublisherEditGame,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/admin/games",
     name: "AdminGames",
     component: AdminGames,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/games/:id",
     name: "publisherGames",
     component: PublisherGames,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/dashboard/:id",
     name: "publisherDashboard",
     component: PublisherDashboard,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
+          next()
+        }
+        else{
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+            next({ name: 'publisherDashboard', params: { id: JSON.parse(localStorage.localStorage.id_publisher).value } })
+          }
+          else{
+            next({name: "Home"})  
+          }
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/account/:id",
     name: "editPublisherAccount",
     component: EditPublisherAccount,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
+          next()
+        }
+        else{
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+            next({ name: 'editPublisherAccount', params: { id: JSON.parse(localStorage.id_publisher).value } })
+          }
+          else{
+            next({name: "Home"})  
+          }
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/games/:id",
@@ -115,6 +252,19 @@ const routes = [
     path: "*",
     name: "PageNotFound",
     component: PageNotFound,
+  },
+  {
+    path: "/cart/",
+    name: "Cart",
+    component: Cart,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next()
+      }
+      else{
+        next({name: "Home"})
+      }
+    },
   },
 ];
 const router = new VueRouter({

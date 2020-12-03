@@ -1,17 +1,36 @@
 <template >
-  <v-card :loading="requestChanges">
+  <v-card :loading="requestChanges" color="custom-color">
     <br /><br /><br /><br />
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" class="justify-center" align="center">
-            <v-card round class="rounded-card" height="300px" width="300px">
-              <v-img
-                :src="user.photoPathUser"
-                max-height="300px"
-                max-width="300px"
-              />
-            </v-card>
+            <v-container grid-list-xl>
+              <image-input v-model="avatar">
+                <div slot="activator">
+                  <v-avatar
+                    size="300px"
+                    v-ripple
+                    v-if="!avatar"
+                    class="grey lighten-3 mb-3"
+                  >
+                    <span>Click para agregar una imagen</span>
+                  </v-avatar>
+                  <v-avatar size="300px" v-ripple v-else class="mb-3">
+                    <img :src="avatar" alt="avatar" />
+                  </v-avatar>
+                </div>
+              </image-input>
+              <v-slide-x-transition>
+                <div v-if="avatar && saved == false">
+                  <!-- AQUI ESTA EL BOTON PARA GUARDAR LA IMAGEN -->
+                  <v-btn class="primary" @click="uploadImage" :loading="saving">
+                    Guardar Avatar
+                  </v-btn>
+                  <!--  -->
+                </div>
+              </v-slide-x-transition>
+            </v-container>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
@@ -86,7 +105,14 @@
 
 <script>
 import axios from "axios";
+import ImageInput from "./ImageInput";
 import { URLBACKEND } from "@/assets/url.js";
+import { firebaseConfig } from "@/assets/firebaseAPI.js"
+
+import firebase from "firebase/app";
+import "firebase/firebase-storage";
+
+import { nanoid } from "nanoid";
 export default {
   data() {
     return {
@@ -94,23 +120,37 @@ export default {
       errorText: false,
       close: false,
       countries: [],
-      userID: 3,
+      userID: this.$ls.get("id_user"),
       selectedCountry: "",
+      avatar: null,
+      saving: false,
+      saved: false,
     };
   },
-
+  components: { ImageInput },
+  watch: {
+    avatar: {
+      handler: function () {
+        this.saved = false;
+      },
+      deep: true,
+    },
+  },
+  created() {
+    firebase.initializeApp(firebaseConfig);
+    this.storage = firebase.storage();
+  },
   mounted() {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => {
         var gameInfo = response.data;
         for (var i = 0; i < gameInfo.length; i++) {
-          // console.log(gameInfo[i].name);
           this.countries.push(gameInfo[i].name);
         }
-        // console.log(this.countries);
       });
     this.selectedCountry = this.user.usercountry;
+    this.avatar = this.user.photoPathUser;
   },
   props: {
     dialogProfile: { type: Boolean },
@@ -126,12 +166,53 @@ export default {
     },
   },
   methods: {
+    uploadImage() {
+      this.saving = true;
+      var self = this;
+      var storageRef = firebase.storage().ref();
+      console.log(storageRef);
+      var type = this.avatar.imageFile.name.split(".").pop();
+      var nuid = nanoid();
+      var uploadTask = storageRef
+        .child("profile/" + nuid + "." + type)
+        .put(this.avatar.imageFile);
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        function(error) {
+          console.log(error);
+        },
+        function() {
+          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log("File available at", downloadURL);
+            self.savedAvatar(downloadURL)
+          });
+        }
+      );
+    },
+    savedAvatar(URL) {
+      this.saving = false;
+      this.saved = true;
+      // PARA DEVOLVER EL LINK Y QUE SE ACTUALICE EN EL PROFILE
+      this.user.photoPathUser = URL;
+    },
     dialogClose() {
       this.$emit("dialogClosed", !this.dialogProfile);
     },
     sendEditData() {
       this.requestChanges = true;
-      // console.log(this.countries.indexOf(this.selectedCountry) + 1);
       var self = this;
       axios
         .put(
@@ -147,18 +228,19 @@ export default {
           { headers: { "Content-Type": "application/json" } }
         )
         .then((response) => {
-          console.log(response.status);
-          console.log(this.user);
+          this.user.usercountry = this.selectedCountry;
           if (response.status == 200) {
             self.$emit("dialogClosed", false);
             self.$emit("success", true);
             self.$emit("changedUser", this.user);
             this.requestChanges = false;
+            let cookie = JSON.parse(this.$ls.get("data"));
+            cookie.photo_path = this.user.photoPathUser;
+            this.$ls.set('data', JSON.stringify(cookie));
           } else {
             self.$emit("dialogClosed", false);
             console.log("not 200");
           }
-          console.log("response");
         })
         .catch((error) => {
           console.log(error.response);
@@ -176,5 +258,9 @@ export default {
 <style scoped>
 .rounded-card {
   border-radius: 50%;
+}
+.custom-color {
+  /* background-color: rgb(141, 141, 141); */
+  border-color: rgb(255, 255, 255);
 }
 </style>
