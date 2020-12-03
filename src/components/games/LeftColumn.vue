@@ -20,6 +20,13 @@
     </v-container>
 
     <div class="description">
+      <v-row>
+        <v-container fluid>
+          <v-alert type="success" dense border="left" v-if="alert">
+            {{this.alert_text}}
+          </v-alert>
+        </v-container>
+      </v-row>
       <h1>
         Descripción: <span class="desc">{{ game.game_description }}</span>
       </h1>
@@ -51,7 +58,7 @@
             </div>
           </v-layout>
         </v-col>
-        <v-col>
+        <v-col v-if="this.$ls.get('data') != null && !this.status">
           <v-layout justify-center>
             <v-btn
               outlined
@@ -65,7 +72,7 @@
             </v-btn>
           </v-layout>
         </v-col>
-        <v-col>
+        <v-col v-if="this.$ls.get('data') != null && !this.status">
           <v-layout justify-center>
             <v-btn
               outlined
@@ -74,6 +81,7 @@
               width="200"
               height="50"
               large
+              @click="singlePurchase"
             >
               Comprar ahora
             </v-btn>
@@ -85,9 +93,64 @@
 </template>
 
 <script>
+import axios from "axios";
+import { URLBACKEND } from "@/assets/url.js";
+
 export default {
   name: "LeftColumn",
   props: ["game"],
+  data() {
+    return {
+      library: null,
+      status: false,
+      alert: false,
+      alert_text: ""
+    };
+  },
+  methods: {
+    alertTime() {
+      setTimeout(() => {
+        this.alert = false;
+      }, 7000);
+    },
+    singlePurchase() {
+      var purchase = {
+        idGame: this.game.id,
+        idUser: this.$ls.get("id_user"),
+      };
+      axios
+        .post("http://" + URLBACKEND + "/ming/store/single/purchase/", purchase)
+        .then((response) => {
+          this.alert = true
+          this.alert_text = "Juego comprado con éxito"
+          this.alertTime()
+          this.status = true
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    axios
+      .get(
+        "http://" +
+          URLBACKEND +
+          "/ming/v1/users/" +
+          this.$ls.get("id_user") +
+          "/library"
+      )
+      .then((response) => {
+        this.library = response.data;
+        console.log(response.data);
+        for (var i = 0; i < response.data.length; i++) {
+          if (response.data[i].id == this.game.id) {
+            this.status = true;
+          }
+        }
+      });
+  },
 };
 </script>
 
