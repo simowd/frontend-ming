@@ -1,17 +1,36 @@
 <template >
-  <v-card :loading="requestChanges">
+  <v-card :loading="requestChanges" color="custom-color">
     <br /><br /><br /><br />
     <v-card-text>
       <v-container>
         <v-row>
           <v-col cols="12" sm="6" class="justify-center" align="center">
-            <v-card round class="rounded-card" height="300px" width="300px">
-              <v-img
-                :src="user.photoPathUser"
-                max-height="300px"
-                max-width="300px"
-              />
-            </v-card>
+            <v-container grid-list-xl>
+              <image-input v-model="avatar">
+                <div slot="activator">
+                  <v-avatar
+                    size="300px"
+                    v-ripple
+                    v-if="!avatar"
+                    class="grey lighten-3 mb-3"
+                  >
+                    <span>Click para agregar una imagen</span>
+                  </v-avatar>
+                  <v-avatar size="300px" v-ripple v-else class="mb-3">
+                    <img :src="avatar" alt="avatar" />
+                  </v-avatar>
+                </div>
+              </image-input>
+              <v-slide-x-transition>
+                <div v-if="avatar && saved == false">
+                  <!-- AQUI ESTA EL BOTON PARA GUARDAR LA IMAGEN -->
+                  <v-btn class="primary" @click="uploadImage" :loading="saving">
+                    Guardar Avatar
+                  </v-btn>
+                  <!--  -->
+                </div>
+              </v-slide-x-transition>
+            </v-container>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
@@ -86,6 +105,7 @@
 
 <script>
 import axios from "axios";
+import ImageInput from "./ImageInput";
 import { URLBACKEND } from "@/assets/url.js";
 export default {
   data() {
@@ -96,21 +116,31 @@ export default {
       countries: [],
       userID: this.$ls.get("id_user"),
       selectedCountry: "",
+      avatar: null,
+      saving: false,
+      saved: false,
     };
   },
-
+  components: { ImageInput },
+  watch: {
+    avatar: {
+      handler: function () {
+        this.saved = false;
+      },
+      deep: true,
+    },
+  },
   mounted() {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => {
         var gameInfo = response.data;
         for (var i = 0; i < gameInfo.length; i++) {
-          // console.log(gameInfo[i].name);
           this.countries.push(gameInfo[i].name);
         }
-        // console.log(this.countries);
       });
     this.selectedCountry = this.user.usercountry;
+    this.avatar = this.user.photoPathUser;
   },
   props: {
     dialogProfile: { type: Boolean },
@@ -126,12 +156,21 @@ export default {
     },
   },
   methods: {
+    uploadImage() {
+      this.saving = true;
+      setTimeout(() => this.savedAvatar(), 1000);
+    },
+    savedAvatar() {
+      this.saving = false;
+      this.saved = true;
+      // PARA DEVOLVER EL LINK Y QUE SE ACTUALICE EN EL PROFILE
+      // this.user.photoPathUser = ;
+    },
     dialogClose() {
       this.$emit("dialogClosed", !this.dialogProfile);
     },
     sendEditData() {
       this.requestChanges = true;
-      // console.log(this.countries.indexOf(this.selectedCountry) + 1);
       var self = this;
       axios
         .put(
@@ -147,8 +186,7 @@ export default {
           { headers: { "Content-Type": "application/json" } }
         )
         .then((response) => {
-          console.log(response.status);
-          console.log(this.user);
+          this.user.usercountry = this.selectedCountry;
           if (response.status == 200) {
             self.$emit("dialogClosed", false);
             self.$emit("success", true);
@@ -158,7 +196,6 @@ export default {
             self.$emit("dialogClosed", false);
             console.log("not 200");
           }
-          console.log("response");
         })
         .catch((error) => {
           console.log(error.response);
@@ -176,5 +213,9 @@ export default {
 <style scoped>
 .rounded-card {
   border-radius: 50%;
+}
+.custom-color {
+  /* background-color: rgb(141, 141, 141); */
+  border-color: rgb(255, 255, 255);
 }
 </style>

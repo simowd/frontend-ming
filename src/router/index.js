@@ -17,11 +17,10 @@ import PublisherDashboard from "@/views/PublisherDashboard.vue";
 import EditPublisherAccount from "@/views/EditPublisherAccount.vue";
 import Game from "@/views/Game.vue"
 import PageNotFound from "@/views/PageNotFound.vue";
-
+import Cart from "../views/Cart.vue"
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "Home",
     component: HomePage,
@@ -34,7 +33,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import( /* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
     path: "/login",
@@ -253,6 +252,11 @@ const routes = [
     path: "*",
     name: "PageNotFound",
     component: PageNotFound,
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
   },
 ];
 const router = new VueRouter({
