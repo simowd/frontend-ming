@@ -35,17 +35,17 @@
           <v-col cols="12" sm="6">
             <v-text-field
               label="Apodo"
-              required
               v-model="user.usernickname"
               outlined
               color="black"
               class="ma-4"
               width="280"
+              :rules="[rules.required]"
               height="50"
             ></v-text-field>
             <v-text-field
               label="Email"
-              required
+              :rules="[rules.email]"
               v-model="user.usermail"
               outlined
               color="black"
@@ -74,7 +74,7 @@
       class="red--text pt-2"
       style="font-size: 1.5em"
     >
-      * Todos los campos deben ser completados
+      * Todos los campos deben ser completados correctamente
     </v-card-subtitle>
     <v-card-actions class="justify-center">
       <v-btn
@@ -125,6 +125,20 @@ export default {
     saving: false,
     saved: false,
     saveCancel: [],
+    rules: {
+      required: (value) => !!value || "Campo requerido.",
+      password: (value) => {
+        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+        return (
+          pattern.test(value) ||
+          "Debe contener 8 digitos, letras mayusculas, minusculas y numeros"
+        );
+      },
+      email: (value) => {
+        const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        return pattern.test(value) || "Debe contener un email valido";
+      },
+    },
   }),
   props: {
     dialogProfile: { type: Boolean },
@@ -218,42 +232,51 @@ export default {
     sendEditData() {
       this.requestChanges = true;
       var self = this;
-      axios
-        .put(
-          "http://" + URLBACKEND + "/ming/v1/users/" + this.userID,
-          {
-            name: this.user.username,
-            lastname: this.user.username,
-            alias: this.user.usernickname,
-            email: this.user.usermail,
-            id_country: this.countries.indexOf(this.selectedCountry) + 1,
-            photo_path: this.user.photoPathUser,
-          },
-          { headers: { "Content-Type": "application/json" } }
-        )
-        .then((response) => {
-          this.user.usercountry = this.selectedCountry;
-          if (response.status == 200) {
-            self.$emit("dialogClosed", false);
-            self.$emit("success", true);
-            self.$emit("changedUser", this.user);
+      console.log(this.user.usernickname.length);
+      var testmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        this.user.usermail
+      );
+      if (this.user.usernickname.length > 7 && testmail == true) {
+        axios
+          .put(
+            "http://" + URLBACKEND + "/ming/v1/users/" + this.userID,
+            {
+              name: this.user.username,
+              lastname: this.user.username,
+              alias: this.user.usernickname,
+              email: this.user.usermail,
+              id_country: this.countries.indexOf(this.selectedCountry) + 1,
+              photo_path: this.user.photoPathUser,
+            },
+            { headers: { "Content-Type": "application/json" } }
+          )
+          .then((response) => {
+            this.user.usercountry = this.selectedCountry;
+            if (response.status == 200) {
+              self.$emit("dialogClosed", false);
+              self.$emit("success", true);
+              self.$emit("changedUser", this.user);
+              this.requestChanges = false;
+              let cookie = JSON.parse(this.$ls.get("data"));
+              cookie.photo_path = this.user.photoPathUser;
+              this.$ls.set("data", JSON.stringify(cookie));
+            } else {
+              self.$emit("dialogClosed", false);
+              console.log("not 200");
+            }
+          })
+          .catch((error) => {
+            console.log(error.response);
             this.requestChanges = false;
-            let cookie = JSON.parse(this.$ls.get("data"));
-            cookie.photo_path = this.user.photoPathUser;
-            this.$ls.set("data", JSON.stringify(cookie));
-          } else {
-            self.$emit("dialogClosed", false);
-            console.log("not 200");
-          }
-        })
-        .catch((error) => {
-          console.log(error.response);
-          this.requestChanges = false;
-          this.errorText = true;
-        })
-        .catch((error) => {
-          console.log(error.response + "");
-        });
+            this.errorText = true;
+          })
+          .catch((error) => {
+            console.log(error.response + "");
+          });
+      } else {
+        this.requestChanges = false;
+        this.errorText = true;
+      }
     },
   },
 };

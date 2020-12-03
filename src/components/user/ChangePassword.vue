@@ -129,12 +129,27 @@ export default {
       this.newConfirmPass = "";
     },
     dialogClose() {
+      this.cleanData();
       this.$emit("dialogClosed", !this.dialogPassword);
     },
     sendChangedPass() {
       this.requestChanges = true;
+
+      var test1 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(
+        this.newPass
+      );
+      var test2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(
+        this.newConfirmPass
+      );
+      // console.log(test1);
+      // console.log(test2);
+
       var self = this;
-      if (this.newPass == this.newConfirmPass) {
+      if (
+        this.newPass == this.newConfirmPass &&
+        test1 == true &&
+        test2 == true
+      ) {
         axios
           .put(
             "http://" +
