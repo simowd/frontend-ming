@@ -1,16 +1,25 @@
 <template>
   <div>
     <v-card
-      width="50%"
+      width="55%"
       height="20%"
       class="rounded-card"
       :style="{
         boxShadow: '0 0.5px 6rem ' + color + '',
+        borderRadius: '40px',
+      
+  
       }"
     >
       <v-img
         gradient="to top right, rgba(0,0,0,.33), rgba(0,32,72,.7)"
         :src="banner"
+        :style="{
+        boxShadow: '0 0.5px 6rem ' + color + '',
+    
+        height: '40rem'
+  
+      }"
       >
         <v-card-text><br /></v-card-text>
         <v-card-text style="height: 90px; position: relative">
@@ -25,10 +34,24 @@
           <!-- {{ title }} -->
           <v-row>
             <v-col :cols="8">
-              <h1 class="genre">
-                {{ title }}
-              </h1>
-              <h1 class="title">Genero: {{ genre }}</h1>
+              <h2>
+                <span class="title-p"> {{ title }}</span>
+              </h2>
+
+              <h2 class="genre">
+                Géneros:
+                <span
+                  v-for="(genres, key) in genre"
+                  :key="genres.index"
+                  class="genre"
+                >
+                  <span v-if="key === genre.length - 1">
+                    {{ genres }}
+                  </span>
+                  <span v-else> {{ genres }} -</span>
+                </span>
+              </h2>
+              <!-- <h1 class="genre">Genero: {{ genre }}</h1> -->
             </v-col>
             <v-col :cols="4"> </v-col>
           </v-row>
@@ -86,6 +109,10 @@ export default {
 .text-sale {
   text-decoration: line-through;
 }
+p {
+  color: white;
+  font-size: 5rem;
+}
 
 .home-page-discount {
   font-size: 1.5rem;
@@ -105,13 +132,15 @@ export default {
 .rounded-card {
   border-radius: 8%;
 }
-.title {
+.title-p {
+  
   color: white;
-  font-family: verdana;
+  font-size: 3.4rem;
+ 
 }
 .genre {
+  margin-top: 2rem;
   color: white;
-  font-family: "Courier New";
 }
 </style>
 

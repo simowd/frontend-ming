@@ -26,24 +26,27 @@
           :sale="game.sale"
           :release_date="game.releaseDate"
           :title="game.title"
+          :style="{
+            width: '180rem',
+            marginLeft: '8rem',
+          }"
         >
         </SaleCards>
       </v-col>
       <v-col cols="12" sm="2">
-        <v-card>
-          <v-img
-            :src="deleteImg"
-            width="20%"
-            align="center"
-            @click="deleteGame(game.id, index)"
-          ></v-img>
-        </v-card>
+        <v-img
+          class="delete"
+          :src="deleteImg"
+          width="5rem"
+          align="center"
+          @click="deleteGame(game.id, index)"
+        ></v-img>
       </v-col>
     </v-row>
-    <v-divider></v-divider>
+
     <InfiniteLoading @infinite="getGames" ref="infiniteLoading">
       <div slot="no-more">
-        <p class="info-footer">¡Llegaste al final!</p>
+        <p class="info-footer"></p>
       </div>
 
       <div slot="no-results">
@@ -51,27 +54,31 @@
       </div>
     </InfiniteLoading>
     <br />
-    <v-divider />
+
     <v-spacer></v-spacer>
     <v-row no-gutters v-if="totalCart >= 0">
       <v-col cols="12" sm="6"></v-col>
       <v-col cols="12" sm="6">
-        <v-card class="cardColor">
-          <v-card-title class="sale-prices">
-            Total ${{ totalCart }}
-          </v-card-title>
-        </v-card>
+        <!-- <v-card class="cardColor"> -->
+        <v-card-title class="sale-prices">
+          Total ${{ totalCart }}
+        </v-card-title>
+        <!-- </v-card> -->
       </v-col>
       <v-col cols="12" sm="7"></v-col>
       <v-col cols="12" sm="5">
-        <v-card class="cardColor">
-          <v-spacer></v-spacer>
-          <v-card-actions
-            ><v-btn class="buy-button" @click="buyCartGames"
-              >Comprar</v-btn
-            ></v-card-actions
-          >
-        </v-card>
+        <v-btn
+          class="ma-2"
+          outlined
+          color="#49a82c"
+          width="25rem"
+          @click="buyCartGames"
+        >
+          Comprar
+        </v-btn>
+        <!-- <v-spacer></v-spacer>
+        <v-btn class="buy-button" @click="buyCartGames"
+        >Comprar</v-btn> -->
       </v-col>
     </v-row>
   </div>
@@ -206,8 +213,9 @@ export default {
 
 <style scoped>
 .buy-button {
+  margin-left: 25rem;
   font-weight: 300;
-  width: 45%;
+  width: 25%;
   height: 5rem;
   text-align: center;
   padding-top: 0.3rem;
@@ -216,7 +224,11 @@ export default {
   border-width: thin;
   color: #49a82c;
 }
-
+.delete {
+  margin-top: 10rem;
+  margin-left: 2.5rem;
+  cursor: pointer;
+}
 .sale-prices {
   font-size: 2.5rem;
   text-align: center;
