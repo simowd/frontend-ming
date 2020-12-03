@@ -39,6 +39,14 @@ const routes = [{
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next({name: "Home"})
+      }
+      else{
+        next()
+      }
+    },
   },
   {
     path: "/latest-release",
@@ -54,21 +62,63 @@ const routes = [{
     path: "/register",
     name: "SignUp",
     component: SignUp,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next({name: "Home"})
+      }
+      else{
+        next()
+      }
+    },
   },
   {
     path: "/admin/add-publisher",
     name: "AddPublisher",
     component: AddPublisher,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/admin/publisher-list",
     name: "PublisherList",
     component: PublisherList,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
-    path: "/MyAccount",
+    path: "/my-account",
     name: "User Account",
     component: UserAccount,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next()
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/highlights",
@@ -79,31 +129,119 @@ const routes = [{
     path: "/publisher/add-game/:id",
     name: "PublisherAddGame",
     component: PublisherAddGame,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/edit-game/:id",
     name: "PublisherEditGame",
     component: PublisherEditGame,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/admin/games",
     name: "AdminGames",
     component: AdminGames,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/games/:id",
     name: "publisherGames",
     component: PublisherGames,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+          next()
+        }
+        else{
+          next({name: "Home"})
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/dashboard/:id",
     name: "publisherDashboard",
     component: PublisherDashboard,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2 || (localStorage.user_type == 1 && localStorage.id_user == to.params.id)){
+          next()
+        }
+        else{
+          if(localStorage.user_type == 1 && localStorage.id_user != to.params.id){
+            next({ name: 'publisherDashboard', params: { id: localStorage.localStorage.id_publisher } })
+          }
+          else{
+            next({name: "Home"})  
+          }
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/publisher/account/:id",
     name: "editPublisherAccount",
     component: EditPublisherAccount,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        if(localStorage.user_type == 2 || (localStorage.user_type == 1 && localStorage.id_user == to.params.id)){
+          next()
+        }
+        else{
+          if(localStorage.user_type == 1 && localStorage.id_user != to.params.id){
+            next({ name: 'editPublisherAccount', params: { id: localStorage.id_publisher } })
+          }
+          else{
+            next({name: "Home"})  
+          }
+        }
+      }
+      else{
+        next({name: "Login"})
+      }
+    },
   },
   {
     path: "/games/:id",

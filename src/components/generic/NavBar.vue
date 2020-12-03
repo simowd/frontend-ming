@@ -22,7 +22,9 @@
         <div v-if="flag == 1">
           <v-menu offset-y transition="slide-y-transition">
             <template v-slot:activator="{ on }">
-              <p class="account" v-on="on">Mi Cuenta</p>
+              <p class="account" :style="{ color: linkColor }" v-on="on">
+                Mi Cuenta
+              </p>
             </template>
             <v-list>
               <v-list-item
@@ -31,6 +33,9 @@
                 v-for="(item, index) in items"
                 :key="index"
               >
+                <v-list-item-icon>
+                  <v-icon v-text="item.icon"></v-icon>
+                </v-list-item-icon>
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
@@ -69,9 +74,9 @@ export default {
       showMenu: false,
       banner: null,
       items: [
-        { title: "Mi cuenta", link: "/MyAccount" },
-        { title: "Carrito", link: "/cart" },
-        { title: "Cerrar Sesion" },
+        { title: "Mi cuenta", link: "/my-account", icon: "mdi-account" },
+        { title: "Carrito", link: "/", icon: "mdi-cart" },
+        { title: "Cerrar Sesion", icon: "mdi-logout-variant" },
       ],
     };
   },
