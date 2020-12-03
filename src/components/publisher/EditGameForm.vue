@@ -1,405 +1,434 @@
 <template>
   <div>
     <v-container>
-      <v-row>
-        <v-col :cols="6">
-          <div class="add-publisher-forms-container" justify-center>
-            <v-text-field
-              :rules="[rules.required]"
-              label="Título"
-              outlined
-              color="#707070"
-              id="title"
-              v-model="gameInfo.title"
-            ></v-text-field>
-
-            <v-combobox
-              dense
-              outlined
-              color="#66698C"
-              item-color="#66698C"
-              :items="languages"
-              label="Idioma"
-              multiple
-              id="languageGames"
-              @change="languagesValue"
-              v-model="this.gameEditInfo.language"
-            ></v-combobox>
-
-            <v-combobox
-              dense
-              outlined
-              color="#707070"
-              item-color="#707070"
-              :items="genres"
-              label="Género"
-              multiple
-              id="genreGames"
-              @change="genresValue"
-              v-model="this.gameEditInfo.genres"
-            ></v-combobox>
-
-            <v-text-field
-              :rules="[rules.required]"
-              label="Tamaño"
-              outlined
-              color="#707070"
-              id="size"
-              v-model="gameInfo.size"
-            ></v-text-field>
-
-            <v-select
-              dense
-              outlined
-              color="#707070"
-              item-color="#707070"
-              :items="esrbList"
-              label="Clasificación"
-              id="idEsrb"
-              @change="EsrbValue"
-            ></v-select>
-
-            <v-text-field
-              :rules="[rules.required]"
-              label="Desarrollador"
-              outlined
-              color="#707070"
-              id="developer"
-              v-model="gameInfo.developer"
-            ></v-text-field>
-
-            <div>
-              <v-slider
-                :max="100"
-                label="Jugadores"
-                class="align-center"
-                color="#707070"
-                thumb-label
-                track-color="#66698C"
-                thumb-color="#66698C"
-                id="players"
-                v-model="gameInfo.players"
-              >
-                <template v-slot:append>
-                  <v-text-field
-                    id="players"
-                    v-model="gameInfo.players"
-                    class="mt-0 pt-0"
-                    type="number"
-                    style="width: 60px"
-                    color="#707070"
-                  ></v-text-field>
-                </template>
-              </v-slider>
-            </div>
-
-            <div>
-              <v-dialog
-                ref="dialog"
-                v-model="modal"
-                :return-value.sync="localDate"
-                persistent
-                width="290px"
-                color="#707070"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-text-field
-                    v-model="localDate"
-                    prepend-icon="mdi-calendar"
-                    label="Lanzamiento"
-                    readonly
-                    v-on="on"
-                    color="#707070"
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="localDate" scrollable color="#707070">
-                  <v-spacer></v-spacer>
-                  <v-btn text color="#707070" @click="modal = false">
-                    Cancelar
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="#707070"
-                    @click="$refs.dialog.save(localDate)"
-                  >
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-dialog>
-            </div>
-
-            <v-textarea
-              outlined
-              :rules="[rules.required]"
-              label="Descripción del Juego"
-              value=""
-              no-resize
-              clearable
-              clear-icon="mdi-close-circle"
-              counter
-              color="#707070"
-              id="game_description"
-              v-model="gameInfo.game_description"
-            ></v-textarea>
-            <v-combobox
-              dense
-              outlined
-              color="#707070"
-              item-color="#707070"
-              :items="directx"
-              label="DirectX"
-              multiple
-              small-chips
-              deletable-chips
-              id="directx"
-              @change="DirectXValue"
-              v-model="this.directxGetValue"
-            ></v-combobox>
-
-            <v-text-field
-              :rules="[rules.required]"
-              label="Precio"
-              outlined
-              color="#707070"
-              id="price"
-              v-model.number="gameInfo.price"
-              @keypress="isNumber($event)"
-            ></v-text-field>
-
-            <v-text-field
-              :rules="[rules.required]"
-              label="Descuento %"
-              outlined
-              color="#707070"
-              id="sale"
-              v-model.number="gameInfo.sale"
-              @keypress="isNumber($event)"
-            ></v-text-field>
-          </div>
-        </v-col>
-        <v-col :cols="6">
-          <div class="add-publisher-forms-container" justify-center>
-            <div>
-              <v-file-input
-                color="#707070"
-                counter
-                label="Seleccione el banner del juego"
-                prepend-icon="mdi-image-plus"
+      <v-form v-model="valid" ref="form">
+        <v-row>
+          <v-col :cols="6">
+            <div class="add-publisher-forms-container" justify-center>
+              <v-text-field
+                :rules="[rules.required]"
+                label="Título"
                 outlined
-                :show-size="1000"
-                v-model="uploadBanner"
-                @change="subirBanner"
-              >
-              </v-file-input>
-              <v-file-input
                 color="#707070"
-                counter
-                label="Seleccione las Imágenes"
+                id="title"
+                v-model="gameInfo.title"
+              ></v-text-field>
+
+              <v-select
+                dense
+                outlined
+                color="#66698C"
+                item-color="#66698C"
+                :items="languages"
+                label="Idioma"
                 multiple
-                prepend-icon="mdi-image-plus"
+                id="languageGames"
+                @change="languagesValue"
+                v-model="this.gameEditInfo.language"
+              ></v-select>
+
+              <v-select
+                dense
                 outlined
-                :show-size="1000"
-                accept="image/png, image/jpeg, image/bmp"
-                v-model="imageFiles"
-                @change="subirImage"
-              >
-                <template v-slot:selection="{ index, text }">
-                  <v-chip v-if="index < 5" color="#707070" dark label small>
-                    {{ text }}
-                  </v-chip>
-
-                  <span
-                    v-else-if="index === 2"
-                    class="overline grey--text text--darken-3 mx-2"
-                  >
-                    +{{ files.length - 2 }} File(s)
-                  </span>
-                </template>
-              </v-file-input>
-
-              <v-file-input
                 color="#707070"
+                item-color="#707070"
+                :items="genres"
+                label="Género"
+                multiple
+                id="genreGames"
+                @change="genresValue"
+                v-model="this.gameEditInfo.genres"
+              ></v-select>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Tamaño"
+                outlined
+                color="#707070"
+                id="size"
+                v-model="gameInfo.size"
+              ></v-text-field>
+
+              <v-select
+                dense
+                outlined
+                color="#707070"
+                item-color="#707070"
+                :items="esrbList"
+                label="Clasificación"
+                id="idEsrb"
+                @change="EsrbValue"
+              ></v-select>
+
+              <v-text-field
+                :rules="[rules.required]"
+                label="Desarrollador"
+                outlined
+                color="#707070"
+                id="developer"
+                v-model="gameInfo.developer"
+              ></v-text-field>
+
+              <div>
+                <v-slider
+                  :max="100"
+                  :min="1"
+                  label="Jugadores"
+                  class="align-center"
+                  color="#707070"
+                  thumb-label
+                  track-color="#66698C"
+                  thumb-color="#66698C"
+                  id="players"
+                  v-model="gameInfo.players"
+                >
+                  <template v-slot:append>
+                    <v-text-field
+                      id="players"
+                      :rules="[rules.minPlayers, rules.maxPlayers]"
+                      v-model.number="gameInfo.players"
+                      @keypress="isNumber($event)"
+                      class="mt-0 pt-0"
+                      type="number"
+                      style="width: 60px"
+                      color="#707070"
+                      max="100"
+                      min="1"
+                    ></v-text-field>
+                  </template>
+                </v-slider>
+              </div>
+
+              <div>
+                <v-dialog
+                  ref="dialog"
+                  v-model="modal"
+                  :return-value.sync="localDate"
+                  persistent
+                  width="290px"
+                  color="#707070"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="localDate"
+                      prepend-icon="mdi-calendar"
+                      label="Lanzamiento"
+                      readonly
+                      v-on="on"
+                      color="#707070"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="localDate" scrollable color="#707070">
+                    <v-spacer></v-spacer>
+                    <v-btn text color="#707070" @click="modal = false">
+                      Cancelar
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="#707070"
+                      @click="$refs.dialog.save(localDate)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </div>
+
+              <v-textarea
+                outlined
+                :rules="[rules.required]"
+                label="Descripción del Juego"
+                value=""
+                no-resize
+                clearable
+                clear-icon="mdi-close-circle"
                 counter
-                label="Seleccione los Archivos del Juego"
-                prepend-icon="mdi-paperclip"
+                color="#707070"
+                id="game_description"
+                v-model="gameInfo.game_description"
+              ></v-textarea>
+              <v-select
+                dense
                 outlined
-                :show-size="1000"
-                v-model="uploadFile"
-                @change="subirFile"
+                color="#707070"
+                item-color="#707070"
+                :items="directx"
+                label="DirectX"
+                multiple
+                small-chips
+                deletable-chips
+                id="directx"
+                @change="DirectXValue"
+                v-model="this.directxGetValue"
+              ></v-select>
+
+              <v-text-field
+                :rules="[rules.required, rules.minValue, rules.maxValue]"
+                label="Precio"
+                outlined
+                color="#707070"
+                id="price"
+                v-model.number="gameInfo.price"
+                @keypress="isNumber($event)"
+              ></v-text-field>
+
+              <v-text-field
+                :rules="[rules.required, rules.minValue, rules.maxSaleValue]"
+                label="Descuento %"
+                outlined
+                color="#707070"
+                id="sale"
+                v-model.number="gameInfo.sale"
+                @keypress="isNumber($event)"
+              ></v-text-field>
+            </div>
+          </v-col>
+          <v-col :cols="6">
+            <div class="add-publisher-forms-container" justify-center>
+              <div>
+                <v-file-input
+                  color="#707070"
+                  counter
+                  label="Seleccione el banner del juego"
+                  prepend-icon="mdi-image-plus"
+                  outlined
+                  :show-size="1000"
+                  v-model="uploadBanner"
+                  @change="subirBanner"
+                >
+                </v-file-input>
+                <v-file-input
+                  color="#707070"
+                  counter
+                  label="Seleccione las Imágenes"
+                  multiple
+                  prepend-icon="mdi-image-plus"
+                  outlined
+                  :show-size="1000"
+                  accept="image/png, image/jpeg, image/bmp"
+                  v-model="imageFiles"
+                  @change="subirImage"
+                >
+                  <template v-slot:selection="{ index, text }">
+                    <v-chip v-if="index < 5" color="#707070" dark label small>
+                      {{ text }}
+                    </v-chip>
+
+                    <span
+                      v-else-if="index === 2"
+                      class="overline grey--text text--darken-3 mx-2"
+                    >
+                      +{{ files.length - 2 }} File(s)
+                    </span>
+                  </template>
+                </v-file-input>
+
+                <v-file-input
+                  color="#707070"
+                  counter
+                  label="Seleccione los Archivos del Juego"
+                  prepend-icon="mdi-paperclip"
+                  outlined
+                  :show-size="1000"
+                  v-model="uploadFile"
+                  @change="subirFile"
+                >
+                  <template v-slot:selection="{ index, text }">
+                    <v-chip v-if="index < 5" color="#707070" dark label small>
+                      {{ text }}
+                    </v-chip>
+
+                    <span
+                      v-else-if="index === 2"
+                      class="overline grey--text text--darken-3 mx-2"
+                    >
+                      +{{ files.length - 2 }} File(s)
+                    </span>
+                  </template>
+                </v-file-input>
+
+                <v-layout justify-center class="picker-container">
+                  <v-color-picker
+                    dot-size="2rem"
+                    mode="hexa"
+                    hide-mode-switch
+                    width="400"
+                    v-model="ColorValue"
+                  ></v-color-picker>
+                </v-layout>
+
+                <v-btn
+                  :loading="loading"
+                  :disabled="loading"
+                  outlined
+                  color="#707070"
+                  class="ma-2"
+                  @click="
+                    showWindows();
+                    loader = 'loading';
+                  "
+                >
+                  Windows
+                  <v-icon right>
+                    mdi-microsoft-windows
+                  </v-icon>
+                </v-btn>
+
+                <div v-if="windows == true">
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Windows - Procesador"
+                    outlined
+                    color="#707070"
+                    v-model="rbWindows.processor"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Windows - Memoria"
+                    outlined
+                    color="#707070"
+                    v-model="rbWindows.memory"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Windows - Gráficos"
+                    outlined
+                    color="#707070"
+                    v-model="rbWindows.graphics"
+                  ></v-text-field>
+                </div>
+              </div>
+
+              <div>
+                <v-btn
+                  :loading="loading2"
+                  :disabled="loading2"
+                  outlined
+                  color="#707070"
+                  class="ma-2"
+                  @click="
+                    showMacOS();
+                    loader = 'loading2';
+                  "
+                >
+                  MacOS
+                  <v-icon right>
+                    mdi-apple
+                  </v-icon>
+                </v-btn>
+
+                <div v-if="macos == true">
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="MacOS - Procesador"
+                    outlined
+                    color="#707070"
+                    v-model="rbMacOS.processor"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="MacOS - Memoria"
+                    outlined
+                    color="#707070"
+                    v-model="rbMacOS.memory"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="MacOS - Gráficos"
+                    outlined
+                    color="#707070"
+                    v-model="rbMacOS.graphics"
+                  ></v-text-field>
+                </div>
+              </div>
+
+              <div>
+                <v-btn
+                  :loading="loading1"
+                  :disabled="loading1"
+                  outlined
+                  color="#707070"
+                  class="ma-2"
+                  @click="
+                    showLinux();
+                    loader = 'loading1';
+                  "
+                >
+                  Linux
+                  <v-icon right>
+                    mdi-ubuntu
+                  </v-icon>
+                </v-btn>
+
+                <div v-if="linux == true">
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Linux - Procesador"
+                    outlined
+                    color="#707070"
+                    v-model="rbLinux.processor"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Linux - Memoria"
+                    outlined
+                    color="#707070"
+                    v-model="rbLinux.memory"
+                  ></v-text-field>
+
+                  <v-text-field
+                    :rules="[rules.required]"
+                    label="Linux - Gráficos"
+                    outlined
+                    color="#707070"
+                    v-model="rbLinux.graphics"
+                  ></v-text-field>
+                </div>
+              </div>
+
+              <v-alert
+                dense
+                border="left"
+                colored-border
+                type="error"
+                v-if="alert"
+                width="60rem"
               >
-                <template v-slot:selection="{ index, text }">
-                  <v-chip v-if="index < 5" color="#707070" dark label small>
-                    {{ text }}
-                  </v-chip>
+                {{ this.alert_text }}
+              </v-alert>
+              <v-alert
+                dense
+                border="left"
+                colored-border
+                type="success"
+                v-if="alert_sucess"
+                width="60rem"
+              >
+                Juego Actualizado.
+              </v-alert>
 
-                  <span
-                    v-else-if="index === 2"
-                    class="overline grey--text text--darken-3 mx-2"
-                  >
-                    +{{ files.length - 2 }} File(s)
-                  </span>
-                </template>
-              </v-file-input>
-
-              <v-layout justify-center class="picker-container">
-                <v-color-picker
-                  dot-size="2rem"
-                  mode="hexa"
-                  hide-mode-switch
-                  width="400"
-                  v-model="ColorValue"
-                ></v-color-picker>
+              <v-layout justify-center>
+                <v-btn
+                  class="ma-2"
+                  outlined
+                  color="#49a82c"
+                  width="25rem"
+                  @click="verify"
+                >
+                  Editar
+                </v-btn>
               </v-layout>
-
-              <v-btn
-                :loading="loading"
-                :disabled="loading"
-                outlined
-                color="#707070"
-                class="ma-2"
-                @click="
-                  showWindows();
-                  loader = 'loading';
-                "
-              >
-                Windows
-                <v-icon right>
-                  mdi-microsoft-windows
-                </v-icon>
-              </v-btn>
-
-              <div v-if="windows == true">
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Windows - Procesador"
-                  outlined
-                  color="#707070"
-                  v-model="rbWindows.processor"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Windows - Memoria"
-                  outlined
-                  color="#707070"
-                  v-model="rbWindows.memory"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Windows - Gráficos"
-                  outlined
-                  color="#707070"
-                  v-model="rbWindows.graphics"
-                ></v-text-field>
-              </div>
             </div>
-
-            <div>
-              <v-btn
-                :loading="loading2"
-                :disabled="loading2"
-                outlined
-                color="#707070"
-                class="ma-2"
-                @click="
-                  showMacOS();
-                  loader = 'loading2';
-                "
-              >
-                MacOS
-                <v-icon right>
-                  mdi-apple
-                </v-icon>
-              </v-btn>
-
-              <div v-if="macos == true">
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="MacOS - Procesador"
-                  outlined
-                  color="#707070"
-                  v-model="rbMacOS.processor"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="MacOS - Memoria"
-                  outlined
-                  color="#707070"
-                  v-model="rbMacOS.memory"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="MacOS - Gráficos"
-                  outlined
-                  color="#707070"
-                  v-model="rbMacOS.graphics"
-                ></v-text-field>
-              </div>
-            </div>
-
-            <div>
-              <v-btn
-                :loading="loading1"
-                :disabled="loading1"
-                outlined
-                color="#707070"
-                class="ma-2"
-                @click="
-                  showLinux();
-                  loader = 'loading1';
-                "
-              >
-                Linux
-                <v-icon right>
-                  mdi-ubuntu
-                </v-icon>
-              </v-btn>
-
-              <div v-if="linux == true">
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Linux - Procesador"
-                  outlined
-                  color="#707070"
-                  v-model="rbLinux.processor"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Linux - Memoria"
-                  outlined
-                  color="#707070"
-                  v-model="rbLinux.memory"
-                ></v-text-field>
-
-                <v-text-field
-                  :rules="[rules.required]"
-                  label="Linux - Gráficos"
-                  outlined
-                  color="#707070"
-                  v-model="rbLinux.graphics"
-                ></v-text-field>
-              </div>
-            </div>
-
-            <v-layout justify-center>
-              <v-btn
-                class="ma-2"
-                outlined
-                color="#49a82c"
-                width="25rem"
-                @click="verify"
-              >
-                Editar
-              </v-btn>
-            </v-layout>
-          </div>
-        </v-col>
-      </v-row>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-container>
+    {{gameInfo}}
   </div>
 </template>
 
@@ -421,6 +450,10 @@ export default {
   name: "EditGameForm",
   data() {
     return {
+      valid: null,
+      alert: false,
+      alert_sucess: false,
+      alert_text: null,
       idGame: null,
       modal: false,
       localDate: this.date,
@@ -458,8 +491,8 @@ export default {
         operatingSystem: [],
         languageGames: [],
         genreGames: [],
-        price: 0,
-        sale: 0,
+        price: null,
+        sale: null,
       },
       gameEditInfo: {},
       directxGetValue: [],
@@ -499,6 +532,11 @@ export default {
 
       rules: {
         required: (value) => !!value || "Requerido",
+        minValue: (value) => value >= 0 || "No puede ser menor a 0",
+        maxValue: (value) => value <= 9999 || "No puede ser mayor a 9999",
+        maxSaleValue: (value) => value <= 100 || "No puede ser mayor al 100%",
+        minPlayers: (value) => value >= 1 || "No puede ser menor a 1",
+        maxPlayers: (value) => value <= 100 || "No puede ser mayor a 100",
       },
 
       uploadFile: null,
@@ -543,7 +581,9 @@ export default {
         this.gameInfo.game_description = this.gameEditInfo.game_description;
         this.gameInfo.price = this.gameEditInfo.price;
         this.gameInfo.idEsrb = this.gameEditInfo.esrb.idEsrb;
-        this.gameInfo.release_date = dayjs(this.gameEditInfo.releaseDate).format("YYYY-MM-DD");
+        this.gameInfo.release_date = dayjs(
+          this.gameEditInfo.releaseDate
+        ).format("YYYY-MM-DD");
         this.gameInfo.images = this.gameEditInfo.images;
         this.gameInfo.download_path = this.gameEditInfo.download_path;
         this.ColorValue.hexa = this.gameEditInfo.color;
@@ -705,8 +745,36 @@ export default {
         .then((response) => (this.gameInfo = response.data));
     },
     verify() {
-      this.update();
-      alert("Juego Actualizado");
+      if (this.checkProperties(this.gameInfo)) {
+        this.alert_text = "Todos los campos deben ser rellenados.";
+        this.alert = true;
+        this.alertTime();
+      } else {
+        if (this.valid) {
+          this.update();
+          this.alert_sucess = true;
+          this.alertTime();
+        } else {
+          this.alert_text = "El formulario no es válido.";
+          this.alert = true;
+          this.alertTime();
+        }
+      }
+    },
+    alertTime() {
+      setTimeout(() => {
+        this.alert = false;
+        this.alert_sucess = false;
+      }, 3000);
+    },
+    checkProperties(obj) {
+      var flag = false;
+      for (var key in obj) {
+        if (obj[key] === null || obj[key] === "" || obj[key].length < 1) {
+          flag = true;
+        }
+      }
+      return flag;
     },
     languagesValue(values) {
       this.languageList = [];
@@ -769,7 +837,7 @@ export default {
       this.directxList.sort(function(a, b) {
         return a - b;
       });
-      this.gameInfo.direct_x = this.directxList;
+      this.gameInfo.directx = this.directxList;
     },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
@@ -882,7 +950,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-combobox input {
+.v-select input {
   font-size: 8rem;
   font-weight: 100;
   text-transform: capitalize;

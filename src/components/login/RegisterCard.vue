@@ -120,9 +120,6 @@
           >
             {{ this.alert_text }}
           </v-alert>
-          <!-- <<v-alert dense outlined :type="alert_type" v-if="alert" width="45rem">
-            {{ this.alert_text }}
-          </v-alert>-->
         </v-col>
       </v-row>
     </v-container>
@@ -167,7 +164,6 @@ export default {
         .then((response) => (this.infoUser = response.data));
     },
     verify() {
-      // this.verifyAtrribute(this.infoUser.name, "Falta el Nombre");
       if (this.checkProperties(this.infoUser)) {
         this.alert_text = "Todos los campos deben ser rellenados.";
         this.alert = true;

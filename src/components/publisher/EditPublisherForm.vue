@@ -173,31 +173,37 @@ export default {
         .then((response) => (this.infoUser = response.data));
     },
     verify() {
-      if (this.checkProperties(this.infoUser)) {
-        this.alert_text = "Todos los campos deben ser rellenados.";
+      if (this.infoUser.password != this.infoUser.repeat_password) {
+        this.alert_text = "Las contraseñas no coinciden.";
         this.alert = true;
         this.alertTime();
       } else {
-        if (this.infoUser.username.length >= 20) {
-          this.alert_text = "El username es mayor a 20 caracteres.";
+        if (this.checkProperties(this.infoUser)) {
+          this.alert_text = "Todos los campos deben ser rellenados.";
           this.alert = true;
           this.alertTime();
         } else {
-          if (this.valid) {
-            if (this.infoUser.idCountry === 0) {
-              this.alert_text = "El País no es válido.";
-              this.alert = true;
-              this.alertTime();
-            } else {
-              this.create();
-              this.alert_sucess = true;
-              this.alertTime();
-              this.reloadPage();
-            }
-          } else {
-            this.alert_text = "El formulario no es válido.";
+          if (this.infoUser.username.length >= 20) {
+            this.alert_text = "El username es mayor a 20 caracteres.";
             this.alert = true;
             this.alertTime();
+          } else {
+            if (this.valid) {
+              if (this.infoUser.idCountry === 0) {
+                this.alert_text = "El País no es válido.";
+                this.alert = true;
+                this.alertTime();
+              } else {
+                this.create();
+                this.alert_sucess = true;
+                this.alertTime();
+                this.reloadPage();
+              }
+            } else {
+              this.alert_text = "El formulario no es válido.";
+              this.alert = true;
+              this.alertTime();
+            }
           }
         }
       }
