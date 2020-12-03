@@ -116,7 +116,7 @@ const routes = [{
     component: PageNotFound,
   },
   {
-    path: "/cart",
+    path: "/cart/",
     name: "Cart",
     component: Cart,
   },

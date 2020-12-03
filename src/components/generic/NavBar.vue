@@ -82,7 +82,7 @@ export default {
       if (JSON.parse(this.$ls.get("data")).photo_path != null) {
         this.flag = 1;
         this.banner = JSON.parse(this.$ls.get("data")).photo_path;
-        console.log(this.banner);
+        // console.log(this.banner);
       } else {
         this.flag = 1;
         this.banner = require("../../assets/pub-icon.png");

@@ -166,9 +166,7 @@ export default {
   data() {
     return {
       gameInfo: [],
-
       title: "",
-
       user: {
         username: "Username",
         usernickname: "NickName",
@@ -187,8 +185,6 @@ export default {
     axios
       .get("http://" + URLBACKEND + "/ming/v1/users/" + this.$ls.get("id_user"))
       .then((response) => {
-        // this.gameInfo = response.data;
-        // console.log(response.data);
         this.userID = this.$ls.get("id_user");
         this.user.username = response.data.username;
         this.user.usernickname = response.data.alias;
@@ -196,18 +192,6 @@ export default {
         this.user.usercountry = response.data.country;
         this.user.photoPathUser = response.data.photo_path;
       });
-    // axios
-    //   .post("https://" + URLBACKEND + "/ming/user", {
-    //     name: "Erica",
-    //     lastname: "Butcher",
-    //     username: "Crash Bandicoot",
-    //     alias: "Crash",
-    //     email: "contra@gmail.com",
-    //     password: "contra707",
-    //   })
-    //   .then(function (response) {
-    //     console.log(response);
-    //   });
   },
   methods: {
     getGames: function ($state) {
