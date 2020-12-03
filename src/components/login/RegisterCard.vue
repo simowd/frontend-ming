@@ -17,7 +17,7 @@
                 <v-form v-model="valid">
                   <v-text-field
                     outlined
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.nameLength]"
                     label="Nombre Completo"
                     dense
                     color="#66698C"
@@ -29,7 +29,7 @@
 
                   <v-text-field
                     outlined
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.lastnameLength]"
                     label="Apellidos"
                     dense
                     color="#66698C"
@@ -41,7 +41,7 @@
 
                   <v-text-field
                     outlined
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.usernameLength]"
                     label="Nombre de Usuario"
                     dense
                     color="#66698C"
@@ -53,7 +53,7 @@
 
                   <v-text-field
                     outlined
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.aliasLength]"
                     label="Apodo"
                     dense
                     color="#66698C"
@@ -65,7 +65,7 @@
 
                   <v-text-field
                     outlined
-                    :rules="[rules.required, rules.email]"
+                    :rules="[rules.required, rules.email, , rules.emailLength]"
                     label="Correo Electrónico"
                     dense
                     color="#66698C"
@@ -77,7 +77,7 @@
 
                   <v-text-field
                     :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="[rules.required, rules.min]"
+                    :rules="[rules.required, rules.min, rules.passwordLength]"
                     :type="show1 ? 'text' : 'password'"
                     name="input-10-1"
                     label="Contraseña"
@@ -154,6 +154,18 @@ export default {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
         },
+        nameLength: (value) =>
+          value.length < 40 || "Debe ser de menor cantidad de caracteres",
+        lastnameLength: (value) =>
+          value.length < 50 || "Debe ser de menor cantidad de caracteres",
+        usernameLength: (value) =>
+          value.length < 20 || "Debe ser de menor cantidad de caracteres",
+        aliasLength: (value) =>
+          value.length < 50 || "Debe ser de menor cantidad de caracteres",
+        emailLength: (value) =>
+          value.length < 100 || "Debe ser de menor cantidad de caracteres",
+        passwordLength: (value) =>
+          value.length < 35 || "Debe ser de menor cantidad de caracteres",
       },
     };
   },

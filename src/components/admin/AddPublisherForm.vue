@@ -3,7 +3,7 @@
     <div class="add-publisher-forms-container" justify-center>
       <v-form v-model="valid" ref="form">
         <v-text-field
-          :rules="[rules.required]"
+          :rules="[rules.required, rules.usernameLength]"
           label="Nombre de Usuario"
           outlined
           color="#707070"
@@ -12,7 +12,7 @@
         ></v-text-field>
 
         <v-text-field
-          :rules="[rules.required, rules.email]"
+          :rules="[rules.required, rules.email, rules.emailLength]"
           label="Correo Electrónico"
           outlined
           color="#707070"
@@ -21,7 +21,7 @@
         ></v-text-field>
 
         <v-text-field
-          :rules="[rules.required, rules.email]"
+          :rules="[rules.required, rules.email, rules.paypalLength]"
           label="Pay Pal"
           outlined
           color="#707070"
@@ -30,7 +30,7 @@
         ></v-text-field>
 
         <v-text-field
-          :rules="[rules.required]"
+          :rules="[rules.required, rules.publisherLength]"
           label="Editor"
           outlined
           color="#707070"
@@ -51,7 +51,7 @@
 
         <v-text-field
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-          :rules="[rules.required, rules.min]"
+          :rules="[rules.required, rules.min, rules.passwordLength]"
           :type="show1 ? 'text' : 'password'"
           name="input-10-1"
           label="Contraseña"
@@ -129,6 +129,16 @@ export default {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
         },
+        usernameLength: (value) =>
+          value.length < 20 || "Debe ser de menor cantidad de caracteres",
+        emailLength: (value) =>
+          value.length < 100 || "Debe ser de menor cantidad de caracteres",
+        paypalLength: (value) =>
+          value.length < 100 || "Debe ser de menor cantidad de caracteres",
+        publisherLength: (value) =>
+          value.length < 50 || "Debe ser de menor cantidad de caracteres",
+        passwordLength: (value) =>
+          value.length < 35 || "Debe ser de menor cantidad de caracteres",
       },
     };
   },
@@ -165,6 +175,7 @@ export default {
               this.alertTime();
               this.$refs.form.reset();
               this.restoreObjValues();
+              this.reloadPage();
             }
           } else {
             this.alert_text = "El formulario no es válido.";
@@ -173,6 +184,11 @@ export default {
           }
         }
       }
+    },
+    reloadPage() {
+      setTimeout(() => {
+        this.$router.push("/admin/publisher-list");
+      }, 1000);
     },
     alertTime() {
       setTimeout(() => {
