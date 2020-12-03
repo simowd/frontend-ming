@@ -203,11 +203,11 @@ const routes = [{
     component: PublisherDashboard,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_publisher).value == to.params.id)){
           next()
         }
         else{
-          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_publisher).value != to.params.id){
             next({ name: 'publisherDashboard', params: { id: JSON.parse(localStorage.localStorage.id_publisher).value } })
           }
           else{
@@ -226,11 +226,12 @@ const routes = [{
     component: EditPublisherAccount,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
+        console.log("Hola")
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_publisher).value == to.params.id)){
           next()
         }
         else{
-          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_publisher).value != to.params.id){
             next({ name: 'editPublisherAccount', params: { id: JSON.parse(localStorage.id_publisher).value } })
           }
           else{
