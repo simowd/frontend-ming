@@ -738,11 +738,6 @@ export default {
         )
         .then((response) => (this.gameInfo = response.data));
     },
-    reloadPage() {
-      setTimeout(() => {
-        this.$router.push("/publisher/games/" + this.$ls.get("id_publisher"));
-      }, 1000);
-    },
     verify() {
       if (this.checkProperties(this.gameInfo)) {
         this.alert_text = "Todos los campos deben ser rellenados.";
@@ -761,6 +756,11 @@ export default {
           this.alertTime();
         }
       }
+    },
+    reloadPage() {
+      setTimeout(() => {
+        this.$router.push("/publisher/games/" + this.$ls.get("id_publisher"));
+      }, 1000);
     },
     alertTime() {
       setTimeout(() => {
