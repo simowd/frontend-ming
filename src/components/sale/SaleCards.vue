@@ -15,7 +15,7 @@
             <p>{{ release_date.substr(0, release_date.indexOf(" ")) }}<br /></p>
           </div>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="3" v-if="sale > 0">
           <div class="sale-game">- {{ sale }} %</div>
         </v-col>
         <v-col cols="2">
@@ -24,7 +24,9 @@
               ${{ (price - (price * sale) / 100).toFixed(2) }}
               USD
             </p>
-            <p :style="{'text-decoration':' line-through'}">${{ price }} USD</p>
+            <p :style="{ 'text-decoration': ' line-through' }" v-if="sale > 0">
+              ${{ price }} USD
+            </p>
           </div>
         </v-col>
       </v-row>
@@ -37,8 +39,7 @@ export default {
   name: "SaleCards",
   props: ["title", "price", "banner", "id", "color", "sale", "release_date"],
 
-  methods:{
-    
+  methods: {
     game() {
       this.$router.push("/games/" + this.id);
     },
@@ -50,21 +51,20 @@ export default {
 .sale-game-title {
   font-size: 3.5rem;
   font-weight: 300;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   margin-top: 2rem;
   text-align: left;
   margin-right: 10rem;
-  
 }
 
 .sale-game-date {
   font-size: 1.7rem;
-  font-weight:300;
+  font-weight: 300;
   margin-top: 2rem;
   text-align: left;
 }
 
-.sale-game{
+.sale-game {
   font-size: 3rem;
   font-weight: 300;
   width: 45%;
@@ -79,11 +79,11 @@ export default {
   color: #49a82c;
 }
 
-.sale-prices{
+.sale-prices {
   font-size: 2.5rem;
   text-align: center;
   margin-top: 4.3rem;
   margin-right: 2rem;
-  font-weight:200;
+  font-weight: 200;
 }
 </style>

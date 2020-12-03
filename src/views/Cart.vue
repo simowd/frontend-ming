@@ -3,13 +3,13 @@
     <NavBar />
     <div v-for="(game, index) in gameInfo" :key="index" cols="12" sm="6">
       <SaleCards
-        :title="game.title"
-        :price="game.price"
-        :id="game.id"
         :color="game.color"
+        :id="game.id"
         :banner="game.images[0]"
+        :price="game.price"
         :sale="game.sale"
-        :release_date="game.release_date"
+        :release_date="game.releaseDate"
+        :title="game.title"
       />
     </div>
     <InfiniteLoading @infinite="getGames" ref="infiniteLoading">
@@ -74,11 +74,11 @@ export default {
         .get("http://" + URLBACKEND + "/ming/users/" + this.userID + "/cart")
         .then((response) => {
           if (response.data.length) {
-            var res = response.data;
-            this.gameInfo = res;
-            // this.gameInfo.push(...response.data);
+            // var res = response.data;
+            // this.gameInfo = res;
+            this.gameInfo.push(...response.data);
             $state.loaded();
-            console.log(this.gameInfo);
+            console.log(this.gameInfo[0].sale);
           }
           //   else {
           $state.complete();

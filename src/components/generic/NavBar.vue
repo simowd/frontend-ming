@@ -75,7 +75,7 @@ export default {
       banner: null,
       items: [
         { title: "Mi cuenta", link: "/my-account", icon: "mdi-account" },
-        { title: "Carrito", link: "/", icon: "mdi-cart" },
+        { title: "Carrito", link: "/cart", icon: "mdi-cart" },
         { title: "Cerrar Sesion", icon: "mdi-logout-variant" },
       ],
     };
