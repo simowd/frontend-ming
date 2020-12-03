@@ -124,9 +124,14 @@
       </v-row>
     </div>
 
-    <v-row no-gutters>
-      <v-col v-for="(game, index) in gameInfo" :key="index" cols="12" sm="4">
-        <GameCard
+    <v-row no-gutters align="center">
+      <v-col
+        v-for="(game, index) in gameInfo"
+        :key="index"
+        cols="10"
+        align="center"
+      >
+        <GameCardInfo
           :title="game.title"
           :price="game.price"
           :id="game.id"
@@ -134,6 +139,7 @@
           :banner="game.banner"
           :sale="game.sale"
         />
+        <br />
       </v-col>
     </v-row>
     <infinite-loading @infinite="getGames" ref="infiniteLoading">
@@ -151,7 +157,7 @@ import { URLBACKEND } from "@/assets/url.js";
 import axios from "axios";
 import ChangePassword from "../components/user/ChangePassword.vue";
 import EditProfile from "../components/user/EditProfile.vue";
-import GameCard from "../components/generic/GameCard";
+import GameCardInfo from "../components/user/GameCardInfo.vue";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
@@ -160,7 +166,7 @@ export default {
     NavBar,
     ChangePassword,
     EditProfile,
-    GameCard,
+    GameCardInfo,
     InfiniteLoading,
   },
   data() {

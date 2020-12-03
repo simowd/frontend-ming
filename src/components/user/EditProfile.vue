@@ -107,7 +107,7 @@
 import axios from "axios";
 import ImageInput from "./ImageInput";
 import { URLBACKEND } from "@/assets/url.js";
-import { firebaseConfig } from "@/assets/firebaseAPI.js"
+import { firebaseConfig } from "@/assets/firebaseAPI.js";
 
 import firebase from "firebase/app";
 import "firebase/firebase-storage";
@@ -141,6 +141,7 @@ export default {
     this.storage = firebase.storage();
   },
   mounted() {
+    this.userID = this.$ls.get("id_user");
     axios
       .get("http://" + URLBACKEND + "/ming/v1/countries")
       .then((response) => {
@@ -178,7 +179,7 @@ export default {
         .put(this.avatar.imageFile);
       uploadTask.on(
         "state_changed",
-        function(snapshot) {
+        function (snapshot) {
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
@@ -191,13 +192,13 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           console.log(error);
         },
-        function() {
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log("File available at", downloadURL);
-            self.savedAvatar(downloadURL)
+            self.savedAvatar(downloadURL);
           });
         }
       );
@@ -236,7 +237,7 @@ export default {
             this.requestChanges = false;
             let cookie = JSON.parse(this.$ls.get("data"));
             cookie.photo_path = this.user.photoPathUser;
-            this.$ls.set('data', JSON.stringify(cookie));
+            this.$ls.set("data", JSON.stringify(cookie));
           } else {
             self.$emit("dialogClosed", false);
             console.log("not 200");
