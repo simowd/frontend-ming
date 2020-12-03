@@ -39,7 +39,7 @@
               ></v-select>
 
               <v-text-field
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.sizeLength]"
                 label="Tamaño"
                 outlined
                 color="#707070"
@@ -519,6 +519,7 @@ export default {
         maxValue: (value) => value <= 9999 || "No puede ser mayor a 9999",
         minPlayers: (value) => value >= 1 || "No puede ser menor a 1",
         maxPlayers: (value) => value <= 100 || "No puede ser mayor a 100",
+        sizeLength: (value) => value < 10 || "Debe ser menor",
       },
 
       storage: null,
