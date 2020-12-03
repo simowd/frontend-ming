@@ -530,7 +530,7 @@ export default {
         maxSaleValue: (value) => value <= 100 || "No puede ser mayor al 100%",
         minPlayers: (value) => value >= 1 || "No puede ser menor a 1",
         maxPlayers: (value) => value <= 100 || "No puede ser mayor a 100",
-        sizeLength: (value) => value < 10 || "Debe ser menor",
+        sizeLength: (value) => value.length < 10 || "Debe ser menor",
       },
 
       uploadFile: null,
