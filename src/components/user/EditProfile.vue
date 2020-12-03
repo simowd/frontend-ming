@@ -94,7 +94,7 @@ export default {
       errorText: false,
       close: false,
       countries: [],
-      userID: 3,
+      userID: this.$ls.get("id_user"),
       selectedCountry: "",
     };
   },
