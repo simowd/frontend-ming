@@ -19,7 +19,7 @@
         <router-link to="/Latest-release" :style="{ color: linkColor }"
           >Últimos Lanzamientos</router-link
         >
-        <div v-if="flag == 1">
+        <div v-if="flag == 1" class="image-profile">
           <v-menu offset-y transition="slide-y-transition">
             <template v-slot:activator="{ on }">
               <p class="account" :style="{ color: linkColor }" v-on="on">
@@ -29,7 +29,7 @@
             <v-list>
               <v-list-item
                 :to="item.link"
-                @click="LogOut"
+                @click="item.action"
                 v-for="(item, index) in items"
                 :key="index"
               >
@@ -40,6 +40,18 @@
               </v-list-item>
             </v-list>
           </v-menu>
+          <img
+            v-if="flag == 1"
+            :src="banner"
+            width="40rem"
+            height="40rem"
+            class="image-nav-bar"
+            :style="{
+              backgroundImage: 'url(' + this.banner + ')',
+              borderRadius: '50%',
+             
+            }"
+          />
         </div>
         <div v-else class="login">
           <router-link to="/login" :style="{ color: linkColor }"
@@ -47,18 +59,6 @@
           >
           <!-- <router-link to="/register" :style="{ color: color }" >Registrarse</router-link> -->
         </div>
-
-        <img
-          v-if="flag == 1"
-          :src="banner"
-          width="60rem"
-          height="60rem"
-          class="image-nav-bar"
-          :style="{
-            backgroundImage: 'url(' + this.banner + ')',
-            borderRadius: '50%',
-          }"
-        />
       </header>
     </div>
   </div>
@@ -76,7 +76,7 @@ export default {
       items: [
         { title: "Mi cuenta", link: "/my-account", icon: "mdi-account" },
         { title: "Carrito", link: "/cart", icon: "mdi-cart" },
-        { title: "Cerrar Sesion", icon: "mdi-logout-variant" },
+        { title: "Cerrar Sesion", icon: "mdi-logout-variant", action: this.LogOut },
       ],
     };
   },
@@ -113,6 +113,12 @@ export default {
 }
 .login {
   margin-top: 2.1rem;
+}
+.image-profile{
+  display: flex;
+  justify-content: space-between;
+  width: 12%;
+  align-items: center;
 }
 .account {
   padding-top: 2rem;

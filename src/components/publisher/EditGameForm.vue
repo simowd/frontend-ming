@@ -269,9 +269,7 @@
                   "
                 >
                   Windows
-                  <v-icon right>
-                    mdi-microsoft-windows
-                  </v-icon>
+                  <v-icon right> mdi-microsoft-windows </v-icon>
                 </v-btn>
 
                 <div v-if="windows == true">
@@ -314,9 +312,7 @@
                   "
                 >
                   MacOS
-                  <v-icon right>
-                    mdi-apple
-                  </v-icon>
+                  <v-icon right> mdi-apple </v-icon>
                 </v-btn>
 
                 <div v-if="macos == true">
@@ -359,9 +355,7 @@
                   "
                 >
                   Linux
-                  <v-icon right>
-                    mdi-ubuntu
-                  </v-icon>
+                  <v-icon right> mdi-ubuntu </v-icon>
                 </v-btn>
 
                 <div v-if="linux == true">
@@ -628,7 +622,7 @@ export default {
         .put(this.uploadFile);
       uploadTask.on(
         "state_changed",
-        function(snapshot) {
+        function (snapshot) {
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
@@ -641,11 +635,11 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           console.log(error);
         },
-        function() {
-          uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log("File available at", downloadURL);
             self.gameInfo.download_path = downloadURL;
           });
@@ -655,7 +649,7 @@ export default {
     subirImage() {
       this.gameInfo.images.splice(1);
       var self = this;
-      this.imageFiles.map(function(image, index) {
+      this.imageFiles.map(function (image, index) {
         console.log(index);
         console.log(image);
         var storageRef1 = firebase.storage().ref();
@@ -666,7 +660,7 @@ export default {
           .put(image);
         uploadTask1.on(
           "state_changed",
-          function(snapshot) {
+          function (snapshot) {
             var progress1 =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log("Upload is " + progress1 + "% done");
@@ -679,13 +673,13 @@ export default {
                 break;
             }
           },
-          function(error) {
+          function (error) {
             console.log(error);
           },
-          function() {
+          function () {
             uploadTask1.snapshot.ref
               .getDownloadURL()
-              .then(function(downloadURL) {
+              .then(function (downloadURL) {
                 console.log("File available at", downloadURL);
                 self.gameInfo.images.push(downloadURL);
               });
@@ -704,7 +698,7 @@ export default {
         .put(this.uploadBanner);
       uploadTask2.on(
         "state_changed",
-        async function(snapshot) {
+        async function (snapshot) {
           var progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
@@ -717,13 +711,13 @@ export default {
               break;
           }
         },
-        function(error) {
+        function (error) {
           console.log(error);
         },
-        async function() {
+        async function () {
           uploadTask2.snapshot.ref
             .getDownloadURL()
-            .then(async function(downloadURL) {
+            .then(async function (downloadURL) {
               console.log("File available at", downloadURL);
               await self.gameInfo.images.shift();
               await self.gameInfo.images.splice(0, 0, downloadURL);
@@ -743,6 +737,11 @@ export default {
         )
         .then((response) => (this.gameInfo = response.data));
     },
+    reloadPage() {
+      setTimeout(() => {
+        this.$router.push("/publisher/games/" + this.$ls.get("id_publisher"));
+      }, 1000);
+    },
     verify() {
       if (this.checkProperties(this.gameInfo)) {
         this.alert_text = "Todos los campos deben ser rellenados.";
@@ -753,6 +752,8 @@ export default {
           this.update();
           this.alert_sucess = true;
           this.alertTime();
+
+          this.reloadPage();
         } else {
           this.alert_text = "El formulario no es válido.";
           this.alert = true;
@@ -787,7 +788,7 @@ export default {
           }
         }
       }
-      this.languageList.sort(function(a, b) {
+      this.languageList.sort(function (a, b) {
         return a - b;
       });
       this.gameInfo.languageGames = this.languageList;
@@ -804,7 +805,7 @@ export default {
           }
         }
       }
-      this.genresList.sort(function(a, b) {
+      this.genresList.sort(function (a, b) {
         return a - b;
       });
       this.gameInfo.genreGames = this.genresList;
@@ -833,12 +834,12 @@ export default {
           }
         }
       }
-      this.directxList.sort(function(a, b) {
+      this.directxList.sort(function (a, b) {
         return a - b;
       });
       this.gameInfo.directx = this.directxList;
     },
-    isNumber: function(evt) {
+    isNumber: function (evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
       if (
@@ -857,7 +858,7 @@ export default {
       if (this.countWindows === 1) {
         this.gameInfo.requirements.push(this.rbWindows);
         this.gameInfo.operatingSystem.push(1);
-        this.gameInfo.operatingSystem.sort(function(a, b) {
+        this.gameInfo.operatingSystem.sort(function (a, b) {
           return a - b;
         });
       }
@@ -868,7 +869,7 @@ export default {
       if (this.countLinux === 1) {
         this.gameInfo.requirements.push(this.rbLinux);
         this.gameInfo.operatingSystem.push(2);
-        this.gameInfo.operatingSystem.sort(function(a, b) {
+        this.gameInfo.operatingSystem.sort(function (a, b) {
           return a - b;
         });
       }
@@ -879,14 +880,14 @@ export default {
       if (this.countMacOS === 1) {
         this.gameInfo.requirements.push(this.rbMacOS);
         this.gameInfo.operatingSystem.push(3);
-        this.gameInfo.operatingSystem.sort(function(a, b) {
+        this.gameInfo.operatingSystem.sort(function (a, b) {
           return a - b;
         });
       }
     },
   },
   watch: {
-    genresInfo: function(val) {
+    genresInfo: function (val) {
       if (val.length > 0) {
         val.forEach((element) => {
           this.genres.push(element.genre);
@@ -897,7 +898,7 @@ export default {
       }
     },
 
-    languagesInfo: function(val) {
+    languagesInfo: function (val) {
       if (val.length > 0) {
         val.forEach((element) => {
           this.languages.push(element.language);
@@ -908,7 +909,7 @@ export default {
       }
     },
 
-    esrbInfo: function(val) {
+    esrbInfo: function (val) {
       if (val.length > 0) {
         val.forEach((element) => {
           this.esrbList.push(element.esrb);
@@ -919,7 +920,7 @@ export default {
       }
     },
 
-    directxInfo: function(val) {
+    directxInfo: function (val) {
       if (val.length > 0) {
         val.forEach((element) => {
           this.directx.push(element.directx);
