@@ -128,8 +128,9 @@
       <v-col
         v-for="(game, index) in gameInfo"
         :key="index"
-        cols="10"
+        cols="12"
         align="center"
+        class="gameInfo"
       >
         <GameCardInfo
           :title="game.title"
@@ -138,6 +139,8 @@
           :color="game.color"
           :banner="game.banner"
           :sale="game.sale"
+          :genre="game.genre"
+          :download="game.download"
         />
         <br />
       </v-col>
@@ -277,5 +280,8 @@ export default {
 }
 .bold_text {
   font-weight: 900;
+}
+.gameInfo {
+  margin: 20px;
 }
 </style>

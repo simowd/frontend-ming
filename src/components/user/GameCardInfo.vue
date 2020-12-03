@@ -1,15 +1,38 @@
 <template>
   <div>
     <v-card
-      width="70%"
+      width="50%"
+      height="20%"
       class="rounded-card"
       :style="{
-        backgroundImage: 'url(' + banner + ')',
         boxShadow: '0 0.5px 6rem ' + color + '',
       }"
     >
-      <v-img :src="banner" @click="game">
-        <v-card-title>{{ title }}</v-card-title>
+      <v-img
+        gradient="to top right, rgba(0,0,0,.33), rgba(0,32,72,.7)"
+        :src="banner"
+      >
+        <v-card-text><br /></v-card-text>
+        <v-card-text style="height: 90px; position: relative">
+          <v-btn absolute fab top right color="transparent">
+            <v-img :src="infoIcon" @click="game"></v-img>
+          </v-btn>
+          <v-btn absolute fab top left color="transparent">
+            <a :href="download"> <v-img :src="downIcon"></v-img></a>
+          </v-btn>
+        </v-card-text>
+        <v-card-title>
+          <!-- {{ title }} -->
+          <v-row>
+            <v-col :cols="8">
+              <h1 class="genre">
+                {{ title }}
+              </h1>
+              <h1 class="title">Genero: {{ genre }}</h1>
+            </v-col>
+            <v-col :cols="4"> </v-col>
+          </v-row>
+        </v-card-title>
       </v-img>
     </v-card>
   </div>
@@ -22,16 +45,14 @@ export default {
     return {
       image:
         "http://1.bp.blogspot.com/-8PfnHfgrH4I/TylX2v8pTMI/AAAAAAAAJJ4/TICBoSEI57o/s1600/search_by_image_image.png",
+      infoIcon: require("../../assets/info.png"),
+      downIcon: require("../../assets/download.png"),
     };
   },
   props: {
     title: {
       type: String,
       default: "No title",
-    },
-    price: {
-      type: Number,
-      default: 0.0,
     },
     banner: {
       type: String,
@@ -41,10 +62,16 @@ export default {
       type: Number,
       default: -1,
     },
-    color: {},
-    sale: {
-      type: Number,
-      default: 0.0,
+    genre: {
+      type: Array,
+      default: () => [],
+    },
+    color: {
+      default: "#FFFFFF",
+    },
+    download: {
+      type: String,
+      default: "*",
     },
   },
   //   ["title", "price", "banner", "id", "color", "sale"],
@@ -76,7 +103,15 @@ export default {
   width: 20%;
 }
 .rounded-card {
-  border-radius: 10%;
+  border-radius: 8%;
+}
+.title {
+  color: white;
+  font-family: verdana;
+}
+.genre {
+  color: white;
+  font-family: "Courier New";
 }
 </style>
 
