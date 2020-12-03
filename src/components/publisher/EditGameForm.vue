@@ -6,7 +6,7 @@
           <v-col :cols="6">
             <div class="add-publisher-forms-container" justify-center>
               <v-text-field
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.titleLength]"
                 label="Título"
                 outlined
                 color="#707070"
@@ -61,7 +61,7 @@
               ></v-select>
 
               <v-text-field
-                :rules="[rules.required]"
+                :rules="[rules.required, rules.publisherLength]"
                 label="Desarrollador"
                 outlined
                 color="#707070"
@@ -530,7 +530,9 @@ export default {
         maxSaleValue: (value) => value <= 100 || "No puede ser mayor al 100%",
         minPlayers: (value) => value >= 1 || "No puede ser menor a 1",
         maxPlayers: (value) => value <= 100 || "No puede ser mayor a 100",
-        sizeLength: (value) => value.length < 10 || "Debe ser menor",
+        titleLength: (value) => value.length < 75 || "Debe ser de menor cantidad de caracteres",
+        sizeLength: (value) => value.length < 10 || "Debe ser de menor cantidad de caracteres",
+        publisherLength: (value) => value.length < 50 || "Debe ser de menor cantidad de caracteres",
       },
 
       uploadFile: null,

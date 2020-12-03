@@ -154,12 +154,18 @@ export default {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "Invalid e-mail.";
         },
-        nameLength: (value) => value.length < 40 || "Debe ser de menor cantidad de caracteres",
-        lastnameLength: (value) => value.length < 50 || "Debe ser de menor cantidad de caracteres",
-        usernameLength: (value) => value.length < 20 || "Debe ser de menor cantidad de caracteres",
-        aliasLength: (value) => value.length < 50 || "Debe ser de menor cantidad de caracteres",
-        emailLength: (value) => value.length < 100 || "Debe ser de menor cantidad de caracteres",
-        passwordLength: (value) => value.length < 35 || "Debe ser de menor cantidad de caracteres",
+        nameLength: (value) =>
+          value.length < 40 || "Debe ser de menor cantidad de caracteres",
+        lastnameLength: (value) =>
+          value.length < 50 || "Debe ser de menor cantidad de caracteres",
+        usernameLength: (value) =>
+          value.length < 20 || "Debe ser de menor cantidad de caracteres",
+        aliasLength: (value) =>
+          value.length < 50 || "Debe ser de menor cantidad de caracteres",
+        emailLength: (value) =>
+          value.length < 100 || "Debe ser de menor cantidad de caracteres",
+        passwordLength: (value) =>
+          value.length < 35 || "Debe ser de menor cantidad de caracteres",
       },
     };
   },
