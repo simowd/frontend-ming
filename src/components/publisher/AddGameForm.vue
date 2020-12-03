@@ -415,7 +415,6 @@
         </v-row>
       </v-form>
     </v-container>
-    {{ gameInfo }}
   </div>
 </template>
 
