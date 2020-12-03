@@ -14,7 +14,6 @@
                 :append-icon="values.val1 ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="() => (values.val1 = !values.val1)"
                 :type="values.val1 ? 'password' : 'text'"
-                :rules="[rules.password]"
                 outlined
                 width="50%"
               >
@@ -112,7 +111,7 @@ export default {
           const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
           return (
             pattern.test(value) ||
-            "Min. 8 characters with at least one capital letter and a number."
+            "Debe contener 8 digitos, letras mayusculas, minusculas y numeros"
           );
         },
       },
@@ -167,6 +166,9 @@ export default {
           .catch((error) => {
             console.log(error.response + "");
           });
+      } else {
+        this.errorText = true;
+        this.requestChanges = false;
       }
     },
   },

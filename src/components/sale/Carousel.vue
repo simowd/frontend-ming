@@ -1,7 +1,7 @@
 <template>
   <div >
     <carousel>
-      <slide v-for="(slide, i) in gameInfo" :index="i" :key="slide">
+      <slide v-for="(slide, i) in gameInfo" :index="i" :key="i">
         <figure >
           <img
             class="card-sale-carousel"

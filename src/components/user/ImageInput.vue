@@ -35,10 +35,6 @@ export default {
     uploadFieldName: "file",
     maxSize: 1024,
   }),
-  props: {
-    // Use "value" to enable using v-model
-    value: Object,
-  },
   methods: {
     launchFilePicker() {
       this.$refs.file.click();

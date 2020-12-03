@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="12" sm="6" class="justify-center" align="center">
             <v-container grid-list-xl>
-              <image-input v-model="avatar">
+              <ImageInput v-model="avatar">
                 <div slot="activator">
                   <v-avatar
                     size="300px"
@@ -20,7 +20,7 @@
                     <img :src="avatar" alt="avatar" />
                   </v-avatar>
                 </div>
-              </image-input>
+              </ImageInput>
               <v-slide-x-transition>
                 <div v-if="avatar && saved == false">
                   <!-- AQUI ESTA EL BOTON PARA GUARDAR LA IMAGEN -->
@@ -105,7 +105,7 @@
 
 <script>
 import axios from "axios";
-import ImageInput from "./ImageInput";
+import ImageInput from "./ImageInput.vue";
 import { URLBACKEND } from "@/assets/url.js";
 import { firebaseConfig } from "@/assets/firebaseAPI.js";
 
@@ -114,20 +114,33 @@ import "firebase/firebase-storage";
 
 import { nanoid } from "nanoid";
 export default {
-  data() {
-    return {
-      requestChanges: false,
-      errorText: false,
-      close: false,
-      countries: [],
-      userID: this.$ls.get("id_user"),
-      selectedCountry: "",
-      avatar: null,
-      saving: false,
-      saved: false,
-    };
+  data: () => ({
+    requestChanges: false,
+    errorText: false,
+    close: false,
+    countries: [],
+    userID: -1,
+    selectedCountry: "",
+    avatar: null,
+    saving: false,
+    saved: false,
+    saveCancel: [],
+  }),
+  props: {
+    dialogProfile: { type: Boolean },
+    photoPathUser: { type: String },
+    user: {
+      default: {
+        username: "Username",
+        usernickname: "NickName",
+        usermail: "sample@yahoo.com",
+        usercountry: "Some Country",
+        photoPathUser: require("../../assets/huachimingo.png"),
+      },
+    },
   },
   components: { ImageInput },
+
   watch: {
     avatar: {
       handler: function () {
@@ -139,6 +152,7 @@ export default {
   created() {
     firebase.initializeApp(firebaseConfig);
     this.storage = firebase.storage();
+    this.saveCancel = this.user;
   },
   mounted() {
     this.userID = this.$ls.get("id_user");
@@ -153,19 +167,7 @@ export default {
     this.selectedCountry = this.user.usercountry;
     this.avatar = this.user.photoPathUser;
   },
-  props: {
-    dialogProfile: { type: Boolean },
-    photoPathUser: { type: String },
-    user: {
-      default: {
-        username: "Username",
-        usernickname: "NickName",
-        usermail: "sample@yahoo.com",
-        usercountry: "Some Country",
-        photoPathUser: require("../../assets/huachimingo.png"),
-      },
-    },
-  },
+
   methods: {
     uploadImage() {
       this.saving = true;
@@ -210,6 +212,7 @@ export default {
       this.user.photoPathUser = URL;
     },
     dialogClose() {
+      this.$emit("changedUser", this.saveCancel);
       this.$emit("dialogClosed", !this.dialogProfile);
     },
     sendEditData() {

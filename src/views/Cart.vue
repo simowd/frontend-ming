@@ -40,10 +40,14 @@
         </v-card>
       </v-col>
     </v-row>
-
+    <v-divider></v-divider>
     <InfiniteLoading @infinite="getGames" ref="infiniteLoading">
       <div slot="no-more">
         <p class="info-footer">¡Llegaste al final!</p>
+      </div>
+
+      <div slot="no-results">
+        <p class="info-footer">El carrito esta vacio</p>
       </div>
     </InfiniteLoading>
     <br />
@@ -87,7 +91,7 @@ export default {
     userID: 1,
     deleteImg: require("../assets/delete.png"),
     totalCart: -1.0,
-    alertBought: false ,
+    alertBought: false,
   }),
   components: {
     NavBar,

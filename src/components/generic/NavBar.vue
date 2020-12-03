@@ -49,7 +49,6 @@
             :style="{
               backgroundImage: 'url(' + this.banner + ')',
               borderRadius: '50%',
-             
             }"
           />
         </div>
@@ -74,9 +73,23 @@ export default {
       showMenu: false,
       banner: null,
       items: [
-        { title: "Mi cuenta", link: "/my-account", icon: "mdi-account" },
-        { title: "Carrito", link: "/cart", icon: "mdi-cart" },
-        { title: "Cerrar Sesion", icon: "mdi-logout-variant", action: this.LogOut },
+        {
+          title: "Mi cuenta",
+          link: "/my-account",
+          icon: "mdi-account",
+          action: this.someMethod,
+        },
+        {
+          title: "Carrito",
+          link: "/cart",
+          icon: "mdi-cart",
+          action: this.someMethod,
+        },
+        {
+          title: "Cerrar Sesion",
+          icon: "mdi-logout-variant",
+          action: this.LogOut,
+        },
       ],
     };
   },
@@ -95,6 +108,7 @@ export default {
     }
   },
   methods: {
+    someMethod() {},
     HomePage() {
       this.$router.push("/");
     },
@@ -114,7 +128,7 @@ export default {
 .login {
   margin-top: 2.1rem;
 }
-.image-profile{
+.image-profile {
   display: flex;
   justify-content: space-between;
   width: 12%;

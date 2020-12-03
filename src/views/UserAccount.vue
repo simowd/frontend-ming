@@ -186,7 +186,7 @@ export default {
       dialogPassword: false,
       dialogProfile: false,
       alertPass: false,
-      userID: this.$ls.get("id_user"),
+      userID: -1,
     };
   },
   created() {},
