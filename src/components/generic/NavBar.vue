@@ -74,15 +74,9 @@ export default {
       showMenu: false,
       banner: null,
       items: [
-<<<<<<< HEAD
         { title: "Mi cuenta", link: "/my-account", icon: "mdi-account" },
         { title: "Carrito", link: "/", icon: "mdi-cart" },
         { title: "Cerrar Sesion", icon: "mdi-logout-variant" },
-=======
-        { title: "Mi cuenta", link: "/MyAccount" },
-        { title: "Carrito", link: "/cart" },
-        { title: "Cerrar Sesion" },
->>>>>>> 367e1c5d883360d4a3f34b26092c7484ebceff5b
       ],
     };
   },
