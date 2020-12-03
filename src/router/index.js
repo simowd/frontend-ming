@@ -77,7 +77,7 @@ const routes = [{
     component: AddPublisher,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2){
+        if(JSON.parse(localStorage.user_type).value == 2){
           next()
         }
         else{
@@ -95,7 +95,7 @@ const routes = [{
     component: PublisherList,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2){
+        if(JSON.parse(localStorage.user_type).value == 2){
           next()
         }
         else{
@@ -131,7 +131,7 @@ const routes = [{
     component: PublisherAddGame,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
           next()
         }
         else{
@@ -149,7 +149,7 @@ const routes = [{
     component: PublisherEditGame,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
           next()
         }
         else{
@@ -167,7 +167,7 @@ const routes = [{
     component: AdminGames,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2){
+        if(JSON.parse(localStorage.user_type).value == 2){
           next()
         }
         else{
@@ -185,7 +185,7 @@ const routes = [{
     component: PublisherGames,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2 || localStorage.user_type == 1){
+        if(JSON.parse(localStorage.user_type).value == 2 || JSON.parse(localStorage.user_type).value == 1){
           next()
         }
         else{
@@ -203,12 +203,12 @@ const routes = [{
     component: PublisherDashboard,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2 || (localStorage.user_type == 1 && localStorage.id_user == to.params.id)){
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
           next()
         }
         else{
-          if(localStorage.user_type == 1 && localStorage.id_user != to.params.id){
-            next({ name: 'publisherDashboard', params: { id: localStorage.localStorage.id_publisher } })
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+            next({ name: 'publisherDashboard', params: { id: JSON.parse(localStorage.localStorage.id_publisher).value } })
           }
           else{
             next({name: "Home"})  
@@ -226,12 +226,12 @@ const routes = [{
     component: EditPublisherAccount,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
-        if(localStorage.user_type == 2 || (localStorage.user_type == 1 && localStorage.id_user == to.params.id)){
+        if(JSON.parse(localStorage.user_type).value == 2 || (JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value == to.params.id)){
           next()
         }
         else{
-          if(localStorage.user_type == 1 && localStorage.id_user != to.params.id){
-            next({ name: 'editPublisherAccount', params: { id: localStorage.id_publisher } })
+          if(JSON.parse(localStorage.user_type).value == 1 && JSON.parse(localStorage.id_user).value != to.params.id){
+            next({ name: 'editPublisherAccount', params: { id: JSON.parse(localStorage.id_publisher).value } })
           }
           else{
             next({name: "Home"})  
@@ -257,6 +257,14 @@ const routes = [{
     path: "/cart",
     name: "Cart",
     component: Cart,
+    beforeEnter(to, from, next) {
+      if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){
+        next()
+      }
+      else{
+        next({name: "Home"})
+      }
+    },
   },
 ];
 const router = new VueRouter({
