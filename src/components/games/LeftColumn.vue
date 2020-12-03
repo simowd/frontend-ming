@@ -58,7 +58,7 @@
             </div>
           </v-layout>
         </v-col>
-        <v-col v-if="this.$ls.get('data') != null && !this.status">
+        <v-col v-if="this.$ls.get('data') != null && !this.status && !this.statusCart">
           <v-layout justify-center>
             <v-btn
               outlined
@@ -67,12 +67,43 @@
               width="175"
               height="40"
               small
+              @click="addToCart"
             >
               Añadir al carrito
             </v-btn>
           </v-layout>
         </v-col>
-        <v-col v-if="this.$ls.get('data') != null && !this.status">
+         <v-col v-if="this.statusCart">
+          <v-layout justify-center>
+            <v-btn
+              outlined
+              color="#604244"
+              class="ma-5"
+              width="175"
+              height="40"
+              small
+              disabled
+            >
+              Juego en el carrito
+            </v-btn>
+          </v-layout>
+        </v-col>
+        <v-col v-if="this.status">
+          <v-layout justify-center>
+            <v-btn
+              outlined
+              color="#604244"
+              class="ma-5"
+              width="175"
+              height="40"
+              small
+              :to="{name: 'UserAccount'}"
+            >
+              Mi biblioteca
+            </v-btn>
+          </v-layout>
+        </v-col>
+        <v-col v-if="this.$ls.get('data') != null && !this.status && !this.statusCart">
           <v-layout justify-center>
             <v-btn
               outlined
@@ -104,10 +135,26 @@ export default {
       library: null,
       status: false,
       alert: false,
-      alert_text: ""
+      alert_text: "",
+      cart: null,
+      statusCart: false,
     };
   },
   methods: {
+    addToCart(){
+      axios
+        .post("http://" + URLBACKEND + "/ming/"+ this.$ls.get("id_user") + "/" + this.game.id + "/cart")
+        .then((response) => {
+          this.alert = true
+          this.alert_text = "Juego añadido al carrito"
+          this.alertTime()
+          this.status = true
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     alertTime() {
       setTimeout(() => {
         this.alert = false;
@@ -150,6 +197,24 @@ export default {
           }
         }
       });
+    axios
+      .get(
+        "http://" +
+          URLBACKEND +
+          "/ming/users/" +
+          this.$ls.get("id_user") +
+          "/cart"
+      )
+      .then((response) => {
+        this.cart = response.data;
+        console.log(response.data);
+        for (var i = 0; i < response.data.length; i++) {
+          if (response.data[i].id == this.game.id) {
+            this.statusCart = true;
+          }
+        }
+      });
+
   },
 };
 </script>
