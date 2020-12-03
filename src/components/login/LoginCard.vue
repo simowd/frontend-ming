@@ -12,7 +12,7 @@
             <h1>Iniciar Sesión</h1>
           </div>
           <v-layout justify-center align-center>
-            <v-form>
+            <v-form v-model="valid">
               <v-container class="form-auth">
                 <v-text-field
                   outlined
@@ -26,9 +26,11 @@
                 </v-text-field>
                 <v-text-field
                   outlined
+                  :type="show1 ? 'text' : 'password'"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="show1 = !show1"
                   :rules="[rules.required]"
                   label="Contraseña"
-                  :type="'password'"
                   dense
                   color="#66698C"
                   class="login-input"
@@ -44,7 +46,7 @@
                   width="300"
                   dark
                   class="login-button"
-                  @click="LoginFunction"
+                  @click="verify"
                 >
                   Ingresar
                 </v-btn>
@@ -61,6 +63,16 @@
         </v-col>
         <v-col :cols="5">
           <img src="@/assets/ugg-login.png" class="logo-auth" />
+          <v-alert
+            dense
+            border="left"
+            colored-border
+            type="error"
+            v-if="alert"
+            width="45rem"
+          >
+            {{ this.alert_text }}
+          </v-alert>
         </v-col>
       </v-row>
     </v-container>
@@ -75,6 +87,10 @@ export default {
   name: "LoginCard",
   data() {
     return {
+      valid: null,
+      show1: false,
+      alert: false,
+      alert_text: null,
       title: "Preliminary report",
       email: "",
       login: {
@@ -107,10 +123,10 @@ export default {
         .then((response) => {
           this.infoUser = response.data;
 
-          this.$ls.set("user_type", this.infoUser.user_type);
-          this.$ls.set("id_publisher", this.infoUser.id_publisher);
-          this.$ls.set("data", JSON.stringify(this.infoUser));
-          this.$ls.set("id_user",this.infoUser.id_user);
+          this.$ls.set('user_type', this.infoUser.user_type);
+          this.$ls.set('id_publisher', this.infoUser.id_publisher);
+          this.$ls.set('data', JSON.stringify(this.infoUser));
+          this.$ls.set('id_user', this.infoUser.id_user);
           if (this.infoUser.user_type == 0) {
             this.$router.push("/");
           } else {
@@ -122,7 +138,51 @@ export default {
               this.$router.push("/admin/games");
             }
           }
+        })
+        .catch((error) => {
+          console.log(error)
+          this.alert_text = "Usuario o Contraseña incorrectas";
+          this.alert = true;
+          this.alertTime();
         });
+    },
+    verify() {
+      // this.verifyAtrribute(this.infoUser.name, "Falta el Nombre");
+      if (this.checkProperties(this.login)) {
+        this.alert_text = "Todos los campos deben ser rellenados.";
+        this.alert = true;
+        this.alertTime();
+      } else {
+        if (this.valid) {
+          this.LoginFunction();
+        } else {
+          this.alert_text = "El formulario no es válido.";
+          this.alert = true;
+          this.alertTime();
+        }
+      }
+    },
+    alertTime() {
+      setTimeout(() => {
+        this.alert = false;
+      }, 3000);
+    },
+    // verifyAtrribute(attribute, text) {
+    //   this.alert_type = "error";
+    //   if (attribute === null) {
+    //     this.alert_text = text;
+    //     this.alert = true;
+    //     this.alertTime();
+    //   }
+    // },
+    checkProperties(obj) {
+      var flag = false;
+      for (var key in obj) {
+        if (obj[key] === null || obj[key] === "") {
+          flag = true;
+        }
+      }
+      return flag;
     },
   },
 };
