@@ -109,7 +109,7 @@ const routes = [{
   },
   {
     path: "/my-account",
-    name: "User Account",
+    name: "UserAccount",
     component: UserAccount,
     beforeEnter(to, from, next) {
       if(localStorage.data != null && localStorage.id_user != null && localStorage.user_type != null){

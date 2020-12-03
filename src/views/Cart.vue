@@ -71,7 +71,7 @@ export default {
       //     price: 19.99,
       //   });
       axios
-        .get("http://" + URLBACKEND + "/ming/users/" + this.userID + "/cart")
+        .get("http://" + URLBACKEND + "/ming/users/" + this.$ls.get("id_user") + "/cart")
         .then((response) => {
           if (response.data.length) {
             // var res = response.data;
